@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:27:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/08 01:40:26 by olesgedz         ###   ########.fr       */
+/*   Updated: 2019/02/08 01:48:13 by olesgedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ void				ft_render(t_mlx *mlx)
 	 int w = WIN_WIDTH;
 	double pr, pi;           //real and imaginary part of the pixel p
 	  double newRe, newIm, oldRe, oldIm;   //real and imaginary parts of new and old z
-	  double zoom = 1, moveX = -0.5, moveY = 0; //you can change these to zoom and change position
+	  double zoom = 3 + mlx->cam->scale, moveX = -0.5, moveY = 0; //you can change these to zoom and change position
 	  int maxIterations = 300;//after how much iterations the function should stop
 
 	  //loop through every pixel

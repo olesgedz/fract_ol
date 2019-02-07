@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:24:27 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/05 19:05:32 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/08 01:50:13 by olesgedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void		ft_press_move(t_mlx *mlx)
 	if (mlx->keyboard->keys[U_KEY] == TRUE)
 		mlx->cam->scale -= 0.5;
 	if (mlx->keyboard->keys[O_KEY] == TRUE)
-		mlx->cam->scale += 1.5;
+		mlx->cam->scale += 0.5;
 	if (mlx->keyboard->keys[M_KEY] == TRUE)
 		mlx->cam->z -= 0.1;
 	if (mlx->keyboard->keys[L_AR_KEY] == TRUE)

@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:29 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/05 19:01:41 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/08 01:49:47 by olesgedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_mlx				*ft_init(char *title, t_map *map)
 	mlx->cam->x = -M_PI / 6;
 	mlx->cam->y = -M_PI / 6;
 	mlx->cam->z = 0;
-	mlx->cam->scale = map->width < 50 ? 32 : 5;
+	mlx->cam->scale = 1;
 	mlx->cam->offsetx = (WIN_WIDTH - MENU_WIDTH) / 2;
 	mlx->cam->offsety = WIN_HEIGHT / 2;
 	return (mlx);
