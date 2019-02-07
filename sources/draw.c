@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:27:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/08 01:48:13 by olesgedz         ###   ########.fr       */
+/*   Updated: 2019/02/08 02:02:44 by olesgedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,8 +173,6 @@ void				ft_render(t_mlx *mlx)
 	      //if the point is outside the circle with radius 2: stop
 	      if((newRe * newRe + newIm * newIm) > 4) break;
 	    }
-
-
      ft_image_set_pixel(mlx->image, x, y, 0x0 + 100 * (i < maxIterations));
    }
 
