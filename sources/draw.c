@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:27:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/07 21:11:15 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/08 01:31:24 by olesgedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ void				ft_render(t_mlx *mlx)
      }
      //use color model conversion to get rainbow palette, make brightness black if maxIterations reached
      //draw the pixel
-     ft_image_set_pixel(mlx->image, x, y, 0xC2294E);
+     ft_image_set_pixel(mlx->image, x, y, 0xFFFFFFF - 100 * (i < maxIterations));
    }
 
 
