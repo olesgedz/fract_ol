@@ -6,13 +6,113 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:27:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/08 02:02:44 by olesgedz         ###   ########.fr       */
+/*   Updated: 2019/02/08 23:17:09 by olesgedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "libft.h"
 #include "mlx.h"
+#include <math.h>
+
+typedef struct RGB
+{
+	unsigned char R;
+	unsigned char G;
+	unsigned char B;
+} t_RGB;
+
+typedef struct HSV
+{
+	double H;
+	double S;
+	double V;
+}t_HSV;
+
+
+t_HSV ColorHSV(double H, double S, double V)
+{
+	 t_HSV hsv;
+
+	hsv.H = H;
+	hsv.S = S;
+	hsv.V = V;
+	return(hsv);
+}
+t_RGB HSVtoRGB(t_HSV hsv) {
+	double r = 0, g = 0, b = 0;
+
+	if (hsv.S == 0)
+	{
+		r = hsv.V;
+		g = hsv.V;
+		b = hsv.V;
+	}
+	else
+	{
+		int i;
+		double f, p, q, t;
+
+		if (hsv.H == 360)
+			hsv.H = 0;
+		else
+			hsv.H = hsv.H / 60;
+
+		i = (int)trunc(hsv.H);
+		f = hsv.H - i;
+
+		p = hsv.V * (1.0 - hsv.S);
+		q = hsv.V * (1.0 - (hsv.S * f));
+		t = hsv.V * (1.0 - (hsv.S * (1.0 - f)));
+
+		switch (i)
+		{
+		case 0:
+			r = hsv.V;
+			g = t;
+			b = p;
+			break;
+
+		case 1:
+			r = q;
+			g = hsv.V;
+			b = p;
+			break;
+
+		case 2:
+			r = p;
+			g = hsv.V;
+			b = t;
+			break;
+
+		case 3:
+			r = p;
+			g = q;
+			b = hsv.V;
+			break;
+
+		case 4:
+			r = t;
+			g = p;
+			b = hsv.V;
+			break;
+
+		default:
+			r = hsv.V;
+			g = p;
+			b = q;
+			break;
+		}
+
+	}
+
+	t_RGB rgb;
+	rgb.R = r * 255;
+	rgb.G = g * 255;
+	rgb.B = b * 255;
+
+	return rgb;
+}
 
 static int			ft_put_points(t_mlx *mlx,
 		t_line *l, t_vector *p1, t_vector *p2)
@@ -100,6 +200,12 @@ static void			ft_draw_background(t_mlx *mlx)
 	}
 }
 
+int				ft_rgb(int r, int g, int b)
+{
+	return (r << 16 | g << 8 | b);
+}
+
+
 void				ft_render(t_mlx *mlx)
 {
 	int			x;
@@ -110,46 +216,46 @@ void				ft_render(t_mlx *mlx)
 	map = mlx->map;
 	x = -1;
 	ft_draw_background(mlx);
-	// //each iteration, it calculates: new = old*old + c, where c is a constant and old starts at current pixel
-  //  double cRe, cIm;           //real and imaginary part of the constant c, determinate shape of the Julia Set
-  //  double newRe, newIm, oldRe, oldIm;   //real and imaginary parts of new and old
-  //  double zoom = 1, moveX = 0, moveY = 0; //you can change these to zoom and change position
-  //  int maxIterations = 300; //after how much iterations the function should stop
-	//
-  //  //pick some values for the constant c, this determines the shape of the Julia Set
-  //  cRe = -0.7;
-  //  cIm = 0.27015;
-	//  int h = WIN_HEIGHT;
-	//  int w = WIN_WIDTH;
-  //  //loop through every pixel
-  //  for(int y = 0; y < h; y++)
-  //  for(int x = 0; x < w; x++)
-  //  {
-  //    //calculate the initial real and imaginary part of z, based on the pixel location and zoom and position values
-  //    newRe = 1.5 * (x - w / 2) / (0.5 * zoom * w) + moveX;
-  //    newIm = (y - h / 2) / (0.5 * zoom * h) + moveY;
-  //    //i will represent the number of iterations
-  //    int i;
-  //    //start the iteration process
-  //    for(i = 0; i < maxIterations; i++)
-  //    {
-  //      //remember value of previous iteration
-  //      oldRe = newRe;
-  //      oldIm = newIm;
-  //      //the actual iteration, the real and imaginary part are calculated
-  //      newRe = oldRe * oldRe - oldIm * oldIm + cRe;
-  //      newIm = 2 * oldRe * oldIm + cIm;
-  //      //if the point is outside the circle with radius 2: stop
-  //      if((newRe * newRe + newIm * newIm) > 4) break;
-  //    }
-  //    //use color model conversion to get rainbow palette, make brightness black if maxIterations reached
-  //    //draw the pixel
+	//each iteration, it calculates: new = old*old + c, where c is a constant and old starts at current pixel
+   // double cRe, cIm;           //real and imaginary part of the constant c, determinate shape of the Julia Set
+   // double newRe, newIm, oldRe, oldIm;   //real and imaginary parts of new and old
+   // double zoom = 1, moveX = 0, moveY = 0; //you can change these to zoom and change position
+   // int maxIterations = 300; //after how much iterations the function should stop
+	 //
+   // //pick some values for the constant c, this determines the shape of the Julia Set
+   // cRe = -0.7;
+   // cIm = 0.27015;
+	 // int h = WIN_HEIGHT;
+	 // int w = WIN_WIDTH;
+   // //loop through every pixel
+   // for(int y = 0; y < h; y++)
+   // for(int x = 0; x < w; x++)
+   // {
+   //   //calculate the initial real and imaginary part of z, based on the pixel location and zoom and position values
+   //   newRe = 1.5 * (x - w / 2) / (0.5 * zoom * w) + moveX;
+   //   newIm = (y - h / 2) / (0.5 * zoom * h) + moveY;
+   //   //i will represent the number of iterations
+   //   int i;
+   //   //start the iteration process
+   //   for(i = 0; i < maxIterations; i++)
+   //   {
+   //     //remember value of previous iteration
+   //     oldRe = newRe;
+   //     oldIm = newIm;
+   //     //the actual iteration, the real and imaginary part are calculated
+   //     newRe = oldRe * oldRe - oldIm * oldIm + cRe;
+   //     newIm = 2 * oldRe * oldIm + cIm;
+   //     //if the point is outside the circle with radius 2: stop
+   //     if((newRe * newRe + newIm * newIm) > 4) break;
+   //   }
+     // use color model conversion to get rainbow palette, make brightness black if maxIterations reached
+     // draw the pixel
 	 int h = WIN_HEIGHT;
 	 int w = WIN_WIDTH;
 	double pr, pi;           //real and imaginary part of the pixel p
 	  double newRe, newIm, oldRe, oldIm;   //real and imaginary parts of new and old z
-	  double zoom = 3 + mlx->cam->scale, moveX = -0.5, moveY = 0; //you can change these to zoom and change position
-	  int maxIterations = 300;//after how much iterations the function should stop
+	  double zoom = 1, moveX = -0.5 - 0.3, moveY = 0; //you can change these to zoom and change position
+	  int maxIterations = 100;//after how much iterations the function should stop
 
 	  //loop through every pixel
 	  for(int y = 0; y < h; y++)
@@ -173,7 +279,9 @@ void				ft_render(t_mlx *mlx)
 	      //if the point is outside the circle with radius 2: stop
 	      if((newRe * newRe + newIm * newIm) > 4) break;
 	    }
-     ft_image_set_pixel(mlx->image, x, y, 0x0 + 100 * (i < maxIterations));
+				t_RGB colorRGB = HSVtoRGB(ColorHSV(i % 256, 255, 255 * (i < maxIterations)));
+			int color = ft_rgb(colorRGB.R, 0, colorRGB.B);
+     ft_image_set_pixel(mlx->image, x, y, color);
    }
 
 
