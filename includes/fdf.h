@@ -6,15 +6,17 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 16:29:39 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/06 16:12:19 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/11 04:00:00 by olesgedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
-# define WIN_WIDTH		1680
-# define WIN_HEIGHT		720
-# define MENU_WIDTH		400
+# include <time.h>
+
+# define WIN_WIDTH		600
+# define WIN_HEIGHT		600
+# define MENU_WIDTH		0
 # define W_KEY 13
 # define A_KEY 0
 # define S_KEY 1
@@ -31,6 +33,10 @@
 # define TRUE		1
 # define FALSE		0
 
+# define SCROLL_UP		4
+# define SCROLL_DOWN	5
+# define KEY_C		8
+
 # define TEXT_COLOR			0xEAEAEA
 # define BACKGROUND			0x222222
 # define MENU_BACKGROUND	0x1E1E1E
@@ -40,7 +46,7 @@
 # define COLOR_FLAMINGO		0xEC4B27
 # define COLOR_JAFFA		0xEF8633
 # define COLOR_SAFFRON		0xF3AF3D
-
+# define FPS 200
 typedef struct		s_cam
 {
 	double		offsetx;
@@ -48,7 +54,7 @@ typedef struct		s_cam
 	double		x;
 	double		y;
 	double		z;
-	int			scale;
+	double			scale;
 	double		**matrix;
 }					t_cam;
 typedef struct		s_vector
@@ -73,8 +79,6 @@ typedef struct		s_mouse
 	char		isdown;
 	int			x;
 	int			y;
-	int			lastx;
-	int			lasty;
 }					t_mouse;
 typedef struct		s_image
 {
@@ -98,6 +102,10 @@ typedef struct		s_mlx
 	t_mouse		*mouse;
 	t_keyboard	*keyboard;
 	double		**zbuf;
+	clock_t clock_prg;
+	double			ca;
+	double			cb;
+	int c;
 }					t_mlx;
 typedef struct		s_line
 {
@@ -123,7 +131,7 @@ void				ft_clear_image(t_image *image);
 t_vector			ft_project_vector(t_vector v, t_mlx *mlx);
 t_vector			ft_vector_at(t_map *map, int x, int y);
 int					ft_read_file(int fd, t_map **m);
-t_mlx				*ft_init(char *title, t_map *map);
+t_mlx				*ft_init(char *title);
 int					ft_mlx_hooks(t_mlx *mlx);
 t_vector			*ft_get_vector(int x, int y, int z);
 void				ft_fill_colors(t_map *m);
@@ -132,4 +140,6 @@ t_image				*ft_del_image(t_mlx *mlx, t_image *img);
 t_mlx				*ft_mlxdel(t_mlx *mlx);
 void				ft_image_set_pixel(t_image *image, int x, int y, int color);
 int					ft_check_line(char *s);
+int			julia(t_mlx *e, int x, int y);
+void	draw_fractal(t_mlx *e, int (*f)(t_mlx *, int, int));
 #endif

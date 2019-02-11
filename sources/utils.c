@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:29 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/08 01:49:47 by olesgedz         ###   ########.fr       */
+/*   Updated: 2019/02/11 03:57:46 by olesgedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_map				*get_map(int width, int height)
 	return (map);
 }
 
-t_mlx				*ft_init(char *title, t_map *map)
+t_mlx				*ft_init(char *title)
 {
 	t_mlx	*mlx;
 
@@ -77,14 +77,16 @@ t_mlx				*ft_init(char *title, t_map *map)
 		(mlx->keyboard->keys = ft_memalloc(sizeof(int) * 200)) == NULL ||
 		(mlx->image = ft_new_image(mlx)) == NULL)
 		return (ft_mlxdel(mlx));
-	ft_init_colors(map);
 	ft_bzero((char *)mlx->keyboard->keys, 100);
 	mlx->cam->x = -M_PI / 6;
 	mlx->cam->y = -M_PI / 6;
 	mlx->cam->z = 0;
 	mlx->cam->scale = 1;
-	mlx->cam->offsetx = (WIN_WIDTH - MENU_WIDTH) / 2;
-	mlx->cam->offsety = WIN_HEIGHT / 2;
+	mlx->ca = 0;
+	mlx->cb = 0;
+	mlx->c = 1;
+	mlx->cam->offsetx = 0;//(WIN_WIDTH - MENU_WIDTH) / 2;
+	mlx->cam->offsety = 0;//WIN_HEIGHT / 2;
 	return (mlx);
 }
 
