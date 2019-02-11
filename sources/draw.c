@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:27:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/11 04:05:27 by olesgedz         ###   ########.fr       */
+/*   Updated: 2019/02/12 01:45:04 by olesgedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,16 +186,13 @@ static void			ft_draw_background(t_mlx *mlx)
 	t_image *image;
 	int		j;
 	int		k;
-
-	ft_clear_image(mlx->image);
 	image = mlx->image;
 	j = 0;
 	while (j < WIN_HEIGHT)
 	{
 		k = -1;
 		while (k++ < WIN_WIDTH)
-			*(int *)(image->ptr + ((k + j * WIN_WIDTH) * image->bpp)) =
-			k < WIN_WIDTH - MENU_WIDTH ? 0x1E1E1E : 0x222222;
+			*(int *)(image->ptr + ((k + j * WIN_WIDTH) * image->bpp)) = 0x222222;
 		j++;
 	}
 }
@@ -240,7 +237,7 @@ int			julia(t_mlx *e, int x, int y)
 	za = ((4 * (float)x / WIN_WIDTH - 2) / e->cam->scale) + ((e->cam->offsetx / WIN_WIDTH));
 	zb = ((-4 * (float)y / WIN_HEIGHT + 2) / e->cam->scale) + ((e->cam->offsety / WIN_HEIGHT));
 	i = 0;
-	while (za * za + zb * zb <= 4 && i < 200)
+	while (za * za + zb * zb <= 4 && i < e->n)
 	{
 		temp = za;
 		za = za * za - zb * zb + e->ca;
@@ -250,8 +247,25 @@ int			julia(t_mlx *e, int x, int y)
 	return (i);
 }
 
+void	put_pixel(t_image *e, int x, int y, int coloration)
+{
+	int		r;
+	int		g;
+	int		b;
 
-
+	e->stride = 2400;
+	e->bpp = 32;
+	r = (coloration & 0xFF0000) >> 16;
+	g = (coloration & 0xFF00) >> 8;
+	b = (coloration & 0xFF);
+	if (y >= 0 && x >= 0 && y < WIN_HEIGHT && x < WIN_WIDTH)
+	{
+		 e->ptr[(y * e->stride) + ((e->bpp / 8) * x) + 2] = r;
+		 e->ptr[(y * e->stride) + ((e->bpp / 8) * x) + 1] = g;
+		 e->ptr[(y * e->stride) + ((e->bpp / 8) * x)] = b;
+	//	*(int *)(e->ptr + ((x + y * WIN_WIDTH) * e->bpp)) = coloration;
+	}
+}
 
 
 void	draw_fractal(t_mlx *e, int (*f)(t_mlx *, int, int))
@@ -268,13 +282,32 @@ void	draw_fractal(t_mlx *e, int (*f)(t_mlx *, int, int))
 		while (x < WIN_WIDTH)
 		{
 			i = (*f)(e, x, y);
-			color = ((255 - i * 9) << 16) + ((255 - i * 7) << 8)
-				+ (255 - i * 12);
-			if (i != 200)
-				ft_image_set_pixel(e->image, x, y, color);
+			color = ((255 - i * e->r) << 16) + ((255 - i * e->g) << 8)
+				+ (255 - i * e->b);
+			if (i != e->n)
+				put_pixel(e->image, x, y, color);
 			x++;
 		}
 		y++;
+	}
+}
+
+
+static void	fill_img(t_mlx *e, int (*f)(t_mlx *, int, int))
+{
+
+		e->image = ft_new_image(e);
+		draw_fractal(e, f);
+
+}
+
+void		ft_rer(t_mlx *e)
+{
+	if ((e->image->image = mlx_new_image(e->mlx, WIN_WIDTH, WIN_HEIGHT)))
+	{
+		fill_img(e, julia);
+		mlx_put_image_to_window(e->mlx, e->window, e->image->image, 0, 0);
+		mlx_destroy_image(e->mlx, e->image->image);
 	}
 }
 
@@ -287,39 +320,48 @@ void				ft_render(t_mlx *mlx)
 	t_map		*map;
 
 	map = mlx->map;
-	ft_draw_background(mlx);
-	// //each iteration, it calculates: new = old*old + c, where c is a constant and old starts at current pixel
-  //  double cRe, cIm;           //real and imaginary part of the constant c, determinate shape of the Julia Set
-  //  double newRe, newIm, oldRe, oldIm;   //real and imaginary parts of new and old
-  //  double zoom = 1, moveX = 0, moveY = 0; //you can change these to zoom and change position
-  //  int maxIterations = 100; //after how much iterations the function should stop
-	//
-  //  //pick some values for the constant c, this determines the shape of the Julia Set
-  //  cRe = -0.7;
-  //  cIm = 0.27015;
-	//  int h = WIN_HEIGHT;
-	//  int w = WIN_WIDTH;
-  //  //loop through every pixel
-  //  for(int y = 0; y < h; y++)
-  //  for(int x = 0; x < w; x++)
-  //  {
-  //    //calculate the initial real and imaginary part of z, based on the pixel location and zoom and position values
-  //    newRe = 1.5 * (x - w / 2) / (0.5 * zoom * w) + moveX;
-  //    newIm = (y - h / 2) / (0.5 * zoom * h) + moveY;
-  //    //i will represent the number of iterations
-  //    int i;
-  //    //start the iteration process
-  //    for(i = 0; i < maxIterations; i++)
-  //    {
-  //      //remember value of previous iteration
-  //      oldRe = newRe;
-  //      oldIm = newIm;
-  //      //the actual iteration, the real and imaginary part are calculated
-  //      newRe = oldRe * oldRe - oldIm * oldIm + cRe;
-  //      newIm = 2 * oldRe * oldIm + cIm;
-  //      //if the point is outside the circle with radius 2: stop
-  //      if((newRe * newRe + newIm * newIm) > 4) break;
-  //    }
+
+	mlx->image = ft_new_image(mlx);
+	//ft_draw_background(mlx);
+	//ft_clear_image(mlx->image);
+	//each iteration, it calculates: new = old*old + c, where c is a constant and old starts at current pixel
+//    double cRe, cIm;           //real and imaginary part of the constant c, determinate shape of the Julia Set
+//    double newRe, newIm, oldRe, oldIm;   //real and imaginary parts of new and old
+//    double zoom = 1, moveX = 0, moveY = 0; //you can change these to zoom and change position
+//    int maxIterations = 100; //after how much iterations the function should stop
+// int color = 0;
+//    //pick some values for the constant c, this determines the shape of the Julia Set
+//    cRe = -0.7;
+//    cIm = 0.27015;
+// 	 int h = WIN_HEIGHT;
+// 	 int w = WIN_WIDTH;
+//    //loop through every pixel
+//    for(int y = 0; y < h; y++)
+//    for(int x = 0; x < w; x++)
+//    {
+//      //calculate the initial real and imaginary part of z, based on the pixel location and zoom and position values
+//      newRe = 1.5 * (x - w / 2) / (0.5 * mlx->cam->scale * w) + mlx->cam->offsetx/ WIN_WIDTH;
+//      newIm = (y - h / 2) / (0.5 * mlx->cam->scale * h) - mlx->cam->offsety/ WIN_HEIGHT;
+//      //i will represent the number of iterations
+//      int i;
+//      //start the iteration process
+//      for(i = 0; i < maxIterations; i++)
+//      {
+//        //remember value of previous iteration
+//        oldRe = newRe;
+//        oldIm = newIm;
+//        //the actual iteration, the real and imaginary part are calculated
+//        newRe = oldRe * oldRe - oldIm * oldIm + cRe;
+//        newIm = 2 * oldRe * oldIm + cIm;
+//        //if the point is outside the circle with radius 2: stop
+// 			 color = ((255 - i * 6) << 16) + ((255 - i * 2) << 8)
+// 				 + (255 - i * 10);
+//        if((newRe * newRe + newIm * newIm) > 4) break;
+//      }
+//
+// 		 if(i != 100)
+// 		  ft_image_set_pixel(mlx->image, x, y, color);
+// 	 }
      // use color model conversion to get rainbow palette, make brightness black if maxIterations reached
      // draw the pixel
 // 	 int h = WIN_HEIGHT;
@@ -362,10 +404,16 @@ void				ft_render(t_mlx *mlx)
 // 					ft_image_set_pixel(mlx->image, x, y, color);
 //
 // 			}
+// if ((mlx->image->image = mlx_new_image(mlx->mlx, WIN_WIDTH, WIN_HEIGHT)))
+// {
+// 	fill_img(mlx, julia);
+// 	//ft_draw_background(mlx);
+// 	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->image->image, 0, 0);
+// 	mlx_destroy_image(mlx->mlx, mlx->image->image);
+// }
 
 
-
-	draw_fractal(mlx, julia);
-	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->image->image, 0, 0);
-	ft_draw_menu(mlx);
+	 draw_fractal(mlx, julia);
+	 mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->image->image, 0, 0);
+	mlx_destroy_image(mlx->mlx, mlx->image->image);
 }

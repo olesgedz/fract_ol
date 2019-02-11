@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 16:29:39 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/11 04:00:00 by olesgedz         ###   ########.fr       */
+/*   Updated: 2019/02/12 01:22:57 by olesgedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@
 # define FPS 200
 typedef struct		s_cam
 {
-	double		offsetx;
-	double		offsety;
+	float		offsetx;
+	float		offsety;
 	double		x;
 	double		y;
 	double		z;
@@ -106,6 +106,10 @@ typedef struct		s_mlx
 	double			ca;
 	double			cb;
 	int c;
+	int n;
+	int r;
+	int g;
+	int b;
 }					t_mlx;
 typedef struct		s_line
 {
@@ -142,4 +146,5 @@ void				ft_image_set_pixel(t_image *image, int x, int y, int color);
 int					ft_check_line(char *s);
 int			julia(t_mlx *e, int x, int y);
 void	draw_fractal(t_mlx *e, int (*f)(t_mlx *, int, int));
+t_image		*ft_new_image(t_mlx *mlx);
 #endif

@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:26:20 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/11 04:01:46 by olesgedz         ###   ########.fr       */
+/*   Updated: 2019/02/12 00:54:41 by olesgedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,10 @@ int		ft_mouse_press(int button, int x, int y, t_mlx *mlx)
 
 int			ft_mouse_move(int x, int y, t_mlx *e)
 {
-	if (e->c)
+
+	if(((FPS) * (clock() - e->clock_prg)) / CLOCKS_PER_SEC > 1 && e->c )
 	{
+		e->clock_prg = clock();
 		x -= WIN_WIDTH / 2;
 		y -= WIN_HEIGHT / 2;
 		e->ca = ((float)x / WIN_WIDTH) * 2;

@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:29 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/11 03:57:46 by olesgedz         ###   ########.fr       */
+/*   Updated: 2019/02/12 01:47:28 by olesgedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "mlx.h"
 #include "fdf.h"
 
-static t_image		*ft_new_image(t_mlx *mlx)
+t_image		*ft_new_image(t_mlx *mlx)
 {
 	t_image		*img;
 
@@ -85,6 +85,11 @@ t_mlx				*ft_init(char *title)
 	mlx->ca = 0;
 	mlx->cb = 0;
 	mlx->c = 1;
+	mlx->n = 200;
+	mlx->r = 6;
+	mlx->g = 2;
+	mlx->b = 10;
+	mlx->clock_prg = clock();
 	mlx->cam->offsetx = 0;//(WIN_WIDTH - MENU_WIDTH) / 2;
 	mlx->cam->offsety = 0;//WIN_HEIGHT / 2;
 	return (mlx);

@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:24:27 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/11 04:02:54 by olesgedz         ###   ########.fr       */
+/*   Updated: 2019/02/12 01:36:15 by olesgedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ static void		ft_press_move(t_mlx *mlx)
 	if (mlx->keyboard->keys[L_AR_KEY] == TRUE)
 		mlx->cam->z += 0.1;
 	if (mlx->keyboard->keys[I_KEY] == TRUE)
-		mlx->cam->x += 0.1;
+		mlx->n++;
 	if (mlx->keyboard->keys[J_KEY] == TRUE)
 		mlx->cam->y -= 0.1;
 	if (mlx->keyboard->keys[K_KEY] == TRUE)
-		mlx->cam->x -= 0.1;
+		mlx->n--;
 	if (mlx->keyboard->keys[L_KEY] == TRUE)
 		mlx->cam->y += 0.1;
 }
@@ -58,7 +58,7 @@ int				ft_handle_keys_press(int key, t_mlx *mlx)
 	}
 	if (key == KEY_C)
 	{
-		mlx->c =  0;
+		mlx->c =  (mlx->c == 0 ? 1 : 0);
 	}
 	ft_render(mlx);
 	return (0);
@@ -84,8 +84,8 @@ int			mouse_hook(int button, int x, int y, t_mlx *e)
 	if (button == SCROLL_UP)
 	{
 		e->cam->scale *= 1.1;
-		e->cam->offsetx += x /e->cam->scale / 3;
-		e->cam->offsety -= y / e->cam->scale/ 3;
+		e->cam->offsetx += x /e->cam->scale / 2.51;
+		e->cam->offsety -= y / e->cam->scale/ 2.51;
 	}
 	else if (button == SCROLL_DOWN &&  e->cam->scale > 0.1)
 		 e->cam->scale /= 1.1;
