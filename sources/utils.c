@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:29 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/12 01:47:28 by olesgedz         ###   ########.fr       */
+/*   Updated: 2019/02/12 01:56:32 by olesgedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_mlx				*ft_init(char *title)
 	mlx->ca = 0;
 	mlx->cb = 0;
 	mlx->c = 1;
-	mlx->n = 200;
+	mlx->n = 100;
 	mlx->r = 6;
 	mlx->g = 2;
 	mlx->b = 10;

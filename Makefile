@@ -6,14 +6,14 @@
 #    By: vbrazhni <vbrazhni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/05 13:39:23 by vbrazhni          #+#    #+#              #
-#    Updated: 2019/02/11 01:12:04 by olesgedz         ###   ########.fr        #
+#    Updated: 2019/02/12 01:56:14 by olesgedz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = fract_ol
+NAME = fractol
 
 CC = gcc
-FLAGS = -g
+FLAGS = -o3
 LIBRARIES = -lmlx -lm -lft -L$(LIBFT_DIRECTORY) -L$(MINILIBX_DIRECTORY) -framework OpenGL -framework AppKit
 INCLUDES = -I$(HEADERS_DIRECTORY) -I$(LIBFT_HEADERS) -I$(MINILIBX_HEADERS)
 
