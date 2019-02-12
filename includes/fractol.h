@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/05 16:29:39 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/12 01:22:57 by olesgedz         ###   ########.fr       */
+/*   Created: 2019/02/12 16:12:18 by jblack-b          #+#    #+#             */
+/*   Updated: 2019/02/12 18:14:25 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef FDF_H
 # define FDF_H
@@ -92,6 +93,15 @@ typedef struct		s_keyboard
 {
 	int		*keys;
 }					t_keyboard;
+
+typedef struct		s_color
+{
+	int r;
+	int g;
+	int b;
+}					t_color;
+
+
 typedef struct		s_mlx
 {
 	void		*mlx;
@@ -107,9 +117,9 @@ typedef struct		s_mlx
 	double			cb;
 	int c;
 	int n;
-	int r;
-	int g;
-	int b;
+	double *colors;
+	t_color *color;
+	int ncolor;
 }					t_mlx;
 typedef struct		s_line
 {
@@ -123,8 +133,9 @@ typedef struct		s_line
 	int			err2;
 }					t_line;
 
+
 int					ft_error(char *reason);
-void				ft_change_color(t_map *m);
+void			ft_change_color(t_mlx *mlx, int ncolor);
 void				ft_render(t_mlx *mlx);
 int					ft_mouse_press(int button, int x, int y, t_mlx *mlx);
 int					ft_mouse_release(int button, int x, int y, t_mlx *mlx);
@@ -147,4 +158,5 @@ int					ft_check_line(char *s);
 int			julia(t_mlx *e, int x, int y);
 void	draw_fractal(t_mlx *e, int (*f)(t_mlx *, int, int));
 t_image		*ft_new_image(t_mlx *mlx);
+t_color *ft_colorHextoRgb(int hex);
 #endif

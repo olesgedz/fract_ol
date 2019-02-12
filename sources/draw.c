@@ -6,11 +6,11 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:27:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/12 01:45:04 by olesgedz         ###   ########.fr       */
+/*   Updated: 2019/02/12 18:23:14 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "fractol.h"
 #include "libft.h"
 #include "mlx.h"
 #include <math.h>
@@ -268,7 +268,7 @@ void	put_pixel(t_image *e, int x, int y, int coloration)
 }
 
 
-void	draw_fractal(t_mlx *e, int (*f)(t_mlx *, int, int))
+void	draw_fractal(t_mlx *mlx, int (*f)(t_mlx *, int, int))
 {
 	int		x;
 	int		y;
@@ -281,11 +281,11 @@ void	draw_fractal(t_mlx *e, int (*f)(t_mlx *, int, int))
 		x = 0;
 		while (x < WIN_WIDTH)
 		{
-			i = (*f)(e, x, y);
-			color = ((255 - i * e->r) << 16) + ((255 - i * e->g) << 8)
-				+ (255 - i * e->b);
-			if (i != e->n)
-				put_pixel(e->image, x, y, color);
+			i = (*f)(mlx, x, y);
+			color = ((i * mlx->color->r) << 16) + ((i * mlx->color->g) << 8)
+				+ (i * mlx->color->b);
+			if (i != mlx->n)
+				put_pixel(mlx->image, x, y, color);
 			x++;
 		}
 		y++;
@@ -293,22 +293,15 @@ void	draw_fractal(t_mlx *e, int (*f)(t_mlx *, int, int))
 }
 
 
-static void	fill_img(t_mlx *e, int (*f)(t_mlx *, int, int))
+
+t_color *ft_colorHextoRgb(int hex)
 {
-
-		e->image = ft_new_image(e);
-		draw_fractal(e, f);
-
-}
-
-void		ft_rer(t_mlx *e)
-{
-	if ((e->image->image = mlx_new_image(e->mlx, WIN_WIDTH, WIN_HEIGHT)))
-	{
-		fill_img(e, julia);
-		mlx_put_image_to_window(e->mlx, e->window, e->image->image, 0, 0);
-		mlx_destroy_image(e->mlx, e->image->image);
-	}
+	t_color *color;
+	color = ft_memalloc(sizeof(t_color));
+	color->r = hex >> 16 & 0xFF;
+	color->g = hex >> 8 & 0xFF;
+	color->b = hex & 0xFF;
+	return (color);
 }
 
 

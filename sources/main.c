@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <fcntl.h>
-#include "fdf.h"
+#include "fractol.h"
 #include "mlx.h"
 #include "libft.h"
 

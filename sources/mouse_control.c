@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "fractol.h"
 # include <time.h>
 int		ft_mouse_release(int button, int x, int y, t_mlx *mlx)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "fractol.h"
 
 void			ft_image_set_pixel(t_image *image, int x, int y, int color)
 {

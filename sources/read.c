@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "fdf.h"
+#include "fractol.h"
 #include <limits.h>
 
 static int				ft_cleanup(t_list **lst, t_map **map)

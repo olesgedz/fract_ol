@@ -6,11 +6,11 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:24:27 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/12 01:36:15 by olesgedz         ###   ########.fr       */
+/*   Updated: 2019/02/12 18:14:44 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "fractol.h"
 #include "mlx.h"
 
 
@@ -51,10 +51,10 @@ int				ft_handle_keys_press(int key, t_mlx *mlx)
 	ft_press_move(mlx);
 	if (key == B_KEY)
 	{
-		mlx->map->ncolor += 1;
-		if (mlx->map->ncolor > 5)
-			mlx->map->ncolor = 0;
-		ft_change_color(mlx->map);
+		mlx->ncolor += 1;
+		if (mlx->ncolor > 5)
+			mlx->ncolor = 0;
+		ft_change_color(mlx, mlx->ncolor);
 	}
 	if (key == KEY_C)
 	{

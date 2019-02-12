@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <math.h>
-#include "fdf.h"
+#include "fractol.h"
 
 static t_vector		ft_rotate(t_vector p, t_cam *r)
 {

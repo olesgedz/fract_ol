@@ -6,11 +6,11 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:58 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/05 18:54:31 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/12 18:13:43 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "fractol.h"
 
 static int		ft_get_light(int start, int end, double percentage)
 {
@@ -61,22 +61,7 @@ void			ft_fill_colors(t_map *m)
 	}
 }
 
-void			ft_change_color(t_map *m)
+void			ft_change_color(t_mlx *mlx, int ncolor)
 {
-	t_vector	v;
-	t_vector	*cur;
-
-	v.y = 0;
-	while (v.y < m->height)
-	{
-		v.x = 0;
-		while (v.x < m->width)
-		{
-			cur = m->vectors[(int)v.y * m->width + (int)v.x];
-			cur->color = ft_get_color(m->colors[m->ncolor], 0xFFFFFF, (cur->z -
-				m->depth_min) / (m->depth_max - m->depth_min));
-			v.x++;
-		}
-		v.y++;
-	}
+	mlx->color = mlx->color = ft_colorHextoRgb(mlx->colors[ncolor]);
 }
