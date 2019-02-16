@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:27:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/12 18:23:14 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/16 20:56:13 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include "libft.h"
 #include "mlx.h"
 #include <math.h>
-
+#include <pthread.h>
+#define NTHREADS 5
 typedef struct RGB
 {
 	unsigned char R;
@@ -216,13 +217,15 @@ int		mandelbrot(t_mlx *e, int x, int y)
 	za = 0;
 	zb = 0;
 	i = 0;
-	while (za * za + zb * zb <= 4 && i < 100)
+	while (za * za + zb * zb <= 4 && i < e->n)
 	{
 		tmp = za;
 		za = tmp * tmp - zb * zb + e->ca;
 		zb = 2 * tmp * zb + e->cb;
 		i++;
 	}
+	e->pixel->c.r = za;
+	e->pixel->c.i = zb;
 	return (i);
 }
 
@@ -244,6 +247,8 @@ int			julia(t_mlx *e, int x, int y)
 		zb = 2 * temp * zb + e->cb;
 		i++;
 	}
+	e->pixel->c.r = za;
+	e->pixel->c.i = zb;
 	return (i);
 }
 
@@ -272,20 +277,17 @@ void	draw_fractal(t_mlx *mlx, int (*f)(t_mlx *, int, int))
 {
 	int		x;
 	int		y;
-	int		i;
-	int		color;
-
+	double		i;
 	y = 0;
 	while (y < WIN_HEIGHT)
 	{
 		x = 0;
 		while (x < WIN_WIDTH)
 		{
-			i = (*f)(mlx, x, y);
-			color = ((i * mlx->color->r) << 16) + ((i * mlx->color->g) << 8)
-				+ (i * mlx->color->b);
-			if (i != mlx->n)
-				put_pixel(mlx->image, x, y, color);
+			mlx->pixel->i = (*f)(mlx, x, y);
+			if (mlx->pixel->i != mlx->n)
+				ft_image_set_pixel(mlx->image, x, y, get_color(*mlx->pixel, mlx));
+			//ft_image_set_pixel(mlx->image, x, y, 0xff0000);
 			x++;
 		}
 		y++;
@@ -294,15 +296,17 @@ void	draw_fractal(t_mlx *mlx, int (*f)(t_mlx *, int, int))
 
 
 
-t_color *ft_colorHextoRgb(int hex)
-{
-	t_color *color;
-	color = ft_memalloc(sizeof(t_color));
-	color->r = hex >> 16 & 0xFF;
-	color->g = hex >> 8 & 0xFF;
-	color->b = hex & 0xFF;
-	return (color);
-}
+// t_color *ft_colorHextoRgb(int hex)
+// {
+// 	t_color *color;
+// 	color = ft_memalloc(sizeof(t_color));
+// 	color->r = hex >> 16 & 0xFF;
+// 	color->g = hex >> 8 & 0xFF;
+// 	color->b = hex & 0xFF;
+// 	return (color);
+// }
+
+
 
 
 void				ft_render(t_mlx *mlx)
@@ -404,6 +408,10 @@ void				ft_render(t_mlx *mlx)
 // 	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->image->image, 0, 0);
 // 	mlx_destroy_image(mlx->mlx, mlx->image->image);
 // }
+int j = 0;
+int k = 0;
+int i = 0;
+double color;
 
 
 	 draw_fractal(mlx, julia);

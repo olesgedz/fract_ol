@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:24:27 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/12 18:14:44 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/16 21:06:44 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,13 @@ int				ft_handle_keys_press(int key, t_mlx *mlx)
 	if (key == B_KEY)
 	{
 		mlx->ncolor += 1;
-		if (mlx->ncolor > 5)
+		if (mlx->ncolor > 3)
 			mlx->ncolor = 0;
-		ft_change_color(mlx, mlx->ncolor);
 	}
 	if (key == KEY_C)
-	{
 		mlx->c =  (mlx->c == 0 ? 1 : 0);
-	}
+	if (key == M_KEY)
+		mlx->smooth = (mlx->smooth == 0 ? 1 : 0);;
 	ft_render(mlx);
 	return (0);
 }

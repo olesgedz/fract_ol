@@ -6,15 +6,16 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/12 16:12:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/12 18:14:25 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/16 21:12:07 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #ifndef FDF_H
 # define FDF_H
+# include <stdint.h>
 # include <time.h>
-
+#	include <string.h>
 # define WIN_WIDTH		600
 # define WIN_HEIGHT		600
 # define MENU_WIDTH		0
@@ -48,6 +49,14 @@
 # define COLOR_JAFFA		0xEF8633
 # define COLOR_SAFFRON		0xF3AF3D
 # define FPS 200
+
+typedef struct		s_palette
+{
+	uint8_t		count;
+	int			cycle;
+	int			colors[16];
+}					t_palette;
+
 typedef struct		s_cam
 {
 	float		offsetx;
@@ -94,11 +103,30 @@ typedef struct		s_keyboard
 	int		*keys;
 }					t_keyboard;
 
-typedef struct		s_color
+typedef struct		s_rgba
 {
-	int r;
-	int g;
-	int b;
+	uint8_t		b;
+	uint8_t		g;
+	uint8_t		r;
+	uint8_t		a;
+}					t_rgba;
+
+typedef struct		s_complex
+{
+	double		r;
+	double		i;
+}					t_complex;
+
+typedef struct		s_pixel
+{
+	t_complex	c;
+	long		i;
+}					t_pixel;
+
+typedef union		u_color
+{
+	int			value;
+	t_rgba		rgba;
 }					t_color;
 
 
@@ -117,9 +145,12 @@ typedef struct		s_mlx
 	double			cb;
 	int c;
 	int n;
+	int smooth;
 	double *colors;
 	t_color *color;
 	int ncolor;
+	t_palette *palette;
+	t_pixel *pixel;
 }					t_mlx;
 typedef struct		s_line
 {
@@ -159,4 +190,5 @@ int			julia(t_mlx *e, int x, int y);
 void	draw_fractal(t_mlx *e, int (*f)(t_mlx *, int, int));
 t_image		*ft_new_image(t_mlx *mlx);
 t_color *ft_colorHextoRgb(int hex);
+int			get_color(t_pixel p, t_mlx *mlx);
 #endif

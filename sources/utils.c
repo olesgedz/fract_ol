@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:29 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/12 18:25:43 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/16 21:02:22 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,21 @@ t_image		*ft_new_image(t_mlx *mlx)
 	return (img);
 }
 
-static void			ft_init_colors(t_mlx *mlx)
+t_palette	*get_palettes(void)
 {
-	mlx->colors = ft_memalloc(sizeof(double) * 10);
-	mlx->colors[0] = 0xFF0000;
-	mlx->colors[1] = COLOR_DISCO;
-	mlx->colors[2] = COLOR_BRICK_RED;
-	mlx->colors[3] = COLOR_FLAMINGO;
-	mlx->colors[4] = COLOR_JAFFA;
-	mlx->colors[5] = COLOR_SAFFRON;
+	static t_palette	array[5];
+
+	array[0] =
+		(t_palette){5, 0, {0x7F1637, 0x047878, 0xFFB733, 0xF57336, 0xC22121}};
+	array[1] =
+		(t_palette){5, 0, {0x0D1C33, 0x17373C, 0x2B6832, 0x4F9300, 0xA1D700}};
+	array[2] =
+		(t_palette){5, 0, {0x002F2F, 0x046380, 0xEFECCA, 0xA7A37E, 0xE6E2AF}};
+	array[3] =
+		(t_palette){7, 10, {0xFF0000, 0xFFFF00, 0x00FF00, 0x00FFFF,
+			0x0000FF, 0xFF00FF, 0xFF0000}};
+	array[4] = (t_palette){0, 0, {0}};
+	return (array);
 }
 
 t_map				*get_map(int width, int height)
@@ -78,7 +84,6 @@ t_mlx				*ft_init(char *title)
 		(mlx->image = ft_new_image(mlx)) == NULL || (mlx->color = ft_memalloc(sizeof(t_color))) == NULL)
 		return (ft_mlxdel(mlx));
 	ft_bzero((char *)mlx->keyboard->keys, 100);
-	ft_init_colors(mlx);
 	mlx->cam->x = -M_PI / 6;
 	mlx->cam->y = -M_PI / 6;
 	mlx->cam->z = 0;
@@ -87,7 +92,10 @@ t_mlx				*ft_init(char *title)
 	mlx->cb = 0;
 	mlx->c = 1;
 	mlx->n = 100;
-	mlx->color = ft_colorHextoRgb(mlx->colors[mlx->ncolor]);
+	mlx->palette = get_palettes();
+	mlx->pixel = ft_memalloc(sizeof(t_pixel));
+	//mlx->color = ft_colorHextoRgb(mlx->colors[mlx->ncolor]);
+	mlx->smooth = 1;
 	mlx->clock_prg = clock();
 	mlx->cam->offsetx = 0;//(WIN_WIDTH - MENU_WIDTH) / 2;
 	mlx->cam->offsety = 0;//WIN_HEIGHT / 2;
