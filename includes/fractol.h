@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/12 16:12:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/16 21:12:07 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/16 22:42:19 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdint.h>
 # include <time.h>
 #	include <string.h>
+#include <pthread.h>
 # define WIN_WIDTH		600
 # define WIN_HEIGHT		600
 # define MENU_WIDTH		0
@@ -49,6 +50,7 @@
 # define COLOR_JAFFA		0xEF8633
 # define COLOR_SAFFRON		0xF3AF3D
 # define FPS 200
+# define THREADS 8
 
 typedef struct		s_palette
 {
@@ -151,7 +153,21 @@ typedef struct		s_mlx
 	int ncolor;
 	t_palette *palette;
 	t_pixel *pixel;
+
 }					t_mlx;
+
+typedef struct		s_thread
+{
+	int				id;
+	t_mlx			*mlx; //fdsfs
+}					t_thread;
+
+typedef struct		s_render
+{
+	pthread_t		threads[THREADS];
+	t_thread		args[THREADS];
+}					t_render;
+
 typedef struct		s_line
 {
 	t_vector	start;
