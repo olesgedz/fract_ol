@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:29 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/17 19:06:27 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/17 20:12:18 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,9 @@ t_mlx				*ft_init(char *title)
 	mlx->ca = 0;
 	mlx->cb = 0;
 	mlx->c = 1;
-	mlx->n = 100;
+	mlx->n = 32;
 	mlx->palette = get_palettes();
+	mlx->data = ft_memalloc(sizeof(t_pixel) * WIN_WIDTH * WIN_HEIGHT);
 	//mlx->pixel = ft_memalloc(sizeof(t_pixel));
 	//mlx->color = ft_colorHextoRgb(mlx->colors[mlx->ncolor]);
 	mlx->smooth = 1;

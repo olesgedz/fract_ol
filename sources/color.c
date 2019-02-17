@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:58 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/16 20:42:31 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/17 19:59:43 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,12 @@ t_color		smooth_color(t_pixel p, int max, t_palette *pal)
 
 int			get_color(t_pixel p, t_mlx *mlx)
 {
+	//return(0);
 	if (p.i >= mlx->n)
-		return ((mlx->palette->colors)[2]);
-	if (mlx->smooth)
-		return (smooth_color(p, mlx->n, mlx->palette + mlx->ncolor).value);
+		return(0x000000);
+	//	return ((mlx->palette->colors)[2]);
+	// if (mlx->smooth) //CRASSSSSHHHE
+	// 	return (smooth_color(p, mlx->n, mlx->palette + mlx->ncolor).value);
 	return (linear_color((double)p.i, mlx->n, mlx->palette + mlx->ncolor).value);
 }
 

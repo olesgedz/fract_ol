@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:27:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/17 19:07:31 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/17 19:58:29 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "mlx.h"
 #include <math.h>
 #include <pthread.h>
+#include <stdio.h>
 
 static int			ft_put_points(t_mlx *mlx,
 		t_line *l, t_vector *p1, t_vector *p2)
@@ -190,7 +191,9 @@ void	draw_fractal(t_mlx *mlx, t_pixel (*f)(t_mlx *, int, int))
 			 mlx->pixel = (*f)(mlx, x, y);
 			if (mlx->pixel.i != mlx->n)
 			{
-				ft_image_set_pixel(mlx->image, x, y,  get_color(mlx->pixel, mlx));
+
+				ft_image_set_pixel(mlx->image, x, y, get_color(*(mlx->data + y * WIN_WIDTH + x), mlx));
+				//printf("Hello %ld\n", (mlx->data + y * WIN_WIDTH + x)->i);
 			//ft_image_set_pixel(mlx->image, x, y, 0xff0000);
 				//printf("%ld\n", mlx->pixel->i);
 			}
@@ -217,8 +220,6 @@ void		*render_thread(void *m)
 	t_thread	*t;
 	int			x;
 	int			y;
-	t_image *image;
-	image = t->mlx->image;
 	t = (t_thread *)m;
 	y = WIN_HEIGHT / THREADS * t->id;
 	while (y < WIN_HEIGHT / THREADS * (t->id + 1))
@@ -226,7 +227,7 @@ void		*render_thread(void *m)
 		x = 0;
 		while (x < WIN_WIDTH)
 		{
-			//*(t->mlx->pixel + y * WIN_WIDTH + x)  = t->mlx->function(t->mlx, x, y);
+			*(t->mlx->data + y * WIN_WIDTH + x)  = julia(t->mlx, x, y);
 			x++;
 		}
 		y++;
@@ -252,20 +253,20 @@ void				ft_render(t_mlx *mlx)
 	t_render	*r;
 
 i = 0;
-r = &mlx->render;
-// while (i < THREADS)
-// {
-// 	r->args[i].id = i;
-// 	r->args[i].mlx = mlx;
-// 	pthread_create(r->threads + i, NULL, render_thread, &(r->args[i]));
-// 	i++;
-// }
-// i = 0;
-// while (i < THREADS)
-// {
-// 	pthread_join(r->threads[i], NULL);
-// 	i++;
-// }
+ r = &mlx->render;
+while (i < THREADS)
+{
+	r->args[i].id = i;
+	r->args[i].mlx = mlx;
+	 pthread_create(r->threads + i, NULL, render_thread, &(r->args[i]));
+	i++;
+}
+i = 0;
+while (i < THREADS)
+{
+	pthread_join(r->threads[i], NULL);
+	i++;
+}
 mlx->function = julia;
 draw_fractal(mlx, julia);
 	//ft_draw_background(mlx);
