@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/12 16:12:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/16 22:42:19 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/17 19:04:20 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,14 +124,23 @@ typedef struct		s_pixel
 	t_complex	c;
 	long		i;
 }					t_pixel;
-
 typedef union		u_color
 {
 	int			value;
 	t_rgba		rgba;
 }					t_color;
 
-
+typedef struct s_mlx	t_mlx;
+typedef struct		s_thread
+{
+	int				id;
+	t_mlx			*mlx; //fdsfs
+}					t_thread;
+typedef struct		s_render
+{
+	pthread_t		threads[THREADS];
+	t_thread		args[THREADS];
+}					t_render;
 typedef struct		s_mlx
 {
 	void		*mlx;
@@ -152,21 +161,14 @@ typedef struct		s_mlx
 	t_color *color;
 	int ncolor;
 	t_palette *palette;
-	t_pixel *pixel;
-
+	t_pixel pixel;
+	t_render	render;
+	int viewport;
+	t_pixel (*function)(t_mlx *e, int x, int y);
 }					t_mlx;
 
-typedef struct		s_thread
-{
-	int				id;
-	t_mlx			*mlx; //fdsfs
-}					t_thread;
 
-typedef struct		s_render
-{
-	pthread_t		threads[THREADS];
-	t_thread		args[THREADS];
-}					t_render;
+
 
 typedef struct		s_line
 {
@@ -202,8 +204,8 @@ t_image				*ft_del_image(t_mlx *mlx, t_image *img);
 t_mlx				*ft_mlxdel(t_mlx *mlx);
 void				ft_image_set_pixel(t_image *image, int x, int y, int color);
 int					ft_check_line(char *s);
-int			julia(t_mlx *e, int x, int y);
-void	draw_fractal(t_mlx *e, int (*f)(t_mlx *, int, int));
+t_pixel		julia(t_mlx *e, int x, int y);
+void	draw_fractal(t_mlx *e, t_pixel (*f)(t_mlx *, int, int));
 t_image		*ft_new_image(t_mlx *mlx);
 t_color *ft_colorHextoRgb(int hex);
 int			get_color(t_pixel p, t_mlx *mlx);

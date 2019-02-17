@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:27:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/16 21:59:55 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/17 19:07:31 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,34 +104,34 @@ int				ft_rgb(int r, int g, int b)
 	return (r << 16 | g << 8 | b);
 }
 
-int		mandelbrot(t_mlx *e, int x, int y)
-{
-	int		i;
-	double	za;
-	double	zb;
-	double	tmp;
+// int		mandelbrot(t_mlx *e, int x, int y)
+// {
+// 	int		i;
+// 	double	za;
+// 	double	zb;
+// 	double	tmp;
+//
+// 	e->ca = 1.5 * (x - WIN_WIDTH / 2) / (0.5 * e->cam->scale * WIN_WIDTH)
+// 		+ (e->cam->offsetx / WIN_WIDTH / 1.37) - 0.5;
+// 	e->cb = (y - WIN_HEIGHT / 2) / (0.5 * e->cam->scale * WIN_HEIGHT)
+// 		- (e->cam->x / WIN_HEIGHT / 1.92);
+// 	za = 0;
+// 	zb = 0;
+// 	i = 0;
+// 	while (za * za + zb * zb <= 4 && i < e->n)
+// 	{
+// 		tmp = za;
+// 		za = tmp * tmp - zb * zb + e->ca;
+// 		zb = 2 * tmp * zb + e->cb;
+// 		i++;
+// 	}
+// 	e->pixel->c.r = za;
+// 	e->pixel->c.i = zb;
+// 	return (i);
+// }
 
-	e->ca = 1.5 * (x - WIN_WIDTH / 2) / (0.5 * e->cam->scale * WIN_WIDTH)
-		+ (e->cam->offsetx / WIN_WIDTH / 1.37) - 0.5;
-	e->cb = (y - WIN_HEIGHT / 2) / (0.5 * e->cam->scale * WIN_HEIGHT)
-		- (e->cam->x / WIN_HEIGHT / 1.92);
-	za = 0;
-	zb = 0;
-	i = 0;
-	while (za * za + zb * zb <= 4 && i < e->n)
-	{
-		tmp = za;
-		za = tmp * tmp - zb * zb + e->ca;
-		zb = 2 * tmp * zb + e->cb;
-		i++;
-	}
-	e->pixel->c.r = za;
-	e->pixel->c.i = zb;
-	return (i);
-}
 
-
-int			julia(t_mlx *e, int x, int y)
+t_pixel			julia(t_mlx *e, int x, int y)
 {
 	double	za;
 	double	zb;
@@ -148,9 +148,9 @@ int			julia(t_mlx *e, int x, int y)
 		zb = 2 * temp * zb + e->cb;
 		i++;
 	}
-	e->pixel->c.r = za;
-	e->pixel->c.i = zb;
-	return (i);
+	e->pixel.c.r = za;
+	e->pixel.c.i = zb;
+	return ((t_pixel){.c = e->pixel.c, .i = i});
 }
 
 void	put_pixel(t_image *e, int x, int y, int coloration)
@@ -174,21 +174,26 @@ void	put_pixel(t_image *e, int x, int y, int coloration)
 }
 
 
-void	draw_fractal(t_mlx *mlx, int (*f)(t_mlx *, int, int))
+void	draw_fractal(t_mlx *mlx, t_pixel (*f)(t_mlx *, int, int))
 {
 	int		x;
 	int		y;
 	double		i;
+	t_pixel temp;
 	y = 0;
 	while (y < WIN_HEIGHT)
 	{
 		x = 0;
 		while (x < WIN_WIDTH)
 		{
-			mlx->pixel->i = (*f)(mlx, x, y);
-			if (mlx->pixel->i != mlx->n)
-				ft_image_set_pixel(mlx->image, x, y, get_color(*mlx->pixel, mlx));
+
+			 mlx->pixel = (*f)(mlx, x, y);
+			if (mlx->pixel.i != mlx->n)
+			{
+				ft_image_set_pixel(mlx->image, x, y,  get_color(mlx->pixel, mlx));
 			//ft_image_set_pixel(mlx->image, x, y, 0xff0000);
+				//printf("%ld\n", mlx->pixel->i);
+			}
 			x++;
 		}
 		y++;
@@ -207,7 +212,27 @@ void	draw_fractal(t_mlx *mlx, int (*f)(t_mlx *, int, int))
 // 	return (color);
 // }
 
-
+void		*render_thread(void *m)
+{
+	t_thread	*t;
+	int			x;
+	int			y;
+	t_image *image;
+	image = t->mlx->image;
+	t = (t_thread *)m;
+	y = WIN_HEIGHT / THREADS * t->id;
+	while (y < WIN_HEIGHT / THREADS * (t->id + 1))
+	{
+		x = 0;
+		while (x < WIN_WIDTH)
+		{
+			//*(t->mlx->pixel + y * WIN_WIDTH + x)  = t->mlx->function(t->mlx, x, y);
+			x++;
+		}
+		y++;
+	}
+	return (NULL);
+}
 
 
 void				ft_render(t_mlx *mlx)
@@ -220,6 +245,29 @@ void				ft_render(t_mlx *mlx)
 	map = mlx->map;
 
 	mlx->image = ft_new_image(mlx);
+
+
+
+	int			i;
+	t_render	*r;
+
+i = 0;
+r = &mlx->render;
+// while (i < THREADS)
+// {
+// 	r->args[i].id = i;
+// 	r->args[i].mlx = mlx;
+// 	pthread_create(r->threads + i, NULL, render_thread, &(r->args[i]));
+// 	i++;
+// }
+// i = 0;
+// while (i < THREADS)
+// {
+// 	pthread_join(r->threads[i], NULL);
+// 	i++;
+// }
+mlx->function = julia;
+draw_fractal(mlx, julia);
 	//ft_draw_background(mlx);
 	//ft_clear_image(mlx->image);
 	//each iteration, it calculates: new = old*old + c, where c is a constant and old starts at current pixel
@@ -309,13 +357,10 @@ void				ft_render(t_mlx *mlx)
 // 	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->image->image, 0, 0);
 // 	mlx_destroy_image(mlx->mlx, mlx->image->image);
 // }
-int j = 0;
-int k = 0;
-int i = 0;
-double color;
 
 
-	 draw_fractal(mlx, julia);
+
+	 //draw_fractal(mlx, julia);
 	 mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->image->image, 0, 0);
 	mlx_destroy_image(mlx->mlx, mlx->image->image);
 }
