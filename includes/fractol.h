@@ -50,7 +50,7 @@
 # define COLOR_JAFFA		0xEF8633
 # define COLOR_SAFFRON		0xF3AF3D
 # define FPS 200
-# define THREADS 45
+# define THREADS 20
 
 typedef struct		s_palette
 {
