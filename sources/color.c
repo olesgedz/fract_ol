@@ -80,15 +80,18 @@ t_color		linear_color(double i, int max, t_palette *p)
 	double		adjust = 0;
 	int			c = 0;
 
-	// if (p->cycle)
-	// 	index = fmod(i, p->cycle - 1) / (p->cycle - 1);
-	// else
-	// 	index = i / max;
-	// c = p->count - 1;
-	// adjust = fmod(index, 1.0f / c) * c;
+	if (p->cycle)
+		index = fmod(i, p->cycle - 1) / (p->cycle - 1);
+	else
+		index = i / max;
+	c = p->count - 1;
+	adjust = fmod(index, 1.0f / c) * c;
 	return (clerp((t_color)(p->colors[(int)(index * c) + 1]),
 		(t_color)(p->colors[(int)(index * c)]),
 		(int)(adjust + 1) - adjust));
+	//printf("c:%d  index:%f i:%f max:%d\n", c, index, i, max);
+	// return (clerp((t_color)(p->colors[(int)(0) + 1]),
+	// 	(t_color)(p->colors[0]), (int)(adjust + 1) - adjust));
 }
 
 t_color		smooth_color(t_pixel p, int max, t_palette *pal)
@@ -97,8 +100,8 @@ t_color		smooth_color(t_pixel p, int max, t_palette *pal)
 	double zn;
 	double nu;
 
-	zn = log(p.c.r * p.c.r + p.c.i * p.c.i) / 2.0f;
-	nu = log(zn / log(2)) / log(2);
+	 zn = log(p.c.r * p.c.r + p.c.i * p.c.i) / 2.0f;
+	 nu = log(zn / log(2)) / log(2);
 	i = p.i + 1 - nu;
 	if (i < 0)
 		i = 0;

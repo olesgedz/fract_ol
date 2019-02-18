@@ -132,7 +132,7 @@ int				ft_rgb(int r, int g, int b)
 // }
 
 
-t_pixel			julia(t_mlx *e, int x, int y)
+t_pixel		julia(t_mlx *e, int x, int y)
 {
 	double	za;
 	double	zb;
@@ -151,10 +151,33 @@ t_pixel			julia(t_mlx *e, int x, int y)
 	}
 	c.r = za;
 	c.i = zb;
-	e->pixel.c.r = za;
-	e->pixel.c.i = zb;
 	return ((t_pixel){.c = c, .i = i});
 }
+
+// t_pixel		julia(t_mlx *mlx, int x, int y)
+// {
+// 	t_complex	z;
+// 	t_complex	c;
+// 	t_complex	temp;
+// 	int			i;
+// 	t_pixel p;
+// 	(void)mlx;
+// 	i = 0;
+// 	while (z.r * z.r + z.i * z.i < (1 << 8) && i < mlx->n)
+// 	{
+// 		temp.r = z.r * z.r - z.i * z.i + c.r;
+// 		temp.i = z.r * z.i * 2 + c.i;
+// 		if (z.r == temp.r && z.i == temp.i)
+// 		{
+// 			i = mlx->n;
+// 			break ;
+// 		}
+// 		z.r = temp.r;
+// 		z.i = temp.i;
+// 		i++;
+// 	}
+// 	return ((t_pixel){.c = z, .i = i});
+// }
 
 void	put_pixel(t_image *e, int x, int y, int coloration)
 {
