@@ -138,7 +138,7 @@ t_pixel			julia(t_mlx *e, int x, int y)
 	double	zb;
 	double	temp;
 	int		i;
-
+	t_complex c;
 	za = ((4 * (float)x / WIN_WIDTH - 2) / e->cam->scale) + ((e->cam->offsetx / WIN_WIDTH));
 	zb = ((-4 * (float)y / WIN_HEIGHT + 2) / e->cam->scale) + ((e->cam->offsety / WIN_HEIGHT));
 	i = 0;
@@ -149,9 +149,11 @@ t_pixel			julia(t_mlx *e, int x, int y)
 		zb = 2 * temp * zb + e->cb;
 		i++;
 	}
+	c.r = za;
+	c.i = zb;
 	e->pixel.c.r = za;
 	e->pixel.c.i = zb;
-	return ((t_pixel){.c = e->pixel.c, .i = i});
+	return ((t_pixel){.c = c, .i = i});
 }
 
 void	put_pixel(t_image *e, int x, int y, int coloration)
@@ -191,7 +193,6 @@ void	draw_fractal(t_mlx *mlx, t_pixel (*f)(t_mlx *, int, int))
 			 mlx->pixel = (*f)(mlx, x, y);
 			if (mlx->pixel.i != mlx->n)
 			{
-
 				ft_image_set_pixel(mlx->image, x, y, get_color(*(mlx->data + y * WIN_WIDTH + x), mlx));
 				//printf("Hello %ld\n", (mlx->data + y * WIN_WIDTH + x)->i);
 			//ft_image_set_pixel(mlx->image, x, y, 0xff0000);
