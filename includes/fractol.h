@@ -17,8 +17,8 @@
 # include <time.h>
 #	include <string.h>
 #include <pthread.h>
-# define WIN_WIDTH		2
-# define WIN_HEIGHT		2
+# define WIN_WIDTH		720
+# define WIN_HEIGHT		720
 # define MENU_WIDTH		0
 # define W_KEY 13
 # define A_KEY 0
@@ -50,7 +50,7 @@
 # define COLOR_JAFFA		0xEF8633
 # define COLOR_SAFFRON		0xF3AF3D
 # define FPS 200
-# define THREADS 100
+# define THREADS 45
 
 typedef struct		s_palette
 {
