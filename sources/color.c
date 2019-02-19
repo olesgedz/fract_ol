@@ -76,9 +76,9 @@ t_color		clerp(t_color c1, t_color c2, double p)
 
 t_color		linear_color(double i, int max, t_palette *p)
 {
-	double		index;
-	double		adjust;
-	int			c;
+	double		index = 0;
+	double		adjust = 0;
+	int			c = 0;
 
 	if (p->cycle)
 		index = fmod(i, p->cycle - 1) / (p->cycle - 1);
@@ -89,6 +89,9 @@ t_color		linear_color(double i, int max, t_palette *p)
 	return (clerp((t_color)(p->colors[(int)(index * c) + 1]),
 		(t_color)(p->colors[(int)(index * c)]),
 		(int)(adjust + 1) - adjust));
+	//printf("c:%d  index:%f i:%f max:%d\n", c, index, i, max);
+	// return (clerp((t_color)(p->colors[(int)(0) + 1]),
+	// 	(t_color)(p->colors[0]), (int)(adjust + 1) - adjust));
 }
 
 t_color		smooth_color(t_pixel p, int max, t_palette *pal)
@@ -97,12 +100,13 @@ t_color		smooth_color(t_pixel p, int max, t_palette *pal)
 	double zn;
 	double nu;
 
-	zn = log(p.c.r * p.c.r + p.c.i * p.c.i) / 2.0f;
-	nu = log(zn / log(2)) / log(2);
+	 zn = log(p.c.r * p.c.r + p.c.i * p.c.i) / 2.0f;
+	 nu = log(zn / log(2)) / log(2);
 	i = p.i + 1 - nu;
 	if (i < 0)
 		i = 0;
-	return (linear_color(i, max, pal));
+	//return (linear_color(i, max, pal));
+	return(linear_color(i, max, pal));
 }
 
 int			get_color(t_pixel p, t_mlx *mlx)
@@ -111,8 +115,8 @@ int			get_color(t_pixel p, t_mlx *mlx)
 	if (p.i >= mlx->n)
 		return(0x000000);
 	//	return ((mlx->palette->colors)[2]);
-	// if (mlx->smooth) //CRASSSSSHHHE
-	// 	return (smooth_color(p, mlx->n, mlx->palette + mlx->ncolor).value);
+	if (mlx->smooth) //CRASSSSSHHHE
+		return (smooth_color(p, mlx->n, mlx->palette + mlx->ncolor).value);
 	return (linear_color((double)p.i, mlx->n, mlx->palette + mlx->ncolor).value);
 }
 
