@@ -39,34 +39,38 @@ static int			ft_draw_menu(t_mlx *mlx)
 	mlx_string_put(mlx->mlx, mlx->window,
 		FRAC_H + 10, y += 25, 0xFFFFFFF, ft_strjoin("Number of iterations: ", s = ft_itoa(mlx->n)));
 	ft_strdel(&s);
+	mlx_string_put(mlx->mlx, mlx->window,
+		FRAC_H + 10, y += 25, 0xFFFFFFF, ft_strjoin("Zoom: ", s = ft_itoa((int)mlx->cam->scale)));
+		printf("%f\n", mlx->cam->scale);
+	ft_strdel(&s);
 	return (0);
 }
 
-// int		mandelbrot(t_mlx *e, int x, int y)
-// {
-// 	int		i;
-// 	double	za;
-// 	double	zb;
-// 	double	tmp;
-//
-// 	e->ca = 1.5 * (x - WIN_WIDTH / 2) / (0.5 * e->cam->scale * WIN_WIDTH)
-// 		+ (e->cam->offsetx / WIN_WIDTH / 1.37) - 0.5;
-// 	e->cb = (y - WIN_HEIGHT / 2) / (0.5 * e->cam->scale * WIN_HEIGHT)
-// 		- (e->cam->x / WIN_HEIGHT / 1.92);
-// 	za = 0;
-// 	zb = 0;
-// 	i = 0;
-// 	while (za * za + zb * zb <= 4 && i < e->n)
-// 	{
-// 		tmp = za;
-// 		za = tmp * tmp - zb * zb + e->ca;
-// 		zb = 2 * tmp * zb + e->cb;
-// 		i++;
-// 	}
-// 	e->pixel->c.r = za;
-// 	e->pixel->c.i = zb;
-// 	return (i);
-// }
+t_pixel	mandelbrot(t_mlx *e, int x, int y)
+{
+	int		i;
+	double	za;
+	double	zb;
+	double	tmp;
+	t_complex c;
+	e->ca = 1.5 * (x - FRAC_W / 2) / (0.5 * e->cam->scale * FRAC_W)
+		+ (e->cam->offsetx / FRAC_W / 1.37) - 0.5;
+	e->cb = (y - FRAC_H / 2) / (0.5 * e->cam->scale * FRAC_H)
+		- (e->cam->x / FRAC_H / 1.92);
+	za = 0;
+	zb = 0;
+	i = 0;
+	while (za * za + zb * zb <= 4 && i < e->n)
+	{
+		tmp = za;
+		za = tmp * tmp - zb * zb + e->ca;
+		zb = 2 * tmp * zb + e->cb;
+		i++;
+	}
+	c.r = za;
+	c.i = zb;
+	return ((t_pixel){.c = c, .i = i});
+}
 
 
 t_pixel		julia(t_mlx *mlx, int x, int y)
@@ -144,6 +148,8 @@ void	draw_fractal(t_mlx *mlx, t_pixel (*f)(t_mlx *, int, int))
 		{
 			if ((*(mlx->data + y * WIN_WIDTH + x)).i != mlx->n)
 				ft_image_set_pixel(mlx->image, x, y, get_color(*(mlx->data + y * WIN_WIDTH + x), mlx));
+			if (x ==  FRAC_W/2 && y == FRAC_H/2)
+				printf("i:%f\n", (*(mlx->data + y * WIN_WIDTH + x)).i);
 			x++;
 		}
 		y++;

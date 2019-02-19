@@ -125,7 +125,7 @@ typedef struct		s_complex
 typedef struct		s_pixel
 {
 	t_complex	c;
-	long		i;
+	double		i;
 }					t_pixel;
 typedef union		u_color
 {
