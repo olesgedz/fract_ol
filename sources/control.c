@@ -16,13 +16,13 @@
 static void		ft_press_move(t_mlx *mlx)
 {
 	if (mlx->keyboard->keys[D_KEY] == TRUE)
-		mlx->cam->offsetx += 50 / mlx->cam->scale;
+		mlx->cam->offsetx += 40 / mlx->cam->scale / 2.51;
 	if (mlx->keyboard->keys[A_KEY] == TRUE)
-		mlx->cam->offsetx -= 50 / mlx->cam->scale;
+		mlx->cam->offsetx -= 40 / mlx->cam->scale / 2.51;
 	if (mlx->keyboard->keys[S_KEY] == TRUE)
-		mlx->cam->offsety -= 50 / mlx->cam->scale;
+		mlx->cam->offsety -= 20 / mlx->cam->scale;
 	if (mlx->keyboard->keys[W_KEY] == TRUE)
-		mlx->cam->offsety += 50/mlx->cam->scale;
+		mlx->cam->offsety += 20 / mlx->cam->scale;
 	if (mlx->keyboard->keys[U_KEY] == TRUE)
 		mlx->cam->scale /= 1.1;
 	if (mlx->keyboard->keys[O_KEY] == TRUE)
@@ -79,7 +79,7 @@ int			mouse_hook(int button, int x, int y, t_mlx *e)
 	if (button == SCROLL_UP)
 	{
 		e->cam->scale *= 1.1;
-		e->cam->offsetx += x /e->cam->scale / 2.51;
+		e->cam->offsetx += x / e->cam->scale / 2.51;
 		e->cam->offsety -= y / e->cam->scale/ 2.51;
 	}
 	else if (button == SCROLL_DOWN &&  e->cam->scale > 0.1)
