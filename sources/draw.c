@@ -84,21 +84,7 @@ static int			ft_draw_menu(t_mlx *mlx)
 	return (0);
 }
 
-static void			ft_draw_background(t_mlx *mlx)
-{
-	t_image *image;
-	int		j;
-	int		k;
-	image = mlx->image;
-	j = 0;
-	while (j < WIN_HEIGHT)
-	{
-		k = -1;
-		while (k++ < WIN_WIDTH)
-			*(int *)(image->ptr + ((k + j * WIN_WIDTH) * image->bpp)) = 0x222222;
-		j++;
-	}
-}
+
 
 int				ft_rgb(int r, int g, int b)
 {
@@ -139,8 +125,8 @@ t_pixel		julia(t_mlx *e, int x, int y)
 	double	temp;
 	int		i;
 	t_complex c;
-	za = ((4 * (float)x / WIN_WIDTH - 2) / e->cam->scale) + ((e->cam->offsetx / WIN_WIDTH));
-	zb = ((-4 * (float)y / WIN_HEIGHT + 2) / e->cam->scale) + ((e->cam->offsety / WIN_HEIGHT));
+	za = ((4 * (float)x / FRAC_W - 2) / e->cam->scale) + ((e->cam->offsetx / FRAC_W));
+	zb = ((-4 * (float)y / FRAC_H + 2) / e->cam->scale) + ((e->cam->offsety / FRAC_H));
 	i = 0;
 	while (za * za + zb * zb <= 4 && i < e->n)
 	{
@@ -200,6 +186,25 @@ void	put_pixel(t_image *e, int x, int y, int coloration)
 }
 
 
+static void			ft_draw_background(t_mlx *mlx)
+{
+	t_image *image;
+	int		j;
+	int		k;
+
+	ft_clear_image(mlx->image);
+	image = mlx->image;
+	j = 0;
+	while (j < WIN_HEIGHT)
+	{
+		k = 0;
+		while (k++ < WIN_WIDTH)
+			*(int *)(image->ptr + ((k + j * WIN_WIDTH) * image->bpp)) =
+			k < FRAC_W ? 0x222222 : 0x1E1E1E;
+		j++;
+	}
+}
+
 void	draw_fractal(t_mlx *mlx, t_pixel (*f)(t_mlx *, int, int))
 {
 	int		x;
@@ -207,10 +212,10 @@ void	draw_fractal(t_mlx *mlx, t_pixel (*f)(t_mlx *, int, int))
 	double		i;
 	t_pixel temp;
 	y = 0;
-	while (y < WIN_HEIGHT)
+	while (y < FRAC_H)
 	{
 		x = 0;
-		while (x < WIN_WIDTH)
+		while (x < FRAC_W)
 		{
 
 			 mlx->pixel = (*f)(mlx, x, y);
@@ -292,8 +297,9 @@ while (i < THREADS)
 	i++;
 }
 mlx->function = julia;
+ft_draw_background(mlx);
 draw_fractal(mlx, julia);
-	//ft_draw_background(mlx);
+
 	//ft_clear_image(mlx->image);
 	//each iteration, it calculates: new = old*old + c, where c is a constant and old starts at current pixel
 //    double cRe, cIm;           //real and imaginary part of the constant c, determinate shape of the Julia Set
