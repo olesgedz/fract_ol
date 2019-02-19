@@ -139,9 +139,7 @@ void	draw_fractal(t_mlx *mlx, t_pixel (*f)(t_mlx *, int, int))
 		x = 0;
 		while (x < FRAC_W)
 		{
-
-			 mlx->pixel = (*f)(mlx, x, y);
-			if (mlx->pixel.i != mlx->n)
+			if ((*(mlx->data + y * WIN_WIDTH + x)).i != mlx->n)
 				ft_image_set_pixel(mlx->image, x, y, get_color(*(mlx->data + y * WIN_WIDTH + x), mlx));
 			x++;
 		}

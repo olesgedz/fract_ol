@@ -16,9 +16,9 @@
 static void		ft_press_move(t_mlx *mlx)
 {
 	if (mlx->keyboard->keys[D_KEY] == TRUE)
-		mlx->cam->offsetx += 40 / mlx->cam->scale / 2.51;
+		mlx->cam->offsetx += 20.0 / mlx->cam->scale;
 	if (mlx->keyboard->keys[A_KEY] == TRUE)
-		mlx->cam->offsetx -= 40 / mlx->cam->scale / 2.51;
+		mlx->cam->offsetx -= 20.0 / mlx->cam->scale;
 	if (mlx->keyboard->keys[S_KEY] == TRUE)
 		mlx->cam->offsety -= 20 / mlx->cam->scale;
 	if (mlx->keyboard->keys[W_KEY] == TRUE)

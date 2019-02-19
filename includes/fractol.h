@@ -63,8 +63,8 @@ typedef struct		s_palette
 
 typedef struct		s_cam
 {
-	float		offsetx;
-	float		offsety;
+	double		offsetx;
+	double		offsety;
 	double		x;
 	double		y;
 	double		z;
