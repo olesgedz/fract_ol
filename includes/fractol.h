@@ -15,13 +15,14 @@
 # define FDF_H
 # include <stdint.h>
 # include <time.h>
-#	include <string.h>
+# include <string.h>
 #include <pthread.h>
 # define WIN_WIDTH		1680
 # define WIN_HEIGHT		720
 # define MENU_WIDTH		400
 # define FRAC_W		720
 # define FRAC_H		720
+# define ESC_KEY	53
 # define W_KEY 13
 # define A_KEY 0
 # define S_KEY 1

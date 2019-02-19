@@ -12,7 +12,7 @@
 
 #include "fractol.h"
 #include "mlx.h"
-
+#include <stdlib.h>
 static void		ft_press_move(t_mlx *mlx)
 {
 	if (mlx->keyboard->keys[D_KEY] == TRUE)
@@ -54,7 +54,9 @@ int				ft_handle_keys_press(int key, t_mlx *mlx)
 	if (key == KEY_C)
 		mlx->c =  (mlx->c == 0 ? 1 : 0);
 	if (key == M_KEY)
-		mlx->smooth = (mlx->smooth == 0 ? 1 : 0);;
+		mlx->smooth = (mlx->smooth == 0 ? 1 : 0);
+	if (key == ESC_KEY)
+		exit(0);
 	ft_render(mlx);
 	return (0);
 }

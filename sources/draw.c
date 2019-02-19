@@ -20,7 +20,7 @@
 static int			ft_draw_menu(t_mlx *mlx)
 {
 	int		y;
-
+	char *s;
 	y = 0;
 	mlx_string_put(mlx->mlx, mlx->window,
 		FRAC_H + 10, y, 0xFFFFFFF, "How to Use");
@@ -36,6 +36,9 @@ static int			ft_draw_menu(t_mlx *mlx)
 		 FRAC_H + 10, y += 25, 0xFFFFFFF, "M< to rotate on Z axis");
 	mlx_string_put(mlx->mlx, mlx->window,
 		FRAC_H + 10, y += 25, 0xFFFFFFF, "B to change color");
+	mlx_string_put(mlx->mlx, mlx->window,
+		FRAC_H + 10, y += 25, 0xFFFFFFF, ft_strjoin("Number of iterations: ", s = ft_itoa(mlx->n)));
+	ft_strdel(&s);
 	return (0);
 }
 
