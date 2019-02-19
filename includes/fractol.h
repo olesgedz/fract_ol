@@ -15,11 +15,14 @@
 # define FDF_H
 # include <stdint.h>
 # include <time.h>
-#	include <string.h>
+# include <string.h>
 #include <pthread.h>
-# define WIN_WIDTH		720
+# define WIN_WIDTH		1680
 # define WIN_HEIGHT		720
-# define MENU_WIDTH		0
+# define MENU_WIDTH		400
+# define FRAC_W		720
+# define FRAC_H		720
+# define ESC_KEY	53
 # define W_KEY 13
 # define A_KEY 0
 # define S_KEY 1
@@ -61,8 +64,8 @@ typedef struct		s_palette
 
 typedef struct		s_cam
 {
-	float		offsetx;
-	float		offsety;
+	double		offsetx;
+	double		offsety;
 	double		x;
 	double		y;
 	double		z;
@@ -122,7 +125,7 @@ typedef struct		s_complex
 typedef struct		s_pixel
 {
 	t_complex	c;
-	long		i;
+	double		i;
 }					t_pixel;
 typedef union		u_color
 {

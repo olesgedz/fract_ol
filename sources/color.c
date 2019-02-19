@@ -74,7 +74,7 @@ t_color		clerp(t_color c1, t_color c2, double p)
 	return (c);
 }
 
-t_color		linear_color(double i, int max, t_palette *p)
+t_color		linear_color(t_mlx *mlx, double i, t_palette *p)
 {
 	double		index = 0;
 	double		adjust = 0;
@@ -83,18 +83,20 @@ t_color		linear_color(double i, int max, t_palette *p)
 	if (p->cycle)
 		index = fmod(i, p->cycle - 1) / (p->cycle - 1);
 	else
-		index = i / max;
+		index = i / mlx->n;
 	c = p->count - 1;
 	adjust = fmod(index, 1.0f / c) * c;
-	return (clerp((t_color)(p->colors[(int)(index * c) + 1]),
+	if (mlx->smooth)
+		return (clerp((t_color)(p->colors[(int)(index * c) + 1]),
 		(t_color)(p->colors[(int)(index * c)]),
 		(int)(adjust + 1) - adjust));
-	//printf("c:%d  index:%f i:%f max:%d\n", c, index, i, max);
-	// return (clerp((t_color)(p->colors[(int)(0) + 1]),
-	// 	(t_color)(p->colors[0]), (int)(adjust + 1) - adjust));
+	//return ((t_color)(p->colors[(int)(index * c)]));
+	return (clerp((t_color)(p->colors[(int)(index * c) + 1]),
+	(t_color)(p->colors[(int)(index * c)]),
+	(int)(adjust + 1) - adjust));
 }
 
-t_color		smooth_color(t_pixel p, int max, t_palette *pal)
+t_color		smooth_color(t_mlx *mlx, t_pixel p, t_palette *pal)
 {
 	double i;
 	double zn;
@@ -105,22 +107,14 @@ t_color		smooth_color(t_pixel p, int max, t_palette *pal)
 	i = p.i + 1 - nu;
 	if (i < 0)
 		i = 0;
-	//return (linear_color(i, max, pal));
-	return(linear_color(i, max, pal));
+	return(linear_color(mlx, i,  pal));
 }
 
 int			get_color(t_pixel p, t_mlx *mlx)
 {
-	//return(0);
 	if (p.i >= mlx->n)
 		return(0x000000);
-	//	return ((mlx->palette->colors)[2]);
-	if (mlx->smooth) //CRASSSSSHHHE
-		return (smooth_color(p, mlx->n, mlx->palette + mlx->ncolor).value);
-	return (linear_color((double)p.i, mlx->n, mlx->palette + mlx->ncolor).value);
+	if (mlx->smooth)
+		return (smooth_color(mlx, p, mlx->palette + mlx->ncolor).value);
+	return (linear_color(mlx, (double)p.i, mlx->palette + mlx->ncolor).value);
 }
-
-// void			ft_change_color(t_mlx *mlx, int ncolor)
-// {
-// 	mlx->color = mlx->color = ft_colorHextoRgb(mlx->colors[ncolor]);
-// }

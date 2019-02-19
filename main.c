@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
     {
       thread_args[i] = i;
       printf("spawning thread %d\n", i);
-      rc= pthread_create(&threads[i], NULL, myFun, (void *) &thread_args[i]);
+      rc = pthread_create(&threads[i], NULL, myFun, (void *) &thread_args[i]);
     }
 
   /* wait for threads to finish */

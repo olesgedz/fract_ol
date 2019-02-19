@@ -17,136 +17,54 @@
 #include <pthread.h>
 #include <stdio.h>
 
-static int			ft_put_points(t_mlx *mlx,
-		t_line *l, t_vector *p1, t_vector *p2)
-{
-	double percentage;
-
-	if (l->dx > l->dy)
-		percentage = ft_percent(l->start.x, l->end.x, p1->x);
-	else
-		percentage = ft_percent(l->start.y, l->end.y, p1->y);
-	ft_image_set_pixel(mlx->image, (int)p1->x,
-	(int)p1->y, ft_get_color(p1->color, p2->color, percentage));
-	l->err2 = l->err;
-	if (l->err2 > -l->dx)
-	{
-		l->err -= l->dy;
-		p1->x += l->sx;
-	}
-	if (l->err2 < l->dy)
-	{
-		l->err += l->dx;
-		p1->y += l->sy;
-	}
-	return (0);
-}
-
-static void			ft_plotline(t_mlx *mlx, t_vector p1, t_vector p2)
-{
-	t_line	line;
-
-	p1.x = (int)p1.x;
-	p2.x = (int)p2.x;
-	p1.y = (int)p1.y;
-	p2.y = (int)p2.y;
-	line.start = p1;
-	line.end = p2;
-	line.dx = (int)ABS((int)p2.x - (int)p1.x);
-	line.sx = (int)p1.x < (int)p2.x ? 1 : -1;
-	line.dy = (int)ABS((int)p2.y - (int)p1.y);
-	line.sy = (int)p1.y < (int)p2.y ? 1 : -1;
-	line.err = (line.dx > line.dy ? line.dx : -line.dy) / 2;
-	while (((int)p1.x != (int)p2.x || (int)p1.y != (int)p2.y))
-		if (ft_put_points(mlx, &line, &p1, &p2))
-			break ;
-}
-
 static int			ft_draw_menu(t_mlx *mlx)
 {
 	int		y;
-
+	char *s;
 	y = 0;
 	mlx_string_put(mlx->mlx, mlx->window,
-		WIN_WIDTH - MENU_WIDTH + 10, y, 0xFFFFFFF, "How to Use");
+		FRAC_H + 10, y, 0xFFFFFFF, "How to Use");
 	mlx_string_put(mlx->mlx, mlx->window,
-		WIN_WIDTH - MENU_WIDTH + 10, y += 25, 0xFFFFFFF, "UO to zoom");
+		FRAC_H + 10, y += 25, 0xFFFFFFF, "UO to zoom");
 	mlx_string_put(mlx->mlx, mlx->window,
-		WIN_WIDTH - MENU_WIDTH + 10, y += 25, 0xFFFFFFF, "WASD to shift");
+		FRAC_H + 10, y += 25, 0xFFFFFFF, "WASD to shift");
 	mlx_string_put(mlx->mlx, mlx->window,
-		WIN_WIDTH - MENU_WIDTH + 10, y += 25, 0xFFFFFFF, "IJKL to rotate or ");
-	mlx_string_put(mlx->mlx, mlx->window, WIN_WIDTH - MENU_WIDTH + 30,
-			y += 25, 0xFFFFFFF, "press lmb and use mouse");
-	mlx_string_put(mlx->mlx, mlx->window, WIN_WIDTH - MENU_WIDTH + 10,
-			y += 25, 0xFFFFFFF, "M< to rotate on Z axis");
+		FRAC_H + 10, y += 25, 0xFFFFFFF, "IJKL to rotate or ");
 	mlx_string_put(mlx->mlx, mlx->window,
-		WIN_WIDTH - MENU_WIDTH + 10, y += 25, 0xFFFFFFF, "B to change color");
+		FRAC_H + 30, y += 25, 0xFFFFFFF, "press lmb and use mouse");
+	mlx_string_put(mlx->mlx, mlx->window,
+		 FRAC_H + 10, y += 25, 0xFFFFFFF, "M< to rotate on Z axis");
+	mlx_string_put(mlx->mlx, mlx->window,
+		FRAC_H + 10, y += 25, 0xFFFFFFF, "B to change color");
+	mlx_string_put(mlx->mlx, mlx->window,
+		FRAC_H + 10, y += 25, 0xFFFFFFF, ft_strjoin("Number of iterations: ", s = ft_itoa(mlx->n)));
+	ft_strdel(&s);
+	mlx_string_put(mlx->mlx, mlx->window,
+		FRAC_H + 10, y += 25, 0xFFFFFFF, ft_strjoin("Zoom: ", s = ft_itoa((int)mlx->cam->scale)));
+		printf("%f\n", mlx->cam->scale);
+	ft_strdel(&s);
 	return (0);
 }
 
-static void			ft_draw_background(t_mlx *mlx)
+t_pixel	mandelbrot(t_mlx *e, int x, int y)
 {
-	t_image *image;
-	int		j;
-	int		k;
-	image = mlx->image;
-	j = 0;
-	while (j < WIN_HEIGHT)
-	{
-		k = -1;
-		while (k++ < WIN_WIDTH)
-			*(int *)(image->ptr + ((k + j * WIN_WIDTH) * image->bpp)) = 0x222222;
-		j++;
-	}
-}
-
-int				ft_rgb(int r, int g, int b)
-{
-	return (r << 16 | g << 8 | b);
-}
-
-// int		mandelbrot(t_mlx *e, int x, int y)
-// {
-// 	int		i;
-// 	double	za;
-// 	double	zb;
-// 	double	tmp;
-//
-// 	e->ca = 1.5 * (x - WIN_WIDTH / 2) / (0.5 * e->cam->scale * WIN_WIDTH)
-// 		+ (e->cam->offsetx / WIN_WIDTH / 1.37) - 0.5;
-// 	e->cb = (y - WIN_HEIGHT / 2) / (0.5 * e->cam->scale * WIN_HEIGHT)
-// 		- (e->cam->x / WIN_HEIGHT / 1.92);
-// 	za = 0;
-// 	zb = 0;
-// 	i = 0;
-// 	while (za * za + zb * zb <= 4 && i < e->n)
-// 	{
-// 		tmp = za;
-// 		za = tmp * tmp - zb * zb + e->ca;
-// 		zb = 2 * tmp * zb + e->cb;
-// 		i++;
-// 	}
-// 	e->pixel->c.r = za;
-// 	e->pixel->c.i = zb;
-// 	return (i);
-// }
-
-
-t_pixel		julia(t_mlx *e, int x, int y)
-{
+	int		i;
 	double	za;
 	double	zb;
-	double	temp;
-	int		i;
+	double	tmp;
 	t_complex c;
-	za = ((4 * (float)x / WIN_WIDTH - 2) / e->cam->scale) + ((e->cam->offsetx / WIN_WIDTH));
-	zb = ((-4 * (float)y / WIN_HEIGHT + 2) / e->cam->scale) + ((e->cam->offsety / WIN_HEIGHT));
+	e->ca = 1.5 * (x - FRAC_W / 2) / (0.5 * e->cam->scale * FRAC_W)
+		+ (e->cam->offsetx / FRAC_W / 1.37) - 0.5;
+	e->cb = (y - FRAC_H / 2) / (0.5 * e->cam->scale * FRAC_H)
+		- (e->cam->x / FRAC_H / 1.92);
+	za = 0;
+	zb = 0;
 	i = 0;
 	while (za * za + zb * zb <= 4 && i < e->n)
 	{
-		temp = za;
-		za = za * za - zb * zb + e->ca;
-		zb = 2 * temp * zb + e->cb;
+		tmp = za;
+		za = tmp * tmp - zb * zb + e->ca;
+		zb = 2 * tmp * zb + e->cb;
 		i++;
 	}
 	c.r = za;
@@ -154,30 +72,28 @@ t_pixel		julia(t_mlx *e, int x, int y)
 	return ((t_pixel){.c = c, .i = i});
 }
 
-// t_pixel		julia(t_mlx *mlx, int x, int y)
-// {
-// 	t_complex	z;
-// 	t_complex	c;
-// 	t_complex	temp;
-// 	int			i;
-// 	t_pixel p;
-// 	(void)mlx;
-// 	i = 0;
-// 	while (z.r * z.r + z.i * z.i < (1 << 8) && i < mlx->n)
-// 	{
-// 		temp.r = z.r * z.r - z.i * z.i + c.r;
-// 		temp.i = z.r * z.i * 2 + c.i;
-// 		if (z.r == temp.r && z.i == temp.i)
-// 		{
-// 			i = mlx->n;
-// 			break ;
-// 		}
-// 		z.r = temp.r;
-// 		z.i = temp.i;
-// 		i++;
-// 	}
-// 	return ((t_pixel){.c = z, .i = i});
-// }
+
+t_pixel		julia(t_mlx *mlx, int x, int y)
+{
+	double	za;
+	double	zb;
+	double	temp;
+	int		i;
+	t_complex c;
+	za = ((4 * (float)x / FRAC_W - 2) / mlx->cam->scale) + ((mlx->cam->offsetx / FRAC_W));
+	zb = ((-4 * (float)y / FRAC_H + 2) / mlx->cam->scale) + ((mlx->cam->offsety / FRAC_H));
+	i = 0;
+	while (za * za + zb * zb <= 4 && i < mlx->n)
+	{
+		temp = za;
+		za = za * za - zb * zb + mlx->ca;
+		zb = 2 * temp * zb + mlx->cb;
+		i++;
+	}
+	c.r = za;
+	c.i = zb;
+	return ((t_pixel){.c = c, .i = i});
+}
 
 void	put_pixel(t_image *e, int x, int y, int coloration)
 {
@@ -195,10 +111,28 @@ void	put_pixel(t_image *e, int x, int y, int coloration)
 		 e->ptr[(y * e->stride) + ((e->bpp / 8) * x) + 2] = r;
 		 e->ptr[(y * e->stride) + ((e->bpp / 8) * x) + 1] = g;
 		 e->ptr[(y * e->stride) + ((e->bpp / 8) * x)] = b;
-	//	*(int *)(e->ptr + ((x + y * WIN_WIDTH) * e->bpp)) = coloration;
 	}
 }
 
+
+static void			ft_draw_background(t_mlx *mlx)
+{
+	t_image *image;
+	int		j;
+	int		k;
+
+	ft_clear_image(mlx->image);
+	image = mlx->image;
+	j = 0;
+	while (j < WIN_HEIGHT)
+	{
+		k = 0;
+		while (k++ < WIN_WIDTH)
+			*(int *)(image->ptr + ((k + j * WIN_WIDTH) * image->bpp)) =
+			k < FRAC_W ? 0x222222 : 0x1E1E1E;
+		j++;
+	}
+}
 
 void	draw_fractal(t_mlx *mlx, t_pixel (*f)(t_mlx *, int, int))
 {
@@ -207,37 +141,20 @@ void	draw_fractal(t_mlx *mlx, t_pixel (*f)(t_mlx *, int, int))
 	double		i;
 	t_pixel temp;
 	y = 0;
-	while (y < WIN_HEIGHT)
+	while (y < FRAC_H)
 	{
 		x = 0;
-		while (x < WIN_WIDTH)
+		while (x < FRAC_W)
 		{
-
-			 mlx->pixel = (*f)(mlx, x, y);
-			if (mlx->pixel.i != mlx->n)
-			{
+			if ((*(mlx->data + y * WIN_WIDTH + x)).i != mlx->n)
 				ft_image_set_pixel(mlx->image, x, y, get_color(*(mlx->data + y * WIN_WIDTH + x), mlx));
-				//printf("Hello %ld\n", (mlx->data + y * WIN_WIDTH + x)->i);
-			//ft_image_set_pixel(mlx->image, x, y, 0xff0000);
-				//printf("%ld\n", mlx->pixel->i);
-			}
+			if (x ==  FRAC_W/2 && y == FRAC_H/2)
+				printf("i:%f\n", (*(mlx->data + y * WIN_WIDTH + x)).i);
 			x++;
 		}
 		y++;
 	}
 }
-
-
-
-// t_color *ft_colorHextoRgb(int hex)
-// {
-// 	t_color *color;
-// 	color = ft_memalloc(sizeof(t_color));
-// 	color->r = hex >> 16 & 0xFF;
-// 	color->g = hex >> 8 & 0xFF;
-// 	color->b = hex & 0xFF;
-// 	return (color);
-// }
 
 void		*render_thread(void *m)
 {
@@ -292,8 +209,9 @@ while (i < THREADS)
 	i++;
 }
 mlx->function = julia;
+ft_draw_background(mlx);
 draw_fractal(mlx, julia);
-	//ft_draw_background(mlx);
+
 	//ft_clear_image(mlx->image);
 	//each iteration, it calculates: new = old*old + c, where c is a constant and old starts at current pixel
 //    double cRe, cIm;           //real and imaginary part of the constant c, determinate shape of the Julia Set
@@ -387,5 +305,6 @@ draw_fractal(mlx, julia);
 
 	 //draw_fractal(mlx, julia);
 	 mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->image->image, 0, 0);
+	 ft_draw_menu(mlx);
 	mlx_destroy_image(mlx->mlx, mlx->image->image);
 }
