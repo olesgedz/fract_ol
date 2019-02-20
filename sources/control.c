@@ -76,10 +76,7 @@ int			expose_hook(t_mlx *e)
 
 int			mouse_hook(int button, int x, int y, t_mlx *mlx)
 {
-	mlx->mouse->lastx = mlx->mouse->x;
-	mlx->mouse->lasty = mlx->mouse->y;
-	mlx->mouse->x = x;
-	mlx->mouse->y = y;
+
 	if (button == SCROLL_UP)
 	{
 		mlx->cam->scale *= 1.1;
@@ -88,14 +85,10 @@ int			mouse_hook(int button, int x, int y, t_mlx *mlx)
 	}
 	else if (button == SCROLL_DOWN &&  mlx->cam->scale > 0.1)
 		 mlx->cam->scale /= 1.1;
-	if (button ==  MOUSE_L_KEY)
-	{
-		printf("hello %d\n", x - mlx->mouse->lastx);
-		mlx->cam->offsety += (x - mlx->mouse->lastx);
-		mlx->cam->offsetx += -(y - mlx->mouse->lasty);
-	}
-	//if (button == SCROLL_UP || button == SCROLL_DOWN)
-	ft_render(mlx);
+	if (button == MOUSE_L_KEY)
+		mlx->mouse->isdown = TRUE;
+	if (button == SCROLL_UP || button == SCROLL_DOWN)
+		ft_render(mlx);
 	return (0);
 }
 
@@ -105,9 +98,8 @@ int				ft_mlx_hooks(t_mlx *mlx)
 	mlx_hook(mlx->window, 2, 0, ft_handle_keys_press, (void *)mlx);
 	mlx_expose_hook(mlx->window, expose_hook, mlx);
 	mlx_hook(mlx->window, 3, 0, ft_handle_keys_release, (void *)mlx);
-	mlx_mouse_hook(mlx->window, ft_mouse_press, (void *)mlx);
-	mlx_hook(mlx->window, 5, 0, ft_mouse_release, (void *)mlx);
 	mlx_hook(mlx->window, 4, (1L << 2), mouse_hook, (void *)mlx);
+	mlx_hook(mlx->window, 5, 0, ft_mouse_release, (void *)mlx);
 	mlx_hook(mlx->window, 6, 0, ft_mouse_move, (void *)mlx);
 	mlx_hook(mlx->window, 17, 0, ft_error, (void *)0);
 	return (0);
