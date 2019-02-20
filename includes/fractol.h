@@ -41,7 +41,10 @@
 
 # define SCROLL_UP		4
 # define SCROLL_DOWN	5
-# define KEY_C		8
+# define MOUSE_L_KEY	1
+# define MOUSE_R_KEY	2
+# define MOUSE_S_KEY	3
+# define C_KEY		8
 
 # define TEXT_COLOR			0xEAEAEA
 # define BACKGROUND			0x222222
@@ -94,6 +97,8 @@ typedef struct		s_mouse
 	char		isdown;
 	int			x;
 	int			y;
+	int 	lastx;
+	int 	lasty;
 }					t_mouse;
 typedef struct		s_image
 {

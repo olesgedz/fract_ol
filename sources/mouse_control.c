@@ -22,6 +22,7 @@ int		ft_mouse_release(int button, int x, int y, t_mlx *mlx)
 int		ft_mouse_press(int button, int x, int y, t_mlx *mlx)
 {
 	y = button && x && y;
+	printf("pressed");
 	mlx->mouse->isdown = TRUE;
 	return (0);
 }
@@ -43,8 +44,6 @@ int		ft_mouse_press(int button, int x, int y, t_mlx *mlx)
 
 int			ft_mouse_move(int x, int y, t_mlx *e)
 {
-	e->mouse->x = x;
-	e->mouse->y = y;
 	if(((FPS) * (clock() - e->clock_prg)) / CLOCKS_PER_SEC > 1 && e->c )
 	{
 		e->clock_prg = clock();

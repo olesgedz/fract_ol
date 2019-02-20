@@ -41,7 +41,6 @@ static int			ft_draw_menu(t_mlx *mlx)
 	ft_strdel(&s);
 	mlx_string_put(mlx->mlx, mlx->window,
 		FRAC_H + 10, y += 25, 0xFFFFFFF, ft_strjoin("Zoom: ", s = ft_itoa((int)mlx->cam->scale)));
-		printf("%f\n", mlx->cam->scale);
 	ft_strdel(&s);
 	return (0);
 }
@@ -148,8 +147,6 @@ void	draw_fractal(t_mlx *mlx, t_pixel (*f)(t_mlx *, int, int))
 		{
 			if ((*(mlx->data + y * WIN_WIDTH + x)).i != mlx->n)
 				ft_image_set_pixel(mlx->image, x, y, get_color(*(mlx->data + y * WIN_WIDTH + x), mlx));
-			if (x ==  FRAC_W/2 && y == FRAC_H/2)
-				printf("i:%f\n", (*(mlx->data + y * WIN_WIDTH + x)).i);
 			x++;
 		}
 		y++;
