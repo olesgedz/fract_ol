@@ -57,7 +57,7 @@ t_pixel	mandelbrot(t_mlx *e, int x, int y)
 	e->fractal[e->nfractal].ca = 1.5 * (x - FRAC_W / 2) / (0.5 * e->cam->scale * FRAC_W)
 		+ (e->cam->offsetx / FRAC_W / 1.37) - 0.5;
 	e->fractal[e->nfractal].cb = (y - FRAC_H / 2) / (0.5 * e->cam->scale * FRAC_H)
-		- (e->cam->x / FRAC_H / 1.92);
+		- (e->cam->offsetx / FRAC_H / 1.92);
 	za = 0;
 	zb = 0;
 	i = 0;
@@ -73,6 +73,31 @@ t_pixel	mandelbrot(t_mlx *e, int x, int y)
 	return ((t_pixel){.c = c, .i = i});
 }
 
+t_pixel		burningship(t_mlx *e, int x, int y)
+{
+	int		i;
+	double	za;
+	double	zb;
+	double	tmp;
+	t_complex c;
+	e->fractal[e->nfractal].ca = 1.5 * (x - FRAC_W / 2) / (0.5 * e->cam->scale * FRAC_W)
+		+ (e->cam->offsetx / FRAC_W / 1.30) - 0.5;
+	e->fractal[e->nfractal].cb = (y - FRAC_H / 2) / (0.5 * e->cam->scale * FRAC_H)
+		- (e->cam->offsety / FRAC_H / 1.97);
+	za = 0;
+	zb = 0;
+	i = 0;
+	while (za * za + zb * zb <= 4 && i < e->n)
+	{
+		tmp = za;
+		za = fabs(tmp * tmp) - zb * zb + e->fractal[e->nfractal].ca;
+		zb = 2 * fabs(tmp * zb) + e->fractal[e->nfractal].cb;
+		i++;
+	}
+	c.r = za;
+	c.i = zb;
+	return ((t_pixel){.c = c, .i = i});
+}
 
 t_pixel		julia(t_mlx *mlx, int x, int y)
 {

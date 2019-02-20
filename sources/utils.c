@@ -75,6 +75,7 @@ t_fractal	*ft_get_fractals(t_mlx *mlx)
 	//fractals = ft_memalloc(sizeof(t_fractal) * 3);
 	fractals[0] = (t_fractal){"Julia", julia};
 	fractals[1] = (t_fractal){"Mandelbrot", mandelbrot};
+	fractals[2] = (t_fractal){"Burningship", burningship};
 	return (fractals);
 }
 
