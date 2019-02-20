@@ -55,7 +55,7 @@ int				ft_handle_keys_press(int key, t_mlx *mlx)
 	if (key == F_KEY)
 	{
 		mlx->nfractal += 1;
-		if (mlx->nfractal > 2)
+		if (mlx->nfractal > 3)
 			mlx->nfractal = 0;
 	}
 	if (key == C_KEY)

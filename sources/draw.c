@@ -73,6 +73,29 @@ t_pixel	mandelbrot(t_mlx *e, int x, int y)
 	return ((t_pixel){.c = c, .i = i});
 }
 
+t_pixel				randomf(t_mlx *e, int x, int y)
+{
+	double	za;
+	double	zb;
+	double	temp;
+	int		i;
+	t_complex c;
+	za = ((4 * (float)x / FRAC_W - 2) / e->cam->scale) + ((e->cam->offsetx / FRAC_W));
+	zb = ((-4 * (float)y / FRAC_W + 2) / e->cam->scale) + ((e->cam->offsety / FRAC_W));
+	i = 0;
+	while (za * za + zb * zb <= 4 && i < e->n)
+	{
+		temp = za;
+		za = za * za - zb * zb + e->fractal[e->nfractal].ca;
+		zb = sin(2 * temp * zb + e->fractal[e->nfractal].cb);
+		i++;
+	}
+	c.r = za;
+	c.i = zb;
+	return ((t_pixel){.c = c, .i = i});
+}
+
+
 t_pixel		burningship(t_mlx *e, int x, int y)
 {
 	int		i;

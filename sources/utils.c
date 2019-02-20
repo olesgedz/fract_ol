@@ -70,12 +70,13 @@ t_map				*get_map(int width, int height)
 
 t_fractal	*ft_get_fractals(t_mlx *mlx)
 {
-	static t_fractal fractals[3];
+	static t_fractal fractals[4];
 
 	//fractals = ft_memalloc(sizeof(t_fractal) * 3);
 	fractals[0] = (t_fractal){"Julia", julia};
 	fractals[1] = (t_fractal){"Mandelbrot", mandelbrot};
 	fractals[2] = (t_fractal){"Burningship", burningship};
+	fractals[3] = (t_fractal){"Random#1", randomf};
 	return (fractals);
 }
 

@@ -209,6 +209,7 @@ int					ft_check_line(char *s);
 t_pixel				julia(t_mlx *mlx, int x, int y);
 t_pixel				mandelbrot(t_mlx *mlx, int x, int y);
 t_pixel				burningship(t_mlx *mlx, int x, int y);
+t_pixel				randomf(t_mlx *e, int x, int y);
 void				draw_fractal(t_mlx *mlx);
 t_image				*ft_new_image(t_mlx *mlx);
 t_color 			*ft_colorHextoRgb(int hex);
