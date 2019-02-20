@@ -42,6 +42,8 @@ static int			ft_draw_menu(t_mlx *mlx)
 	mlx_string_put(mlx->mlx, mlx->window,
 		FRAC_H + 10, y += 25, 0xFFFFFFF, ft_strjoin("Zoom: ", s = ft_itoa((int)mlx->cam->scale)));
 	ft_strdel(&s);
+	mlx_string_put(mlx->mlx, mlx->window,
+		FRAC_H + 10, y += 25, 0xFFFFFFF, ft_strjoin("Fractal is: ", mlx->fractal[mlx->nfractal].name));
 	return (0);
 }
 
@@ -52,9 +54,9 @@ t_pixel	mandelbrot(t_mlx *e, int x, int y)
 	double	zb;
 	double	tmp;
 	t_complex c;
-	e->ca = 1.5 * (x - FRAC_W / 2) / (0.5 * e->cam->scale * FRAC_W)
+	e->fractal[e->nfractal].ca = 1.5 * (x - FRAC_W / 2) / (0.5 * e->cam->scale * FRAC_W)
 		+ (e->cam->offsetx / FRAC_W / 1.37) - 0.5;
-	e->cb = (y - FRAC_H / 2) / (0.5 * e->cam->scale * FRAC_H)
+	e->fractal[e->nfractal].cb = (y - FRAC_H / 2) / (0.5 * e->cam->scale * FRAC_H)
 		- (e->cam->x / FRAC_H / 1.92);
 	za = 0;
 	zb = 0;
@@ -62,8 +64,8 @@ t_pixel	mandelbrot(t_mlx *e, int x, int y)
 	while (za * za + zb * zb <= 4 && i < e->n)
 	{
 		tmp = za;
-		za = tmp * tmp - zb * zb + e->ca;
-		zb = 2 * tmp * zb + e->cb;
+		za = tmp * tmp - zb * zb + e->fractal[e->nfractal].ca;
+		zb = 2 * tmp * zb + e->fractal[e->nfractal].cb;
 		i++;
 	}
 	c.r = za;
@@ -85,8 +87,8 @@ t_pixel		julia(t_mlx *mlx, int x, int y)
 	while (za * za + zb * zb <= 4 && i < mlx->n)
 	{
 		temp = za;
-		za = za * za - zb * zb + mlx->ca;
-		zb = 2 * temp * zb + mlx->cb;
+		za = za * za - zb * zb + mlx->fractal[mlx->nfractal].ca;
+		zb = 2 * temp * zb + mlx->fractal[mlx->nfractal].cb;
 		i++;
 	}
 	c.r = za;
@@ -133,7 +135,7 @@ static void			ft_draw_background(t_mlx *mlx)
 	}
 }
 
-void	draw_fractal(t_mlx *mlx, t_pixel (*f)(t_mlx *, int, int))
+void	draw_fractal(t_mlx *mlx)
 {
 	int		x;
 	int		y;
@@ -165,7 +167,7 @@ void		*render_thread(void *m)
 		x = 0;
 		while (x < WIN_WIDTH)
 		{
-			*(t->mlx->data + y * WIN_WIDTH + x)  = julia(t->mlx, x, y);
+			*(t->mlx->data + y * WIN_WIDTH + x)  = t->mlx->fractal[t->mlx->nfractal].pixel(t->mlx, x, y);
 			x++;
 		}
 		y++;
@@ -180,128 +182,28 @@ void				ft_render(t_mlx *mlx)
 	int			y;
 	t_vector	v;
 	t_map		*map;
-
-	map = mlx->map;
-
-	mlx->image = ft_new_image(mlx);
-
-
-
 	int			i;
 	t_render	*r;
-
-i = 0;
- r = &mlx->render;
-while (i < THREADS)
-{
-	r->args[i].id = i;
-	r->args[i].mlx = mlx;
-	 pthread_create(r->threads + i, NULL, render_thread, &(r->args[i]));
-	i++;
-}
-i = 0;
-while (i < THREADS)
-{
-	pthread_join(r->threads[i], NULL);
-	i++;
-}
-mlx->function = julia;
-ft_draw_background(mlx);
-draw_fractal(mlx, julia);
-
-	//ft_clear_image(mlx->image);
-	//each iteration, it calculates: new = old*old + c, where c is a constant and old starts at current pixel
-//    double cRe, cIm;           //real and imaginary part of the constant c, determinate shape of the Julia Set
-//    double newRe, newIm, oldRe, oldIm;   //real and imaginary parts of new and old
-//    double zoom = 1, moveX = 0, moveY = 0; //you can change these to zoom and change position
-//    int maxIterations = 100; //after how much iterations the function should stop
-// int color = 0;
-//    //pick some values for the constant c, this determines the shape of the Julia Set
-//    cRe = -0.7;
-//    cIm = 0.27015;
-// 	 int h = WIN_HEIGHT;
-// 	 int w = WIN_WIDTH;
-//    //loop through every pixel
-//    for(int y = 0; y < h; y++)
-//    for(int x = 0; x < w; x++)
-//    {
-//      //calculate the initial real and imaginary part of z, based on the pixel location and zoom and position values
-//      newRe = 1.5 * (x - w / 2) / (0.5 * mlx->cam->scale * w) + mlx->cam->offsetx/ WIN_WIDTH;
-//      newIm = (y - h / 2) / (0.5 * mlx->cam->scale * h) - mlx->cam->offsety/ WIN_HEIGHT;
-//      //i will represent the number of iterations
-//      int i;
-//      //start the iteration process
-//      for(i = 0; i < maxIterations; i++)
-//      {
-//        //remember value of previous iteration
-//        oldRe = newRe;
-//        oldIm = newIm;
-//        //the actual iteration, the real and imaginary part are calculated
-//        newRe = oldRe * oldRe - oldIm * oldIm + cRe;
-//        newIm = 2 * oldRe * oldIm + cIm;
-//        //if the point is outside the circle with radius 2: stop
-// 			 color = ((255 - i * 6) << 16) + ((255 - i * 2) << 8)
-// 				 + (255 - i * 10);
-//        if((newRe * newRe + newIm * newIm) > 4) break;
-//      }
-//
-// 		 if(i != 100)
-// 		  ft_image_set_pixel(mlx->image, x, y, color);
-// 	 }
-     // use color model conversion to get rainbow palette, make brightness black if maxIterations reached
-     // draw the pixel
-// 	 int h = WIN_HEIGHT;
-// 	 int w = WIN_WIDTH;
-// 	double pr, pi;           //real and imaginary part of the pixel p
-// 	  double newRe, newIm, oldRe, oldIm;   //real and imaginary parts of new and old z
-// 	  //double zoom = 1, moveX = -0.5 - 0.3, moveY = 0; //you can change these to zoom and change position
-// 	  int maxIterations = 100;//after how much iterations the function should stop
-// int color;
-// 	  //loop through every pixel
-// 	  for(int y = 0; y < h; y++)
-// 	  for(int x = 0; x < w; x++)
-// 	  {
-// 	    //calculate the initial real and imaginary part of z, based on the pixel location and zoom and position values
-// 	    pr = 1.5 * (x - w / 2) / (0.5 * mlx->cam->scale * w) + 0;
-// 	    pi = (y - h / 2) / (0.5 *  mlx->cam->scale * h) + 0;
-// 			// printf("%f\n",mlx->cam->scale );
-// 	    newRe = newIm = oldRe = oldIm = 0; //these should start at 0,0
-// 	    //"i" will represent the number of iterations
-// 	    int i;
-// 	    //start the iteration process
-// 	    for(i = 0; i < maxIterations; i++)
-// 	    {
-// 	      //remember value of previous iteration
-// 	      oldRe = newRe;
-// 	      oldIm = newIm;
-// 	      //the actual iteration, the real and imaginary part are calculated
-// 	      newRe = oldRe * oldRe - oldIm * oldIm + pr;
-// 	      newIm = 2 * oldRe * oldIm + pi;
-// 	      //if the point is outside the circle with radius 2: stop
-// 	      if((newRe * newRe + newIm * newIm) > 4) break;
-// 	    }
-// 			//	t_RGB colorRGB = HSVtoRGB(ColorHSV(i % 256, 255, 255 * (i < maxIterations)));
-// 			// int color = ft_rgb(colorRGB.R, 0, colorRGB.B);
-// 			// int color = ((255 - i * colorRGB.R) << 16) + ((255 - i *colorRGB.G) << 8)
-// 			// 	+ (255 - i * colorRGB.B);
-// 			color = ((255 - i * 9) << 16) + ((255 - i * 7) << 8)
-// 				+ (255 - i * 12);
-// 				if(i != 100)
-// 					ft_image_set_pixel(mlx->image, x, y, color);
-//
-// 			}
-// if ((mlx->image->image = mlx_new_image(mlx->mlx, WIN_WIDTH, WIN_HEIGHT)))
-// {
-// 	fill_img(mlx, julia);
-// 	//ft_draw_background(mlx);
-// 	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->image->image, 0, 0);
-// 	mlx_destroy_image(mlx->mlx, mlx->image->image);
-// }
-
-
-
-	 //draw_fractal(mlx, julia);
-	 mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->image->image, 0, 0);
-	 ft_draw_menu(mlx);
+	map = mlx->map;
+	mlx->image = ft_new_image(mlx);
+	i = 0;
+	r = &mlx->render;
+	while (i < THREADS)
+	{
+		r->args[i].id = i;
+		r->args[i].mlx = mlx;
+		pthread_create(r->threads + i, NULL, render_thread, &(r->args[i]));
+		i++;
+	}
+	i = 0;
+	while (i < THREADS)
+	{
+		pthread_join(r->threads[i], NULL);
+		i++;
+	}
+	ft_draw_background(mlx);
+	draw_fractal(mlx);
+	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->image->image, 0, 0);
+	ft_draw_menu(mlx);
 	mlx_destroy_image(mlx->mlx, mlx->image->image);
 }

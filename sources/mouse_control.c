@@ -12,6 +12,7 @@
 
 #include "fractol.h"
 # include <time.h>
+
 int		ft_mouse_release(int button, int x, int y, t_mlx *mlx)
 {
 	y = button && x && y;
@@ -36,8 +37,8 @@ int			ft_mouse_move(int x, int y, t_mlx *mlx)
 		mlx->clock_prg = clock();
 		x -= WIN_WIDTH / 2;
 		y -= WIN_HEIGHT / 2;
-		mlx->ca = ((float)x / WIN_WIDTH) * 2;
-		mlx->cb = ((float)y / WIN_HEIGHT) * 2;
+		mlx->fractal[mlx->nfractal].ca  = ((float)x / WIN_WIDTH) * 2;
+		mlx->fractal[mlx->nfractal].cb = ((float)y / WIN_HEIGHT) * 2;
 		ft_render(mlx);
 	}
 	return (0);

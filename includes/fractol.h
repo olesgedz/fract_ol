@@ -27,6 +27,7 @@
 # define A_KEY 0
 # define S_KEY 1
 # define D_KEY 2
+# define F_KEY 3
 # define U_KEY 32
 # define I_KEY 34
 # define O_KEY 31
@@ -149,6 +150,16 @@ typedef struct		s_render
 	pthread_t		threads[THREADS];
 	t_thread		args[THREADS];
 }					t_render;
+
+typedef t_pixel		(*t_func)(t_mlx *mlx, int x, int y);
+
+typedef struct		s_fractal
+{
+	char		*name;
+	t_func	pixel;
+	double			ca;
+	double			cb;
+}					t_fractal;
 typedef struct		s_mlx
 {
 	void		*mlx;
@@ -160,8 +171,6 @@ typedef struct		s_mlx
 	t_keyboard	*keyboard;
 	double		**zbuf;
 	clock_t clock_prg;
-	double			ca;
-	double			cb;
 	int c;
 	int n;
 	int smooth;
@@ -171,29 +180,13 @@ typedef struct		s_mlx
 	t_palette *palette;
 	t_pixel pixel;
 	t_render	render;
-	int viewport;
 	t_pixel *data;
-	t_pixel (*function)(t_mlx *e, int x, int y);
+	t_fractal *fractal;
+	int nfractal;
 }					t_mlx;
 
-
-
-
-typedef struct		s_line
-{
-	t_vector	start;
-	t_vector	end;
-	int			dx;
-	int			dy;
-	int			sx;
-	int			sy;
-	int			err;
-	int			err2;
-}					t_line;
-
-
 int					ft_error(char *reason);
-void			ft_change_color(t_mlx *mlx, int ncolor);
+void				ft_change_color(t_mlx *mlx, int ncolor);
 void				ft_render(t_mlx *mlx);
 int					ft_mouse_press(int button, int x, int y, t_mlx *mlx);
 int					ft_mouse_release(int button, int x, int y, t_mlx *mlx);
@@ -213,9 +206,10 @@ t_image				*ft_del_image(t_mlx *mlx, t_image *img);
 t_mlx				*ft_mlxdel(t_mlx *mlx);
 void				ft_image_set_pixel(t_image *image, int x, int y, int color);
 int					ft_check_line(char *s);
-t_pixel		julia(t_mlx *e, int x, int y);
-void	draw_fractal(t_mlx *e, t_pixel (*f)(t_mlx *, int, int));
-t_image		*ft_new_image(t_mlx *mlx);
-t_color *ft_colorHextoRgb(int hex);
-int			get_color(t_pixel p, t_mlx *mlx);
+t_pixel				julia(t_mlx *mlx, int x, int y);
+t_pixel				mandelbrot(t_mlx *mlx, int x, int y);
+void				draw_fractal(t_mlx *mlx);
+t_image				*ft_new_image(t_mlx *mlx);
+t_color 			*ft_colorHextoRgb(int hex);
+int					get_color(t_pixel p, t_mlx *mlx);
 #endif

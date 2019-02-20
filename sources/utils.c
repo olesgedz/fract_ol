@@ -68,7 +68,15 @@ t_map				*get_map(int width, int height)
 	return (map);
 }
 
+t_fractal	*ft_get_fractals(t_mlx *mlx)
+{
+	static t_fractal fractals[3];
 
+	//fractals = ft_memalloc(sizeof(t_fractal) * 3);
+	fractals[0] = (t_fractal){"Julia", julia};
+	fractals[1] = (t_fractal){"Mandelbrot", mandelbrot};
+	return (fractals);
+}
 
 t_mlx				*ft_init(char *title)
 {
@@ -90,8 +98,6 @@ t_mlx				*ft_init(char *title)
 	mlx->cam->y = -M_PI / 6;
 	mlx->cam->z = 0;
 	mlx->cam->scale = 1;
-	mlx->ca = 0;
-	mlx->cb = 0;
 	mlx->c = 1;
 	mlx->n = 32;
 	mlx->palette = get_palettes();
@@ -102,6 +108,10 @@ t_mlx				*ft_init(char *title)
 	mlx->clock_prg = clock();
 	mlx->cam->offsetx = 0;//(WIN_WIDTH - MENU_WIDTH) / 2;
 	mlx->cam->offsety = 0;//WIN_HEIGHT / 2;
+	mlx->fractal = ft_get_fractals(mlx);
+	mlx->nfractal = 0;
+	mlx->fractal[mlx->nfractal].ca = 0;
+	mlx->fractal[mlx->nfractal].cb = 0;
 	return (mlx);
 }
 

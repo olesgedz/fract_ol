@@ -51,6 +51,13 @@ int				ft_handle_keys_press(int key, t_mlx *mlx)
 		if (mlx->ncolor > 4)
 			mlx->ncolor = 0;
 	}
+	printf("key:%d\n", key);
+	if (key == F_KEY)
+	{
+		mlx->nfractal += 1;
+		if (mlx->nfractal > 1)
+			mlx->nfractal = 0;
+	}
 	if (key == C_KEY)
 		mlx->c =  (mlx->c == 0 ? 1 : 0);
 	if (key == M_KEY)
