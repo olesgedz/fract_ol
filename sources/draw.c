@@ -73,6 +73,71 @@ t_pixel	mandelbrot(t_mlx *e, int x, int y)
 	return ((t_pixel){.c = c, .i = i});
 }
 
+
+static int			ft_put_points(t_mlx *mlx,
+		t_line *l, t_point *p1, t_point *p2)
+{
+	// double percentage;
+	//
+	// if (l->dx > l->dy)
+	// 	percentage = ft_percent(l->start.x, l->end.x, p1->x);
+	// else
+	// 	percentage = ft_percent(l->start.y, l->end.y, p1->y);
+	ft_image_set_pixel(mlx->image, (int)p1->x,
+	(int)p1->y, 0xFFFFFFF);
+	l->err2 = l->err;
+	if (l->err2 > -l->dx)
+	{
+		l->err -= l->dy;
+		p1->x += l->sx;
+	}
+	if (l->err2 < l->dy)
+	{
+		l->err += l->dx;
+		p1->y += l->sy;
+	}
+	return (0);
+}
+
+static void			ft_plotline(t_mlx *mlx, t_point p1, t_point p2)
+{
+	t_line	line;
+
+	p1.x = (int)p1.x;
+	p2.x = (int)p2.x;
+	p1.y = (int)p1.y;
+	p2.y = (int)p2.y;
+	line.start = p1;
+	line.end = p2;
+	line.dx = (int)ABS((int)p2.x - (int)p1.x);
+	line.sx = (int)p1.x < (int)p2.x ? 1 : -1;
+	line.dy = (int)ABS((int)p2.y - (int)p1.y);
+	line.sy = (int)p1.y < (int)p2.y ? 1 : -1;
+	line.err = (line.dx > line.dy ? line.dx : -line.dy) / 2;
+	while (((int)p1.x != (int)p2.x || (int)p1.y != (int)p2.y))
+		if (ft_put_points(mlx, &line, &p1, &p2))
+			break ;
+}
+
+
+
+void		draw_tree(t_mlx *e, t_point start, double angle, int iter)
+{
+	t_point	end;
+	int		color;
+
+	if (iter > 0)
+	{
+		end.x = start.x + (cos(angle) * iter * 6) * e->cam->scale;
+		end.y = start.y + (sin(angle) * iter * 9) * e->cam->scale;
+		color = ((50 + 6 * iter) << 16) + ((2 * iter) << 8)
+			+ (155 - 10 * iter);
+		ft_plotline(e, start, end);
+		draw_tree(e, end, angle - (M_PI / 8 * e->size_tree * 2), iter - 1);
+		draw_tree(e, end, angle + (M_PI / 8 * e->size_tree2 * 2), iter - 1);
+	}
+}
+
 t_pixel				randomf(t_mlx *e, int x, int y)
 {
 	double	za;
@@ -276,7 +341,8 @@ void				ft_render(t_mlx *mlx)
 		i++;
 	}
 	ft_draw_background(mlx);
-	draw_fractal(mlx);
+	//draw_fractal(mlx);
+	draw_tree(mlx, (t_point){.x = FRAC_W / 2, .y = FRAC_H}, M_PI / -2, 10);
 	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->image->image, 0, 0);
 	ft_draw_menu(mlx);
 	mlx_destroy_image(mlx->mlx, mlx->image->image);

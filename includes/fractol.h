@@ -17,6 +17,7 @@
 # include <time.h>
 # include <string.h>
 #include <pthread.h>
+#include "libft.h"
 # define WIN_WIDTH		1680
 # define WIN_HEIGHT		720
 # define MENU_WIDTH		400
@@ -59,6 +60,20 @@
 # define COLOR_SAFFRON		0xF3AF3D
 # define FPS 200
 # define THREADS 20
+
+
+typedef struct		s_line
+{
+	t_point	start;
+	t_point	end;
+	int			dx;
+	int			dy;
+	int			sx;
+	int			sy;
+	int			err;
+	int			err2;
+}					t_line;
+
 
 typedef struct		s_palette
 {
@@ -184,6 +199,8 @@ typedef struct		s_mlx
 	t_pixel *data;
 	t_fractal *fractal;
 	int nfractal;
+	int size_tree;
+	int size_tree2;
 }					t_mlx;
 
 int					ft_error(char *reason);

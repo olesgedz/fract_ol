@@ -115,6 +115,8 @@ t_mlx				*ft_init(char *title)
 	mlx->nfractal = 0;
 	mlx->fractal[mlx->nfractal].ca = 0;
 	mlx->fractal[mlx->nfractal].cb = 0;
+	mlx->size_tree = 3;
+	mlx->size_tree2 = 3;
 	return (mlx);
 }
 
