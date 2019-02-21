@@ -114,7 +114,7 @@ int			get_color(t_pixel p, t_mlx *mlx)
 {
 	if (p.i >= mlx->n)
 		return(0x000000);
-	if (mlx->smooth)
+	if (mlx->smooth && mlx->nfractal != 4)
 		return (smooth_color(mlx, p, mlx->palette + mlx->ncolor).value);
 	return (linear_color(mlx, (double)p.i, mlx->palette + mlx->ncolor).value);
 }

@@ -40,6 +40,12 @@ static void		ft_press_move(t_mlx *mlx)
 	if (mlx->keyboard->keys[L_KEY] == TRUE)
 		mlx->cam->y += 0.1;
 }
+void	ft_reset_view(t_mlx *mlx)
+{
+	mlx->cam->scale = 1;
+	mlx->cam->offsetx = 0;
+	mlx->cam->offsety = 0;
+}
 
 int				ft_handle_keys_press(int key, t_mlx *mlx)
 {
@@ -51,17 +57,18 @@ int				ft_handle_keys_press(int key, t_mlx *mlx)
 		if (mlx->ncolor > 4)
 			mlx->ncolor = 0;
 	}
-	printf("key:%d\n", key);
 	if (key == F_KEY)
 	{
 		mlx->nfractal += 1;
-		if (mlx->nfractal > 3)
+		if (mlx->nfractal > 4)
 			mlx->nfractal = 0;
 	}
 	if (key == C_KEY)
 		mlx->c =  (mlx->c == 0 ? 1 : 0);
 	if (key == M_KEY)
 		mlx->smooth = (mlx->smooth == 0 ? 1 : 0);
+	if (key == R_KEY)
+		ft_reset_view(mlx);
 	if (key == ESC_KEY)
 		exit(0);
 	ft_render(mlx);

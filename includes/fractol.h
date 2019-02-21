@@ -37,6 +37,7 @@
 # define M_KEY 46
 # define L_AR_KEY 43
 # define B_KEY 11
+# define R_KEY 15
 # define TRUE		1
 # define FALSE		0
 
@@ -207,6 +208,7 @@ t_mlx				*ft_mlxdel(t_mlx *mlx);
 void				ft_image_set_pixel(t_image *image, int x, int y, int color);
 int					ft_check_line(char *s);
 t_pixel				julia(t_mlx *mlx, int x, int y);
+t_pixel				carpet(t_mlx *e, int x, int y);
 t_pixel				mandelbrot(t_mlx *mlx, int x, int y);
 t_pixel				burningship(t_mlx *mlx, int x, int y);
 t_pixel				randomf(t_mlx *e, int x, int y);

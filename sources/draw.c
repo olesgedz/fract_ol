@@ -25,7 +25,7 @@ static int			ft_draw_menu(t_mlx *mlx)
 	mlx_string_put(mlx->mlx, mlx->window,
 		FRAC_H + 10, y, 0xFFFFFFF, "How to Use");
 	mlx_string_put(mlx->mlx, mlx->window,
-		FRAC_H + 10, y += 25, 0xFFFFFFF, "UO to zoom");
+		FRAC_H + 10, y += 25, 0xFFFFFFF, "UO to scale");
 	mlx_string_put(mlx->mlx, mlx->window,
 		FRAC_H + 10, y += 25, 0xFFFFFFF, "WASD to shift");
 	mlx_string_put(mlx->mlx, mlx->window,
@@ -40,7 +40,7 @@ static int			ft_draw_menu(t_mlx *mlx)
 		FRAC_H + 10, y += 25, 0xFFFFFFF, ft_strjoin("Number of iterations: ", s = ft_itoa(mlx->n)));
 	ft_strdel(&s);
 	mlx_string_put(mlx->mlx, mlx->window,
-		FRAC_H + 10, y += 25, 0xFFFFFFF, ft_strjoin("Zoom: ", s = ft_itoa((int)mlx->cam->scale)));
+		FRAC_H + 10, y += 25, 0xFFFFFFF, ft_strjoin("scale: ", s = ft_itoa((int)mlx->cam->scale)));
 	ft_strdel(&s);
 	mlx_string_put(mlx->mlx, mlx->window,
 		FRAC_H + 10, y += 25, 0xFFFFFFF, ft_strjoin("Fractal is: ", mlx->fractal[mlx->nfractal].name));
@@ -93,6 +93,32 @@ t_pixel				randomf(t_mlx *e, int x, int y)
 	c.r = za;
 	c.i = zb;
 	return ((t_pixel){.c = c, .i = i});
+}
+
+t_pixel	carpet(t_mlx *e, int x, int y)
+{
+	int		i;
+	t_complex c;
+
+	i = 0;
+	e->cam->scale = (e->cam->scale >= 5) ? 1.6 : e->cam->scale;
+	e->cam->scale = (e->cam->scale <= 0.6) ? 1.6 : e->cam->scale;
+	x = (x) / e->cam->scale;
+	y = (y) / e->cam->scale;
+	x = ABS(x);
+	y = ABS(y);
+	c.r = 0;
+	c.i = 0;
+	while ((x > 0 || y > 0) && i < e->n)
+	{
+		if (x % 3 == 1 && y % 3 == 1)
+			return ((t_pixel){.c = c, .i = 0});
+		x /= 3;
+		y /= 3;
+		i++;
+	}
+
+	return ((t_pixel){.c = c, .i = 20});
 }
 
 
