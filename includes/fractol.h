@@ -233,4 +233,5 @@ void				draw_fractal(t_mlx *mlx);
 t_image				*ft_new_image(t_mlx *mlx);
 t_color 			*ft_colorHextoRgb(int hex);
 int					get_color(t_pixel p, t_mlx *mlx);
+void			ft_image_set_pixel_tree(t_image *image, int x, int y, int color);
 #endif

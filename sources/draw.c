@@ -57,7 +57,7 @@ t_pixel	mandelbrot(t_mlx *e, int x, int y)
 	e->fractal[e->nfractal].ca = 1.5 * (x - FRAC_W / 2) / (0.5 * e->cam->scale * FRAC_W)
 		+ (e->cam->offsetx / FRAC_W / 1.37) - 0.5;
 	e->fractal[e->nfractal].cb = (y - FRAC_H / 2) / (0.5 * e->cam->scale * FRAC_H)
-		- (e->cam->offsetx / FRAC_H / 1.92);
+		- (e->cam->offsety / FRAC_H / 1.92);
 	za = 0;
 	zb = 0;
 	i = 0;
@@ -83,7 +83,7 @@ static int			ft_put_points(t_mlx *mlx,
 		percentage = ft_percent(l->start.x, l->end.x, p1->x);
 	else
 		percentage = ft_percent(l->start.y, l->end.y, p1->y);
-	ft_image_set_pixel(mlx->image, (int)p1->x,
+	ft_image_set_pixel_tree(mlx->image, (int)p1->x,
 	(int)p1->y, ft_get_color(mlx->palette[mlx->ncolor].colors[0], mlx->palette[mlx->ncolor].colors[1], percentage));
 	l->err2 = l->err;
 	if (l->err2 > -l->dx)
@@ -123,14 +123,11 @@ static void			ft_plotline(t_mlx *mlx, t_point p1, t_point p2)
 void		draw_tree(t_mlx *mlx, t_point start, double angle, int iter)
 {
 	t_point	end;
-	int		color;
 
 	if (iter > 0)
 	{
 		end.x = start.x + (cos(angle) * iter * 6) * mlx->cam->scale;
 		end.y = start.y + (sin(angle) * iter * 9) * mlx->cam->scale;
-		color = ((50 + 6 * iter) << 16) + ((2 * iter) << 8)
-			+ (155 - 10 * iter);
 		ft_plotline(mlx, start, end);
 		draw_tree(mlx, end, angle - (M_PI / 8 * mlx->size_tree * 2), iter - 1);
 		draw_tree(mlx, end, angle + (M_PI / 8 * mlx->size_tree2 * 2), iter - 1);
