@@ -13,6 +13,14 @@
 #include "fractol.h"
 #include "mlx.h"
 #include <stdlib.h>
+
+void ft_zoom_to_mouse(t_mlx *mlx)
+{
+	mlx->cam->scale *= 1.1;
+	mlx->cam->offsetx += (mlx->mouse->x - FRAC_W / 2)/ mlx->cam->scale / 2.51;
+	mlx->cam->offsety -= (mlx->mouse->y - FRAC_H / 2) / mlx->cam->scale/ 2.51;
+}
+
 static void		ft_press_move(t_mlx *mlx)
 {
 	if (mlx->keyboard->keys[D_KEY] == TRUE)
@@ -26,7 +34,7 @@ static void		ft_press_move(t_mlx *mlx)
 	if (mlx->keyboard->keys[U_KEY] == TRUE)
 		mlx->cam->scale /= 1.1;
 	if (mlx->keyboard->keys[O_KEY] == TRUE)
-		mlx->cam->scale  *= 1.1;
+		ft_zoom_to_mouse(mlx);
 	if (mlx->keyboard->keys[M_KEY] == TRUE)
 		mlx->cam->z -= 0.1;
 	if (mlx->keyboard->keys[L_AR_KEY] == TRUE)
@@ -90,13 +98,10 @@ int			expose_hook(t_mlx *e)
 
 int			mouse_hook(int button, int x, int y, t_mlx *mlx)
 {
-
+	mlx->mouse->x = x;
+	mlx->mouse->y = y;
 	if (button == SCROLL_UP)
-	{
-		mlx->cam->scale *= 1.1;
-		mlx->cam->offsetx += (x - FRAC_W / 2)/ mlx->cam->scale / 2.51;
-		mlx->cam->offsety -= (y - FRAC_H / 2) / mlx->cam->scale/ 2.51;
-	}
+		ft_zoom_to_mouse(mlx);
 	else if (button == SCROLL_DOWN &&  mlx->cam->scale > 0.1)
 		 mlx->cam->scale /= 1.1;
 	if (button == MOUSE_L_KEY)
