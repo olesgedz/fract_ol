@@ -77,14 +77,14 @@ t_pixel	mandelbrot(t_mlx *e, int x, int y)
 static int			ft_put_points(t_mlx *mlx,
 		t_line *l, t_point *p1, t_point *p2)
 {
-	// double percentage;
-	//
-	// if (l->dx > l->dy)
-	// 	percentage = ft_percent(l->start.x, l->end.x, p1->x);
-	// else
-	// 	percentage = ft_percent(l->start.y, l->end.y, p1->y);
+	double percentage;
+
+	if (l->dx > l->dy)
+		percentage = ft_percent(l->start.x, l->end.x, p1->x);
+	else
+		percentage = ft_percent(l->start.y, l->end.y, p1->y);
 	ft_image_set_pixel(mlx->image, (int)p1->x,
-	(int)p1->y, 0xFFFFFFF);
+	(int)p1->y, ft_get_color(mlx->palette[mlx->ncolor].colors[0], mlx->palette[mlx->ncolor].colors[1], percentage));
 	l->err2 = l->err;
 	if (l->err2 > -l->dx)
 	{
@@ -120,21 +120,20 @@ static void			ft_plotline(t_mlx *mlx, t_point p1, t_point p2)
 }
 
 
-
-void		draw_tree(t_mlx *e, t_point start, double angle, int iter)
+void		draw_tree(t_mlx *mlx, t_point start, double angle, int iter)
 {
 	t_point	end;
 	int		color;
 
 	if (iter > 0)
 	{
-		end.x = start.x + (cos(angle) * iter * 6) * e->cam->scale;
-		end.y = start.y + (sin(angle) * iter * 9) * e->cam->scale;
+		end.x = start.x + (cos(angle) * iter * 6) * mlx->cam->scale;
+		end.y = start.y + (sin(angle) * iter * 9) * mlx->cam->scale;
 		color = ((50 + 6 * iter) << 16) + ((2 * iter) << 8)
 			+ (155 - 10 * iter);
-		ft_plotline(e, start, end);
-		draw_tree(e, end, angle - (M_PI / 8 * e->size_tree * 2), iter - 1);
-		draw_tree(e, end, angle + (M_PI / 8 * e->size_tree2 * 2), iter - 1);
+		ft_plotline(mlx, start, end);
+		draw_tree(mlx, end, angle - (M_PI / 8 * mlx->size_tree * 2), iter - 1);
+		draw_tree(mlx, end, angle + (M_PI / 8 * mlx->size_tree2 * 2), iter - 1);
 	}
 }
 
@@ -315,16 +314,12 @@ void		*render_thread(void *m)
 }
 
 
-void				ft_render(t_mlx *mlx)
+
+void ft_multi_threading(t_mlx *mlx)
 {
-	int			x;
-	int			y;
-	t_vector	v;
-	t_map		*map;
 	int			i;
 	t_render	*r;
-	map = mlx->map;
-	mlx->image = ft_new_image(mlx);
+
 	i = 0;
 	r = &mlx->render;
 	while (i < THREADS)
@@ -340,9 +335,35 @@ void				ft_render(t_mlx *mlx)
 		pthread_join(r->threads[i], NULL);
 		i++;
 	}
+}
+
+void	ft_draw_switch(t_mlx *mlx)
+{
 	ft_draw_background(mlx);
-	//draw_fractal(mlx);
-	draw_tree(mlx, (t_point){.x = FRAC_W / 2, .y = FRAC_H}, M_PI / -2, 10);
+	if (mlx->nfractal != 5)
+	{
+		ft_multi_threading(mlx);
+		draw_fractal(mlx);
+	}
+	else
+	{
+		t_point start;
+		start.x = FRAC_W / 2 - (mlx->cam->offsetx * (mlx->cam->scale / 4.1));
+		start.y = FRAC_H- 20 + (mlx->cam->offsety * (mlx->cam->scale  / 1.2));
+		draw_tree(mlx, start, -(M_PI / 2), mlx->n / 5 + 1);
+	}
+}
+
+
+void				ft_render(t_mlx *mlx)
+{
+	int			x;
+	int			y;
+	t_vector	v;
+	t_map		*map;
+	map = mlx->map;
+	mlx->image = ft_new_image(mlx);
+	ft_draw_switch(mlx);
 	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->image->image, 0, 0);
 	ft_draw_menu(mlx);
 	mlx_destroy_image(mlx->mlx, mlx->image->image);

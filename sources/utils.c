@@ -70,14 +70,15 @@ t_map				*get_map(int width, int height)
 
 t_fractal	*ft_get_fractals(t_mlx *mlx)
 {
-	static t_fractal fractals[5];
+	static t_fractal fractals[FRACTAL_N];
 
 	//fractals = ft_memalloc(sizeof(t_fractal) * 3);
 	fractals[0] = (t_fractal){"Julia", julia};
 	fractals[1] = (t_fractal){"Mandelbrot", mandelbrot};
 	fractals[2] = (t_fractal){"Burningship", burningship};
 	fractals[3] = (t_fractal){"Random#1", randomf};
-	fractals[4] = (t_fractal){"Sierpinski carpet", carpet};
+	fractals[4] = (t_fractal){"Sierpinski Carpet", carpet};
+	fractals[5] = (t_fractal){"Fractal Tree", NULL};
 	return (fractals);
 }
 
@@ -115,8 +116,8 @@ t_mlx				*ft_init(char *title)
 	mlx->nfractal = 0;
 	mlx->fractal[mlx->nfractal].ca = 0;
 	mlx->fractal[mlx->nfractal].cb = 0;
-	mlx->size_tree = 3;
-	mlx->size_tree2 = 3;
+	mlx->size_tree = 1;
+	mlx->size_tree2 = 1;
 	return (mlx);
 }
 

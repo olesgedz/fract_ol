@@ -32,13 +32,21 @@ int			ft_mouse_move(int x, int y, t_mlx *mlx)
 		mlx->cam->offsety -= -(y - mlx->mouse->lasty) * 4 / mlx->cam->scale;
 		ft_render(mlx);
 	}
-	if(((FPS) * (clock() - mlx->clock_prg)) / CLOCKS_PER_SEC > 1 && mlx->c )
+	if(((FPS) * (clock() - mlx->clock_prg)) / CLOCKS_PER_SEC > 1 && mlx->c
+	&& mlx->nfractal !=  FRACTAL_N - 1)
 	{
 		mlx->clock_prg = clock();
 		x -= WIN_WIDTH / 2;
 		y -= WIN_HEIGHT / 2;
 		mlx->fractal[mlx->nfractal].ca  = ((float)x / WIN_WIDTH) * 2;
 		mlx->fractal[mlx->nfractal].cb = ((float)y / WIN_HEIGHT) * 2;
+		ft_render(mlx);
+	}
+	else if (((950) * (clock() - mlx->clock_prg)) / CLOCKS_PER_SEC > 1 && mlx->c)
+	{
+		mlx->clock_prg = clock();
+		mlx->size_tree = (float)y / FRAC_H;
+		mlx->size_tree2 = (float)x / FRAC_W;
 		ft_render(mlx);
 	}
 	return (0);

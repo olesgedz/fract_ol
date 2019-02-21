@@ -60,8 +60,7 @@
 # define COLOR_SAFFRON		0xF3AF3D
 # define FPS 200
 # define THREADS 20
-
-
+# define FRACTAL_N 6
 typedef struct		s_line
 {
 	t_point	start;
@@ -199,8 +198,8 @@ typedef struct		s_mlx
 	t_pixel *data;
 	t_fractal *fractal;
 	int nfractal;
-	int size_tree;
-	int size_tree2;
+	float size_tree;
+	float size_tree2;
 }					t_mlx;
 
 int					ft_error(char *reason);
@@ -229,6 +228,7 @@ t_pixel				carpet(t_mlx *e, int x, int y);
 t_pixel				mandelbrot(t_mlx *mlx, int x, int y);
 t_pixel				burningship(t_mlx *mlx, int x, int y);
 t_pixel				randomf(t_mlx *e, int x, int y);
+void				draw_tree(t_mlx *mlx, t_point start, double angle, int iter);
 void				draw_fractal(t_mlx *mlx);
 t_image				*ft_new_image(t_mlx *mlx);
 t_color 			*ft_colorHextoRgb(int hex);
