@@ -384,6 +384,46 @@ void ft_draw_right_arr(t_mlx *mlx, t_button *button)
 }
 
 
+float sign (t_point *p1, t_point *p2, t_point *p3)
+{
+    return (p1->x - p3->x) * (p2->y - p3->y) - (p2->x - p3->x) * (p1->y - p3->y);
+}
+
+int  PointInTriangle (t_point *pt, t_point *v1, t_point *v2, t_point *v3)
+{
+    float d1, d2, d3;
+    int has_neg, has_pos;
+
+    d1 = sign(pt, v1, v2);
+    d2 = sign(pt, v2, v3);
+    d3 = sign(pt, v3, v1);
+
+    has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
+    has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
+
+    return !(has_neg && has_pos);
+}
+
+void ft_draw_tr(t_mlx *mlx, t_button *button)
+{
+	int y;
+	int x;
+
+	y = button->position.y;
+	while (y < button->position.y + button->height)
+	{
+		x = button->position.x;
+		while(x < button->position.x + button->width)
+		{
+			if	(PointInTriangle(&((t_point){x, y}), &((t_point){button->position.x + 0, button->position.y + 0}),
+			 &((t_point){button->position.x + 25, button->position.y + 25}), &((t_point){button->position.x, button->position.y + 50})))
+				ft_image_set_pixel(mlx->image, x, y, button->color);
+			x++;
+		}
+		y++;
+	}
+}
+
 void ft_draw_buttons(t_mlx *mlx)
 {
 	int i;
@@ -391,7 +431,8 @@ void ft_draw_buttons(t_mlx *mlx)
 	i = 0;
 	while(i < BUTTONS_N)
 	{
-		ft_draw_right_arr(mlx, mlx->buttons + i);
+		ft_draw_tr(mlx, mlx->buttons + i);
+		//ft_draw_right_arr(mlx, mlx->buttons + i);
 		i++;
 	}
 
