@@ -351,41 +351,47 @@ void	ft_draw_switch(t_mlx *mlx)
 	}
 }
 
+void ft_draw_right_arr(t_mlx *mlx, t_button *button)
+{
+	int y;
+	int x;
+	int d;
+
+	y = button->position.y;
+	d =  button->width;
+	while (y < button->position.y + button->height / 2)
+	{
+		x = button->position.x;
+		while(x < button->position.x + button->width - d)
+		{
+			ft_image_set_pixel(mlx->image, x, y, button->color);
+			x++;
+		}
+		d-=2;
+		y++;
+	}
+	while (y < button->position.y + button->height)
+	{
+		x = button->position.x;
+		while(x < button->position.x + button->width - d)
+		{
+			ft_image_set_pixel(mlx->image, x, y, button->color);
+			x++;
+		}
+		d+=2;
+		y++;
+	}
+}
 
 
 void ft_draw_buttons(t_mlx *mlx)
 {
-	int y;
-	int x;
 	int i;
-	int d ;
+
 	i = 0;
 	while(i < BUTTONS_N)
 	{
-		y = mlx->buttons[i].position.y;
-		d =  mlx->buttons[i].width;
-		while (y < mlx->buttons[i].position.y + mlx->buttons[i].height / 2)
-		{
-			x = mlx->buttons[i].position.x;
-			while(x < mlx->buttons[i].position.x + mlx->buttons[i].width - d)
-			{
-				ft_image_set_pixel(mlx->image, x, y, mlx->buttons[i].color);
-				x++;
-			}
-			d-=2;
-			y++;
-		}
-		while (y < mlx->buttons[i].position.y + mlx->buttons[i].height)
-		{
-			x = mlx->buttons[i].position.x;
-			while(x < mlx->buttons[i].position.x + mlx->buttons[i].width - d)
-			{
-				ft_image_set_pixel(mlx->image, x, y, mlx->buttons[i].color);
-				x++;
-			}
-			d+=2;
-			y++;
-		}
+		ft_draw_right_arr(mlx, mlx->buttons + i);
 		i++;
 	}
 
