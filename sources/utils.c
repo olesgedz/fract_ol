@@ -82,6 +82,13 @@ t_fractal	*ft_get_fractals(t_mlx *mlx)
 	return (fractals);
 }
 
+t_button *ft_get_buttons()
+{
+	static t_button buttons[5];
+	buttons[0] = {100, 100}, 50, 50, 0xFF0000};
+}
+
+
 t_mlx				*ft_init(char *title)
 {
 	t_mlx	*mlx;
@@ -107,7 +114,7 @@ t_mlx				*ft_init(char *title)
 	mlx->palette = get_palettes();
 	mlx->data = ft_memalloc(sizeof(t_pixel) * WIN_WIDTH * WIN_HEIGHT);
 	//mlx->pixel = ft_memalloc(sizeof(t_pixel));
-	//mlx->color = ft_colorHextoRgb(mlx->colors[mlx->ncolor]);
+	mlx->buttons = ft_get_buttons();
 	mlx->smooth = 1;
 	mlx->clock_prg = clock();
 	mlx->cam->offsetx = 0;//(WIN_WIDTH - MENU_WIDTH) / 2;

@@ -175,6 +175,15 @@ typedef struct		s_fractal
 	double			ca;
 	double			cb;
 }					t_fractal;
+
+typedef struct s_button
+{
+	t_point position;
+	int width;
+	int height;
+	int color;
+} t_button;
+
 typedef struct		s_mlx
 {
 	void		*mlx;
@@ -185,6 +194,7 @@ typedef struct		s_mlx
 	t_mouse		*mouse;
 	t_keyboard	*keyboard;
 	double		**zbuf;
+	t_button    *buttons;
 	clock_t clock_prg;
 	int c;
 	int n;

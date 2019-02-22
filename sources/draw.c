@@ -352,6 +352,33 @@ void	ft_draw_switch(t_mlx *mlx)
 }
 
 
+void ft_button_is_pressed ()
+{
+
+}
+
+void ft_draw_buttons(t_mlx *mlx)
+{
+
+
+	t_button next = {{100, 100}, 50, 50, 0xFF0000};
+	int y = next.position.y;
+	int x = next.position.x;
+	while (y < next.position.y + next.height)
+	{
+		x = next.position.x;
+		while(x < next.position.x + next.width)
+		{
+			ft_image_set_pixel(mlx->image, x, y, next.color);
+			x++;
+		}
+		y++;
+	}
+
+}
+
+
+
 void				ft_render(t_mlx *mlx)
 {
 	int			x;
@@ -361,6 +388,7 @@ void				ft_render(t_mlx *mlx)
 	map = mlx->map;
 	mlx->image = ft_new_image(mlx);
 	ft_draw_switch(mlx);
+	ft_draw_buttons(mlx);
 	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->image->image, 0, 0);
 	ft_draw_menu(mlx);
 	mlx_destroy_image(mlx->mlx, mlx->image->image);
