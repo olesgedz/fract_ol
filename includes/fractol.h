@@ -61,6 +61,7 @@
 # define FPS 200
 # define THREADS 20
 # define FRACTAL_N 6
+# define BUTTONS_N 2
 typedef struct		s_line
 {
 	t_point	start;
@@ -176,12 +177,14 @@ typedef struct		s_fractal
 	double			cb;
 }					t_fractal;
 
+typedef void	(*t_pressed)(t_mlx *mlx);
 typedef struct s_button
 {
 	t_point position;
 	int width;
 	int height;
 	int color;
+	t_pressed pressed;
 } t_button;
 
 typedef struct		s_mlx

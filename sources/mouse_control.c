@@ -26,6 +26,7 @@ int			ft_mouse_move(int x, int y, t_mlx *mlx)
 	mlx->mouse->lasty = mlx->mouse->y;
 	mlx->mouse->x = x;
 	mlx->mouse->y = y;
+	printf("x:%d y:%d\n", x, y);
 	if (mlx->mouse->isdown == TRUE)
 	{
 		mlx->cam->offsetx -= (x - mlx->mouse->lastx) * 4 / mlx->cam->scale;

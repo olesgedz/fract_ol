@@ -96,6 +96,34 @@ int			expose_hook(t_mlx *e)
 	return (0);
 }
 
+int ft_range_search(t_button *button, t_point *mouse)
+{
+	if (button->position.x <= mouse->x && mouse->x <= (button->position.x + button->width))
+		if (button->position.y <= mouse->y && mouse->y <= (button->position.y + button->height))
+			return (1);
+	return (0);
+}
+
+void ft_button_is_pressed(t_mlx *mlx, t_button *button)
+{
+	if (mlx->mouse->isdown &&
+		ft_range_search(button, &((t_point){mlx->mouse->x, mlx->mouse->y})))
+	{
+		button->pressed(mlx);
+		ft_render(mlx);
+	}
+}
+
+void	ft_handle_buttons(t_mlx *mlx)
+{
+	int i;
+
+	i = 0;
+	mlx->mouse->isdown = TRUE;
+	while (i < BUTTONS_N)
+		ft_button_is_pressed(mlx, &mlx->buttons[i++]);
+}
+
 int			mouse_hook(int button, int x, int y, t_mlx *mlx)
 {
 	mlx->mouse->x = x;
@@ -105,7 +133,7 @@ int			mouse_hook(int button, int x, int y, t_mlx *mlx)
 	else if (button == SCROLL_DOWN &&  mlx->cam->scale > 0.1)
 		 mlx->cam->scale /= 1.1;
 	if (button == MOUSE_L_KEY)
-		mlx->mouse->isdown = TRUE;
+		ft_handle_buttons(mlx);
 	if (button == SCROLL_UP || button == SCROLL_DOWN)
 		ft_render(mlx);
 	return (0);

@@ -352,31 +352,44 @@ void	ft_draw_switch(t_mlx *mlx)
 }
 
 
-void ft_button_is_pressed ()
-{
-
-}
 
 void ft_draw_buttons(t_mlx *mlx)
 {
-
-
-	t_button next = {{100, 100}, 50, 50, 0xFF0000};
-	int y = next.position.y;
-	int x = next.position.x;
-	while (y < next.position.y + next.height)
+	int y;
+	int x;
+	int i;
+	int d ;
+	i = 0;
+	while(i < BUTTONS_N)
 	{
-		x = next.position.x;
-		while(x < next.position.x + next.width)
+		y = mlx->buttons[i].position.y;
+		d =  mlx->buttons[i].width;
+		while (y < mlx->buttons[i].position.y + mlx->buttons[i].height / 2)
 		{
-			ft_image_set_pixel(mlx->image, x, y, next.color);
-			x++;
+			x = mlx->buttons[i].position.x;
+			while(x < mlx->buttons[i].position.x + mlx->buttons[i].width - d)
+			{
+				ft_image_set_pixel(mlx->image, x, y, mlx->buttons[i].color);
+				x++;
+			}
+			d-=2;
+			y++;
 		}
-		y++;
+		while (y < mlx->buttons[i].position.y + mlx->buttons[i].height)
+		{
+			x = mlx->buttons[i].position.x;
+			while(x < mlx->buttons[i].position.x + mlx->buttons[i].width - d)
+			{
+				ft_image_set_pixel(mlx->image, x, y, mlx->buttons[i].color);
+				x++;
+			}
+			d+=2;
+			y++;
+		}
+		i++;
 	}
 
 }
-
 
 
 void				ft_render(t_mlx *mlx)

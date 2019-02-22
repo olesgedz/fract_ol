@@ -82,10 +82,27 @@ t_fractal	*ft_get_fractals(t_mlx *mlx)
 	return (fractals);
 }
 
+void	ft_next_fractal(t_mlx *mlx)
+{
+	mlx->nfractal += 1;
+	if (mlx->nfractal > FRACTAL_N - 1)
+		mlx->nfractal = 0;
+}
+
+void	ft_previous_fractal(t_mlx *mlx)
+{
+	mlx->nfractal -= 1;
+	if (mlx->nfractal < 0)
+		mlx->nfractal = FRACTAL_N - 1;
+}
+
+
 t_button *ft_get_buttons()
 {
-	static t_button buttons[5];
-	buttons[0] = {100, 100}, 50, 50, 0xFF0000};
+	static t_button buttons[BUTTONS_N];
+	buttons[0] = (t_button){{910, 217}, 50, 50, 0xFF0000, ft_next_fractal};
+	buttons[1] = (t_button){{200, 100}, 50, 50, 0xFF0000, ft_previous_fractal};
+	return (buttons);
 }
 
 
