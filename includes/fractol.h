@@ -62,6 +62,8 @@
 # define THREADS 20
 # define FRACTAL_N 6
 # define BUTTONS_N 2
+#define CHAR_HEIGHT 100
+#define CHAR_WIDTH 100
 typedef struct		s_line
 {
 	t_point	start;
@@ -178,14 +180,24 @@ typedef struct		s_fractal
 }					t_fractal;
 
 typedef void	(*t_pressed)(t_mlx *mlx);
+
+typedef struct s_triangle
+{
+	t_point p1;
+	t_point p2;
+	t_point p3;
+	int color;
+} t_triangle;
+
 typedef struct s_button
 {
 	t_point position;
 	int width;
 	int height;
-	int color;
 	t_pressed pressed;
+	t_triangle *figures;
 } t_button;
+
 
 typedef struct		s_mlx
 {

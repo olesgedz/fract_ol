@@ -14,7 +14,7 @@
 #include "libft.h"
 #include "mlx.h"
 #include "fractol.h"
-
+#include <stdlib.h>
 t_image		*ft_new_image(t_mlx *mlx)
 {
 	t_image		*img;
@@ -96,15 +96,31 @@ void	ft_previous_fractal(t_mlx *mlx)
 		mlx->nfractal = FRACTAL_N - 1;
 }
 
+t_triangle *ft_get_triangles(t_triangle *tr1, t_triangle *tr2, t_triangle *tr3)
+{
+	t_triangle *figures;
+
+	figures = malloc(sizeof(t_triangle) * 3);
+	figures[0] = *tr1;
+	figures[1] = *tr2;
+	figures[2] = *tr3;
+	return (figures);
+}
+
 
 t_button *ft_get_buttons()
 {
 	static t_button buttons[BUTTONS_N];
-	buttons[0] = (t_button){{910, 217}, 50, 50, 0xFF0000, ft_next_fractal};
-	buttons[1] = (t_button){{200, 100}, 50, 50, 0xFF0000, ft_previous_fractal};
+	buttons[0] = (t_button){{910, 217}, 50, 50, ft_next_fractal,
+		ft_get_triangles(&((t_triangle ){{0, 0},{50, 25},{0, 50}, 0xFFFF00}),
+		&((t_triangle ){{0, 10},{40, 25},{0, 40}, 0xFF6666}),
+		&((t_triangle ){{0, 10},{25, 25},{0, 40}, MENU_BACKGROUND}))};
+	buttons[1] = (t_button){{750, 217}, 50, 50, ft_previous_fractal,
+		ft_get_triangles(&((t_triangle ){{50, 0},{0, 25},{50, 50}, 0xFFFF00}),
+		&((t_triangle ){{50, 10},{10, 25},{50, 40}, 0xFF6666}),
+		&((t_triangle ){{50, 10},{25, 25},{50, 40}, MENU_BACKGROUND}))};
 	return (buttons);
 }
-
 
 t_mlx				*ft_init(char *title)
 {
