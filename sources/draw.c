@@ -17,6 +17,14 @@
 #include <pthread.h>
 #include <stdio.h>
 
+
+char *ft_strchnew(size_t n, char c)
+{
+	char *str;
+
+	str = ft_memset(ft_strnew(n), c, n);
+	return(str);
+}
 static int			ft_draw_menu(t_mlx *mlx)
 {
 	int		y;
@@ -43,7 +51,9 @@ static int			ft_draw_menu(t_mlx *mlx)
 		FRAC_H + 10, y += 25, 0xFFFFFFF, ft_strjoin("scale: ", s = ft_itoa((int)mlx->cam->scale)));
 	ft_strdel(&s);
 	mlx_string_put(mlx->mlx, mlx->window,
-		FRAC_H + 120, y += 25, 0xFFFFFFF, mlx->fractal[mlx->nfractal].name);
+		FRAC_H + 120, y += 35, 0xFFFFFFF, s = ft_strjoin(ft_strchnew(((18 - ft_strlen(mlx->fractal[mlx->nfractal].name)) / 2), ' '),
+		 mlx->fractal[mlx->nfractal].name));
+	ft_strdel(&s);
 	return (0);
 }
 
