@@ -3,12 +3,13 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vbrazhni <vbrazhni@student.42.fr>          +#+  +:+       +#+         #
+#    By: olesgedz <olesgedz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2018/07/05 13:39:23 by vbrazhni          #+#    #+#              #
-#    Updated: 2019/02/17 20:01:41 by jblack-b         ###   ########.fr        #
+#    Created: 2019/02/24 02:23:30 by olesgedz          #+#    #+#              #
+#    Updated: 2019/02/24 02:23:31 by olesgedz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 NAME = fractol
 
