@@ -25,6 +25,7 @@ char *ft_strchnew(size_t n, char c)
 	str = ft_memset(ft_strnew(n), c, n);
 	return(str);
 }
+
 static int			ft_draw_menu(t_mlx *mlx)
 {
 	int		y;
@@ -414,7 +415,7 @@ int  PointInTriangle (t_point *pt, t_point *v1, t_point *v2, t_point *v3)
     return !(has_neg && has_pos);
 }
 
-void ft_draw_tr(t_mlx *mlx, t_button *button, t_triangle *triangle)
+void ft_draw_tr(t_mlx *mlx, t_button *button, t_figure *triangle)
 {
 	int y;
 	int x;
@@ -425,9 +426,9 @@ void ft_draw_tr(t_mlx *mlx, t_button *button, t_triangle *triangle)
 		x = button->position.x;
 		while(x < button->position.x + button->width)
 		{
-			if	(PointInTriangle(&((t_point){x, y}), &((t_point){button->position.x + triangle->p1.x, button->position.y + triangle->p1.y}),
-			 &((t_point){button->position.x + triangle->p2.x, button->position.y + triangle->p2.y}),
-			  &((t_point){button->position.x + triangle->p3.x, button->position.y  + triangle->p3.y})))
+			if	(PointInTriangle(&((t_point){x, y}), &((t_point){button->position.x + triangle->p[0].x, button->position.y + triangle->p[0].y}),
+			 &((t_point){button->position.x + triangle->p[1].x, button->position.y + triangle->p[1].y}),
+			  &((t_point){button->position.x + triangle->p[2].x, button->position.y  + triangle->p[2].y})))
 				ft_image_set_pixel(mlx->image, x, y, triangle->color);
 			x++;
 		}
@@ -442,7 +443,7 @@ void	ft_draw_onebutton(t_mlx *mlx, t_button *button)
 	//printf("%d\n",button->figures->p2.x);
 	while (i < 3)
 	{
-		ft_draw_tr(mlx, button, button->figures + i);
+		button->figures[i].draw(mlx, button, button->figures + i);
 		i++;
 	}
 		//

@@ -169,12 +169,12 @@ typedef struct		s_render
 	t_thread		args[THREADS];
 }					t_render;
 
-typedef t_pixel		(*t_func)(t_mlx *mlx, int x, int y);
+typedef t_pixel		(*f_pixel)(t_mlx *mlx, int x, int y);
 
 typedef struct		s_fractal
 {
 	char		*name;
-	t_func	pixel;
+	f_pixel	pixel;
 	double			ca;
 	double			cb;
 }					t_fractal;
@@ -189,13 +189,24 @@ typedef struct s_triangle
 	int color;
 } t_triangle;
 
+typedef  struct s_figure t_figure;
+typedef  struct s_button t_button;
+typedef void		(*f_draw)(t_mlx *mlx, t_button *button, t_figure *figure);
+
+typedef struct s_figure
+{
+	t_point *p;
+	int color;
+	f_draw draw;
+}	t_figure;
+
 typedef struct s_button
 {
 	t_point position;
 	int width;
 	int height;
 	t_pressed pressed;
-	t_triangle *figures;
+	t_figure *figures;
 } t_button;
 
 
@@ -258,5 +269,6 @@ void				draw_fractal(t_mlx *mlx);
 t_image				*ft_new_image(t_mlx *mlx);
 t_color 			*ft_colorHextoRgb(int hex);
 int					get_color(t_pixel p, t_mlx *mlx);
+void ft_draw_tr(t_mlx *mlx, t_button *button, t_figure *triangle);
 void			ft_image_set_pixel_tree(t_image *image, int x, int y, int color);
 #endif
