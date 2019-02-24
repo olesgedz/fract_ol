@@ -149,7 +149,7 @@ t_button *ft_get_buttons()
 		ft_get_figures(&((t_figure){ft_get_points(&((t_point){0, 0}),&((t_point){50, 25}), &((t_point){0, 50}), &((t_point){0, 0})), 0xFFFF00, ft_draw_tr}),
 			&((t_figure){ft_get_points(&((t_point){0, 10}),&((t_point){40, 25}),&((t_point){0, 40}), &((t_point){0, 0})), 0xFF6666, ft_draw_tr}),
 			&((t_figure ){ft_get_points(&((t_point){0, 10}),&((t_point){25, 25}),&((t_point){0, 40}), &((t_point){0, 0})), MENU_BACKGROUND, ft_draw_tr}))};
-	buttons[2] = (t_button){{500, 227}, 50, 50, ft_switch_smoothing,
+	buttons[2] = (t_button){{1050, 327}, 50, 50, ft_switch_color,
 		ft_get_figures(&((t_figure){ft_get_points(&((t_point){25, 25}),&((t_point){25, 25}), &((t_point){0, 50}), &((t_point){0, 0})), 0xFFFF00, ft_draw_cr}),
 			&((t_figure){ft_get_points(&((t_point){0, 0}),&((t_point){0, 0}),&((t_point){0, 0}), &((t_point){0, 0})), 0xFF6666, NULL}),
 			&((t_figure ){ft_get_points(&((t_point){0, 0}),&((t_point){0, 0}),&((t_point){0, 0}), &((t_point){0, 0})), MENU_BACKGROUND, NULL}))};
