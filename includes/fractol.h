@@ -61,7 +61,7 @@
 # define FPS 200
 # define THREADS 20
 # define FRACTAL_N 6
-# define BUTTONS_N 2
+# define BUTTONS_N 3
 #define CHAR_HEIGHT 100
 #define CHAR_WIDTH 100
 typedef struct		s_line
@@ -173,8 +173,8 @@ typedef t_pixel		(*f_pixel)(t_mlx *mlx, int x, int y);
 
 typedef struct		s_fractal
 {
-	char		*name;
-	f_pixel	pixel;
+	char			*name;
+	f_pixel			pixel;
 	double			ca;
 	double			cb;
 }					t_fractal;
@@ -270,5 +270,11 @@ t_image				*ft_new_image(t_mlx *mlx);
 t_color 			*ft_colorHextoRgb(int hex);
 int					get_color(t_pixel p, t_mlx *mlx);
 void ft_draw_tr(t_mlx *mlx, t_button *button, t_figure *triangle);
+void ft_draw_cr(t_mlx *mlx, t_button *button, t_figure *circle);
 void			ft_image_set_pixel_tree(t_image *image, int x, int y, int color);
+void ft_draw_not(t_mlx *mlx, t_button *button, t_figure *circle);
+void	ft_mouse_parameters_switch(t_mlx *mlx);
+void	ft_switch_color(t_mlx *mlx);
+void	ft_next_fractal(t_mlx *mlx);
+void	ft_switch_smoothing(t_mlx *mlx);
 #endif

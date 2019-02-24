@@ -96,6 +96,25 @@ void	ft_previous_fractal(t_mlx *mlx)
 		mlx->nfractal = FRACTAL_N - 1;
 }
 
+void	ft_switch_smoothing(t_mlx *mlx)
+{
+		mlx->smooth = (mlx->smooth == 0 ? 1 : 0);
+}
+
+
+void	ft_mouse_parameters_switch(t_mlx *mlx)
+{
+	mlx->c =  (mlx->c == 0 ? 1 : 0);
+}
+
+void	ft_switch_color(t_mlx *mlx)
+{
+	mlx->ncolor += 1;
+	if (mlx->ncolor > 4)
+		mlx->ncolor = 0;
+}
+
+
 t_figure *ft_get_figures(t_figure *f1, t_figure *f2, t_figure *f3)
 {
 	t_figure *figures;
@@ -130,6 +149,10 @@ t_button *ft_get_buttons()
 		ft_get_figures(&((t_figure){ft_get_points(&((t_point){0, 0}),&((t_point){50, 25}), &((t_point){0, 50}), &((t_point){0, 0})), 0xFFFF00, ft_draw_tr}),
 			&((t_figure){ft_get_points(&((t_point){0, 10}),&((t_point){40, 25}),&((t_point){0, 40}), &((t_point){0, 0})), 0xFF6666, ft_draw_tr}),
 			&((t_figure ){ft_get_points(&((t_point){0, 10}),&((t_point){25, 25}),&((t_point){0, 40}), &((t_point){0, 0})), MENU_BACKGROUND, ft_draw_tr}))};
+	buttons[2] = (t_button){{500, 227}, 50, 50, ft_switch_smoothing,
+		ft_get_figures(&((t_figure){ft_get_points(&((t_point){25, 25}),&((t_point){25, 25}), &((t_point){0, 50}), &((t_point){0, 0})), 0xFFFF00, ft_draw_cr}),
+			&((t_figure){ft_get_points(&((t_point){0, 0}),&((t_point){0, 0}),&((t_point){0, 0}), &((t_point){0, 0})), 0xFF6666, NULL}),
+			&((t_figure ){ft_get_points(&((t_point){0, 0}),&((t_point){0, 0}),&((t_point){0, 0}), &((t_point){0, 0})), MENU_BACKGROUND, NULL}))};
 
 	return (buttons);
 }
