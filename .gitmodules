@@ -1,0 +1,3 @@
+[submodule "mlxlib"]
+	path = mlxlib
+	url = https://github.com/olesgedz/mlxlib.git

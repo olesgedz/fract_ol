@@ -6,7 +6,7 @@
 #    By: olesgedz <olesgedz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/24 02:23:30 by olesgedz          #+#    #+#              #
-#    Updated: 2019/02/24 02:23:31 by olesgedz         ###   ########.fr        #
+#    Updated: 2019/02/25 02:35:43 by olesgedz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,32 +15,28 @@ NAME = fractol
 
 CC = gcc
 FLAGS = -O3
-LIBRARIES = -lmlx -lm -lft -L$(LIBFT_DIRECTORY) -L$(MINILIBX_DIRECTORY) -framework OpenGL -framework AppKit
-INCLUDES = -I$(HEADERS_DIRECTORY) -I$(LIBFT_HEADERS) -I$(MINILIBX_HEADERS)
+LIBRARIES = -lft  ./mlxlib/mlxlib.a -lmlx -L$(MLXLIB_DIRECTORY) -L$(LIBFT_DIRECTORY) -L$(MINILIBX_DIRECTORY) -framework OpenGL -framework AppKit
+INCLUDES = -I$(HEADERS_DIRECTORY) -I$(LIBFT_HEADERS) -I$(MINILIBX_HEADERS) -I$(MLXLIB_HEADERS)
 
 LIBFT = $(LIBFT_DIRECTORY)libft.a
-LIBFT_DIRECTORY = ./libft/
+LIBFT_DIRECTORY = ./mlxlib/libft/
 LIBFT_HEADERS = $(LIBFT_DIRECTORY)includes/
 
 MINILIBX = $(MINILIBX_DIRECTORY)libmlx.a
-MINILIBX_DIRECTORY = ./minilibx_macos/
+MINILIBX_DIRECTORY = ./mlxlib/minilibx_macos/
 MINILIBX_HEADERS = $(MINILIBX_DIRECTORY)
+
+MLXLIB = $(MLXLIB_DIRECTORY)mlxlib.a
+MLXLIB_DIRECTORY = ./mlxlib/
+MLXLIB_HEADERS = $(MLXLIB_DIRECTORY)includes/
 
 HEADERS_LIST = fractol.h
 HEADERS_DIRECTORY = ./includes/
 HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 
 SOURCES_DIRECTORY = sources/
-SOURCES_LIST = main.c\
-	cleanup.c\
-	color.c\
-	control.c\
-	draw.c\
-	mouse_control.c\
-	pixel.c\
-	read.c\
-	transform.c\
-	utils.c\
+SOURCES_LIST = main.c
+
 
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 
@@ -58,8 +54,8 @@ RESET = \033[0m
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(MINILIBX) $(OBJECTS_DIRECTORY) $(OBJECTS)
-	@$(CC) $(FLAGS) $(LIBRARIES) $(INCLUDES) $(OBJECTS) -o $(NAME)
+$(NAME): $(MLXLIB) $(OBJECTS_DIRECTORY) $(OBJECTS)
+	$(CC) $(FLAGS) $(LIBRARIES) $(INCLUDES) $(OBJECTS) -o $(NAME)
 	@echo "\n$(NAME): $(GREEN)object files were created$(RESET)"
 	@echo "$(NAME): $(GREEN)$(NAME) was created$(RESET)"
 
@@ -70,6 +66,10 @@ $(OBJECTS_DIRECTORY):
 $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)
 	@$(CC) $(FLAGS) -c $(INCLUDES) $< -o $@
 	@echo "$(GREEN).$(RESET)\c"
+
+$(MLXLIB):
+	@echo  "$(NAME): $(GREEN)Creating $(MLXLIB)...$(RESET)"
+	@$(MAKE) -sC $(MLXLIB_DIRECTORY)
 
 $(LIBFT):
 	@echo "$(NAME): $(GREEN)Creating $(LIBFT)...$(RESET)"
@@ -87,10 +87,8 @@ clean:
 	@echo "$(NAME): $(RED)object files were deleted$(RESET)"
 
 fclean: clean
-	@rm -f $(MINILIBX)
-	@echo "$(NAME): $(RED)$(MINILIBX) was deleted$(RESET)"
-	@rm -f $(LIBFT)
-	@echo "$(NAME): $(RED)$(LIBFT) was deleted$(RESET)"
+	@rm -f $(MLXLIB)
+	@echo "$(NAME): $(RED)$(MLXLIB) was deleted$(RESET)"
 	@rm -f $(NAME)
 	@echo "$(NAME): $(RED)$(NAME) was deleted$(RESET)"
 

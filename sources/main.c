@@ -6,14 +6,15 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 17:14:14 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/12 19:26:16 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/25 02:23:49 by olesgedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
-#include "fractol.h"
+ #include "libft.h"
+// #include "fractol.h"
 #include "mlx.h"
-#include "libft.h"
+#include "mlxlib.h"
 
 int		main(int argc, char **argv)
 {
