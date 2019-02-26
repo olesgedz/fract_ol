@@ -6,7 +6,7 @@
 #    By: olesgedz <olesgedz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/24 02:23:30 by olesgedz          #+#    #+#              #
-#    Updated: 2019/02/26 21:23:01 by jblack-b         ###   ########.fr        #
+#    Updated: 2019/02/26 21:36:18 by jblack-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ SOURCES_DIRECTORY = sources/
 SOURCES_LIST = main.c \
 cleanup.c color.c control.c draw.c mouse_control.c\
 utils.c julia.c burningship.c carpet.c mandelbrot.c\
-randomf.c
+randomf.c action_func.c
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 
 OBJECTS_DIRECTORY = objects/

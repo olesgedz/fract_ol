@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:29 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/26 21:22:47 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/26 21:35:15 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,6 @@
 #include "fractol.h"
 #include <stdlib.h>
 
-t_image		*ft_new_image(t_mlx *mlx)
-{
-	t_image		*img;
-
-	if ((img = ft_memalloc(sizeof(t_image))) == NULL)
-		return (NULL);
-	if ((img->image = mlx_new_image(mlx->mlx, WIN_WIDTH, WIN_HEIGHT)) == NULL)
-		return (ft_del_image(mlx, img));
-	img->ptr = mlx_get_data_addr(img->image, &img->bpp, &img->stride,
-			&img->endian);
-	img->bpp /= 8;
-	return (img);
-}
 
 t_palette	*get_palettes(void)
 {
@@ -62,38 +49,6 @@ t_fractal	*ft_get_fractals(t_mlx *mlx)
 	fractals[4] = (t_fractal){"Sierpinski Carpet", carpet};
 	fractals[5] = (t_fractal){"Fractal Tree", NULL};
 	return (fractals);
-}
-
-void	ft_next_fractal(t_mlx *mlx)
-{
-	mlx->nfractal += 1;
-	if (mlx->nfractal > FRACTAL_N - 1)
-		mlx->nfractal = 0;
-}
-
-void	ft_previous_fractal(t_mlx *mlx)
-{
-	mlx->nfractal -= 1;
-	if (mlx->nfractal < 0)
-		mlx->nfractal = FRACTAL_N - 1;
-}
-
-void	ft_switch_smoothing(t_mlx *mlx)
-{
-		mlx->smooth = (mlx->smooth == 0 ? 1 : 0);
-}
-
-
-void	ft_mouse_parameters_switch(t_mlx *mlx)
-{
-	mlx->c =  (mlx->c == 0 ? 1 : 0);
-}
-
-void	ft_switch_color(t_mlx *mlx)
-{
-	mlx->ncolor += 1;
-	if (mlx->ncolor > 4)
-		mlx->ncolor = 0;
 }
 
 
