@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:29 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/26 19:40:13 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/26 20:11:30 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 #include "libft.h"
 #include "mlx.h"
 #include "mlxlib.h"
+#include "fractol.h"
 #include <stdlib.h>
+
 t_image		*ft_new_image(t_mlx *mlx)
 {
 	t_image		*img;
@@ -53,7 +55,6 @@ t_fractal	*ft_get_fractals(t_mlx *mlx)
 {
 	static t_fractal fractals[FRACTAL_N];
 
-	//fractals = ft_memalloc(sizeof(t_fractal) * 3);
 	fractals[0] = (t_fractal){"Julia", julia};
 	fractals[1] = (t_fractal){"Mandelbrot", mandelbrot};
 	fractals[2] = (t_fractal){"Burningship", burningship};
@@ -164,12 +165,11 @@ t_mlx				*ft_init(char *title)
 	mlx->n = 32;
 	mlx->palette = get_palettes();
 	mlx->data = ft_memalloc(sizeof(t_pixel) * WIN_WIDTH * WIN_HEIGHT);
-	//mlx->pixel = ft_memalloc(sizeof(t_pixel));
 	mlx->buttons = ft_get_buttons();
 	mlx->smooth = 1;
 	mlx->clock_prg = clock();
-	mlx->cam->offsetx = 0;//(WIN_WIDTH - MENU_WIDTH) / 2;
-	mlx->cam->offsety = 0;//WIN_HEIGHT / 2;
+	mlx->cam->offsetx = 0;
+	mlx->cam->offsety = 0;
 	mlx->fractal = ft_get_fractals(mlx);
 	mlx->nfractal = 0;
 	mlx->fractal[mlx->nfractal].ca = 0;
@@ -177,18 +177,4 @@ t_mlx				*ft_init(char *title)
 	mlx->size_tree = 1;
 	mlx->size_tree2 = 1;
 	return (mlx);
-}
-
-t_vector			*ft_get_vector(int x, int y, int z)
-{
-	t_vector	*v;
-
-	v = ft_memalloc(sizeof(t_vector));
-	if (v == NULL)
-		return (NULL);
-	v->x = (double)x;
-	v->y = (double)y;
-	v->z = (double)z;
-	v->color = 0xFFFFFF;
-	return (v);
 }

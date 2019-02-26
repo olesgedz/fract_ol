@@ -6,11 +6,11 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:26:20 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/26 19:38:58 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/26 19:44:02 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlxlib.h"
+#include "fractol.h"
 #include <stdio.h>
 # include <time.h>
 

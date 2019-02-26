@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:27:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/26 19:27:49 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/26 20:33:20 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,33 +61,6 @@ static int			ft_draw_menu(t_mlx *mlx)
 	ft_strdel(&s);
 	return (0);
 }
-
-t_pixel	mandelbrot(t_mlx *e, int x, int y)
-{
-	int		i;
-	double	za;
-	double	zb;
-	double	tmp;
-	t_complex c;
-	e->fractal[e->nfractal].ca = 1.5 * (x - FRAC_W / 2) / (0.5 * e->cam->scale * FRAC_W)
-		+ (e->cam->offsetx / FRAC_W / 1.37) - 0.5;
-	e->fractal[e->nfractal].cb = (y - FRAC_H / 2) / (0.5 * e->cam->scale * FRAC_H)
-		- (e->cam->offsety / FRAC_H / 1.92);
-	za = 0;
-	zb = 0;
-	i = 0;
-	while (za * za + zb * zb <= 4 && i < e->n)
-	{
-		tmp = za;
-		za = tmp * tmp - zb * zb + e->fractal[e->nfractal].ca;
-		zb = 2 * tmp * zb + e->fractal[e->nfractal].cb;
-		i++;
-	}
-	c.r = za;
-	c.i = zb;
-	return ((t_pixel){.c = c, .i = i});
-}
-
 
 static int			ft_put_points(t_mlx *mlx,
 		t_line *l, t_point *p1, t_point *p2)
@@ -146,142 +119,6 @@ void		draw_tree(t_mlx *mlx, t_point start, double angle, int iter)
 		ft_plotline(mlx, start, end);
 		draw_tree(mlx, end, angle - (M_PI / 8 * mlx->size_tree * 2), iter - 1);
 		draw_tree(mlx, end, angle + (M_PI / 8 * mlx->size_tree2 * 2), iter - 1);
-	}
-}
-
-t_pixel				randomf(t_mlx *e, int x, int y)
-{
-	double	za;
-	double	zb;
-	double	temp;
-	int		i;
-	t_complex c;
-	za = ((4 * (float)x / FRAC_W - 2) / e->cam->scale) + ((e->cam->offsetx / FRAC_W));
-	zb = ((-4 * (float)y / FRAC_W + 2) / e->cam->scale) + ((e->cam->offsety / FRAC_W));
-	i = 0;
-	while (za * za + zb * zb <= 4 && i < e->n)
-	{
-		temp = za;
-		za = za * za - zb * zb + e->fractal[e->nfractal].ca;
-		zb = sin(2 * temp * zb + e->fractal[e->nfractal].cb);
-		i++;
-	}
-	c.r = za;
-	c.i = zb;
-	return ((t_pixel){.c = c, .i = i});
-}
-
-t_pixel	carpet(t_mlx *e, int x, int y)
-{
-	int		i;
-	t_complex c;
-
-	i = 0;
-	e->cam->scale = (e->cam->scale >= 5) ? 1.6 : e->cam->scale;
-	e->cam->scale = (e->cam->scale <= 0.6) ? 1.6 : e->cam->scale;
-	x = (x) / e->cam->scale;
-	y = (y) / e->cam->scale;
-	x = ABS(x);
-	y = ABS(y);
-	c.r = 0;
-	c.i = 0;
-	while ((x > 0 || y > 0) && i < e->n)
-	{
-		if (x % 3 == 1 && y % 3 == 1)
-			return ((t_pixel){.c = c, .i = 0});
-		x /= 3;
-		y /= 3;
-		i++;
-	}
-
-	return ((t_pixel){.c = c, .i = 20});
-}
-
-
-t_pixel		burningship(t_mlx *e, int x, int y)
-{
-	int		i;
-	double	za;
-	double	zb;
-	double	tmp;
-	t_complex c;
-	e->fractal[e->nfractal].ca = 1.5 * (x - FRAC_W / 2) / (0.5 * e->cam->scale * FRAC_W)
-		+ (e->cam->offsetx / FRAC_W / 1.30) - 0.5;
-	e->fractal[e->nfractal].cb = (y - FRAC_H / 2) / (0.5 * e->cam->scale * FRAC_H)
-		- (e->cam->offsety / FRAC_H / 1.97);
-	za = 0;
-	zb = 0;
-	i = 0;
-	while (za * za + zb * zb <= 4 && i < e->n)
-	{
-		tmp = za;
-		za = fabs(tmp * tmp) - zb * zb + e->fractal[e->nfractal].ca;
-		zb = 2 * fabs(tmp * zb) + e->fractal[e->nfractal].cb;
-		i++;
-	}
-	c.r = za;
-	c.i = zb;
-	return ((t_pixel){.c = c, .i = i});
-}
-
-t_pixel		julia(t_mlx *mlx, int x, int y)
-{
-	double	za;
-	double	zb;
-	double	temp;
-	int		i;
-	t_complex c;
-	za = ((4 * (float)x / FRAC_W - 2) / mlx->cam->scale) + ((mlx->cam->offsetx / FRAC_W));
-	zb = ((-4 * (float)y / FRAC_H + 2) / mlx->cam->scale) + ((mlx->cam->offsety / FRAC_H));
-	i = 0;
-	while (za * za + zb * zb <= 4 && i < mlx->n)
-	{
-		temp = za;
-		za = za * za - zb * zb + mlx->fractal[mlx->nfractal].ca;
-		zb = 2 * temp * zb + mlx->fractal[mlx->nfractal].cb;
-		i++;
-	}
-	c.r = za;
-	c.i = zb;
-	return ((t_pixel){.c = c, .i = i});
-}
-
-void	put_pixel(t_image *e, int x, int y, int coloration)
-{
-	int		r;
-	int		g;
-	int		b;
-
-	e->stride = 2400;
-	e->bpp = 32;
-	r = (coloration & 0xFF0000) >> 16;
-	g = (coloration & 0xFF00) >> 8;
-	b = (coloration & 0xFF);
-	if (y >= 0 && x >= 0 && y < WIN_HEIGHT && x < WIN_WIDTH)
-	{
-		 e->ptr[(y * e->stride) + ((e->bpp / 8) * x) + 2] = r;
-		 e->ptr[(y * e->stride) + ((e->bpp / 8) * x) + 1] = g;
-		 e->ptr[(y * e->stride) + ((e->bpp / 8) * x)] = b;
-	}
-}
-
-
-static void			ft_draw_background(t_mlx *mlx)
-{
-	t_image *image;
-	int		j;
-	int		k;
-
-	ft_clear_image(mlx->image);
-	image = mlx->image;
-	j = 0;
-	while (j < WIN_HEIGHT)
-	{
-		k = 0;
-		while (k++ < WIN_WIDTH)
-			*(int *)(image->ptr + ((k + j * WIN_WIDTH) * image->bpp)) =
-			k < FRAC_W ? 0x222222 : 0x1E1E1E;
-		j++;
 	}
 }
 

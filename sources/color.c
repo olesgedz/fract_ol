@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:58 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/26 19:27:18 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/26 20:08:26 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ t_color		linear_color(t_mlx *mlx, double i, t_palette *p)
 		return (clerp((t_color)(p->colors[(int)(index * c) + 1]),
 		(t_color)(p->colors[(int)(index * c)]),
 		(int)(adjust + 1) - adjust));
-	//return ((t_color)(p->colors[(int)(index * c)]));
 	return (clerp((t_color)(p->colors[(int)(index * c) + 1]),
 	(t_color)(p->colors[(int)(index * c)]),
 	(int)(adjust + 1) - adjust));

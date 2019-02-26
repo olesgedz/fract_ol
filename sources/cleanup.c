@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:38:42 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/25 01:18:38 by olesgedz         ###   ########.fr       */
+/*   Updated: 2019/02/26 20:39:18 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,6 @@ int			ft_error(char *reason)
 	return (1);
 }
 
-void		ft_clear_image(t_image *image)
-{
-	ft_bzero(image->ptr, WIN_WIDTH * WIN_HEIGHT * image->bpp);
-}
 
 t_image		*ft_del_image(t_mlx *mlx, t_image *img)
 {

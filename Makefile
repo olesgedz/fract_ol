@@ -6,7 +6,7 @@
 #    By: olesgedz <olesgedz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/24 02:23:30 by olesgedz          #+#    #+#              #
-#    Updated: 2019/02/26 19:39:24 by jblack-b         ###   ########.fr        #
+#    Updated: 2019/02/26 20:40:35 by jblack-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,8 @@ HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 SOURCES_DIRECTORY = sources/
 SOURCES_LIST = main.c \
 cleanup.c color.c control.c draw.c mouse_control.c\
-utils.c
+utils.c julia.c burningship.c carpet.c mandelbrot.c\
+randomf.c
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 
 OBJECTS_DIRECTORY = objects/
@@ -55,7 +56,7 @@ RESET = \033[0m
 all: $(NAME)
 
 $(NAME): $(MLXLIB) $(OBJECTS_DIRECTORY) $(OBJECTS)
-	$(CC) $(FLAGS) $(LIBRARIES) $(INCLUDES) $(OBJECTS) -o $(NAME)
+	@$(CC) $(FLAGS) $(LIBRARIES) $(INCLUDES) $(OBJECTS) -o $(NAME)
 	@echo "\n$(NAME): $(GREEN)object files were created$(RESET)"
 	@echo "$(NAME): $(GREEN)$(NAME) was created$(RESET)"
 
