@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/12 16:12:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/26 21:41:37 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/26 22:57:28 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ t_image				*ft_new_image(t_mlx *mlx);
 t_color 			*ft_colorHextoRgb(int hex);
 int					get_color(t_pixel p, t_mlx *mlx);
 void 				ft_draw_tr(t_mlx *mlx, t_button *button, t_figure *triangle);
-void 				ft_draw_cr(t_mlx *mlx, t_button *button, t_figure *circle);
 void				ft_image_set_pixel_tree(t_image *image, int x, int y, int color);
 void 				ft_draw_not(t_mlx *mlx, t_button *button, t_figure *circle);
 void				ft_mouse_parameters_switch(t_mlx *mlx);
@@ -53,4 +52,6 @@ void				ft_next_fractal(t_mlx *mlx);
 void				ft_switch_smoothing(t_mlx *mlx);
 void				ft_image_set_pixel_tree(t_image *image, int x, int y, int color);
 void				ft_previous_fractal(t_mlx *mlx);
+void				ft_handle_buttons(t_mlx *mlx);
+t_button 			*ft_get_buttons();
 #endif

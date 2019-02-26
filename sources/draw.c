@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:27:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/26 20:33:20 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/26 22:25:13 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,52 +61,6 @@ static int			ft_draw_menu(t_mlx *mlx)
 	ft_strdel(&s);
 	return (0);
 }
-
-static int			ft_put_points(t_mlx *mlx,
-		t_line *l, t_point *p1, t_point *p2)
-{
-	double percentage;
-
-	if (l->dx > l->dy)
-		percentage = ft_percent(l->start.x, l->end.x, p1->x);
-	else
-		percentage = ft_percent(l->start.y, l->end.y, p1->y);
-	ft_image_set_pixel_tree(mlx->image, (int)p1->x,
-	(int)p1->y, ft_get_color(mlx->palette[mlx->ncolor].colors[0], mlx->palette[mlx->ncolor].colors[1], percentage));
-	l->err2 = l->err;
-	if (l->err2 > -l->dx)
-	{
-		l->err -= l->dy;
-		p1->x += l->sx;
-	}
-	if (l->err2 < l->dy)
-	{
-		l->err += l->dx;
-		p1->y += l->sy;
-	}
-	return (0);
-}
-
-static void			ft_plotline(t_mlx *mlx, t_point p1, t_point p2)
-{
-	t_line	line;
-
-	p1.x = (int)p1.x;
-	p2.x = (int)p2.x;
-	p1.y = (int)p1.y;
-	p2.y = (int)p2.y;
-	line.start = p1;
-	line.end = p2;
-	line.dx = (int)ABS((int)p2.x - (int)p1.x);
-	line.sx = (int)p1.x < (int)p2.x ? 1 : -1;
-	line.dy = (int)ABS((int)p2.y - (int)p1.y);
-	line.sy = (int)p1.y < (int)p2.y ? 1 : -1;
-	line.err = (line.dx > line.dy ? line.dx : -line.dy) / 2;
-	while (((int)p1.x != (int)p2.x || (int)p1.y != (int)p2.y))
-		if (ft_put_points(mlx, &line, &p1, &p2))
-			break ;
-}
-
 
 void		draw_tree(t_mlx *mlx, t_point start, double angle, int iter)
 {
@@ -203,80 +157,9 @@ void	ft_draw_switch(t_mlx *mlx)
 	}
 }
 
-float sign (t_point *p1, t_point *p2, t_point *p3)
-{
-    return (p1->x - p3->x) * (p2->y - p3->y) - (p2->x - p3->x) * (p1->y - p3->y);
-}
-
-int  ft_points_in_triangle(t_point *pt, t_point *v1, t_point *v2, t_point *v3)
-{
-    float d1, d2, d3;
-    int has_neg, has_pos;
-
-    d1 = sign(pt, v1, v2);
-    d2 = sign(pt, v2, v3);
-    d3 = sign(pt, v3, v1);
-
-    has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
-    has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
-
-    return !(has_neg && has_pos);
-}
-
-void ft_draw_tr(t_mlx *mlx, t_button *button, t_figure *triangle)
-{
-	int y;
-	int x;
-
-	y = button->position.y;
-	while (y < button->position.y + button->height)
-	{
-		x = button->position.x;
-		while(x < button->position.x + button->width)
-		{
-			if	(ft_points_in_triangle(&((t_point){x, y}), &((t_point){button->position.x + triangle->p[0].x, button->position.y + triangle->p[0].y}),
-			 &((t_point){button->position.x + triangle->p[1].x, button->position.y + triangle->p[1].y}),
-			  &((t_point){button->position.x + triangle->p[2].x, button->position.y  + triangle->p[2].y})))
-				ft_image_set_pixel(mlx->image, x, y, triangle->color);
-			x++;
-		}
-		y++;
-	}
-}
-
-int  ft_points_in_circle(t_point *pt, t_point *center, t_point *radius, t_point *v3)
-{
-	if (((sqrt(pow((pt->x - center->x), 2) + pow((pt->y - center->y), 2))) < radius->x))
-		return (1);
-    return (0);
-}
-
-
-void ft_draw_cr(t_mlx *mlx, t_button *button, t_figure *circle)
-{
-	int y;
-	int x;
-
-	y = button->position.y;
-	while (y < button->position.y + button->height)
-	{
-		x = button->position.x;
-		while(x < button->position.x + button->width)
-		{
-			if	(ft_points_in_circle(&((t_point){x, y}), &((t_point){button->position.x + circle->p[0].x, button->position.y + circle->p[0].y}),
-			 &((t_point){circle->p[1].x, button->position.y + circle->p[1].y}),
-			  &((t_point){button->position.x + circle->p[2].x, button->position.y  + circle->p[2].y})))
-				ft_image_set_pixel(mlx->image, x, y, circle->color);
-			x++;
-		}
-		y++;
-	}
-}
-
 void	ft_draw_onebutton(t_mlx *mlx, t_button *button)
 {
 	int i = 0;
-	//printf("%d\n",button->figures->p2.x);
 	while (i < 3)
 	{
 		if (button->figures[i].draw != NULL)

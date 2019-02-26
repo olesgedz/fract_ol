@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:24:27 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/26 21:22:50 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/26 22:54:41 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "mlx.h"
 #include <stdlib.h>
 #include <stdio.h>
+
 void ft_zoom_to_mouse(t_mlx *mlx)
 {
 	mlx->cam->scale *= 1.1;
@@ -91,33 +92,8 @@ int			expose_hook(t_mlx *e)
 	return (0);
 }
 
-int ft_range_search(t_button *button, t_point *mouse)
-{
-	if (button->position.x <= mouse->x && mouse->x <= (button->position.x + button->width))
-		if (button->position.y <= mouse->y && mouse->y <= (button->position.y + button->height))
-			return (1);
-	return (0);
-}
 
-void ft_button_is_pressed(t_mlx *mlx, t_button *button)
-{
-	if (mlx->mouse->isdown &&
-		ft_range_search(button, &((t_point){mlx->mouse->x, mlx->mouse->y})))
-	{
-		button->pressed(mlx);
-		ft_render(mlx);
-	}
-}
 
-void	ft_handle_buttons(t_mlx *mlx)
-{
-	int i;
-
-	i = 0;
-	mlx->mouse->isdown = TRUE;
-	while (i < BUTTONS_N)
-		ft_button_is_pressed(mlx, &mlx->buttons[i++]);
-}
 
 int			mouse_hook(int button, int x, int y, t_mlx *mlx)
 {

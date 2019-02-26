@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:58 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/26 21:22:44 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/26 22:48:25 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,47 +14,6 @@
 #include "fractol.h"
 #include <math.h>
 
-static int		ft_get_light(int start, int end, double percentage)
-{
-	return ((int)((1 - percentage) * start + percentage * end));
-}
-
-double			ft_percent(int start, int end, int current)
-{
-	double placement;
-	double distance;
-
-	placement = current - start;
-	distance = end - start;
-	return ((distance == 0) ? 1.0 : (placement / distance));
-}
-
-int				ft_get_color(int c1, int c2, double p)
-{
-	int r;
-	int g;
-	int b;
-
-	if (c1 == c2)
-		return (c1);
-	r = ft_get_light((c1 >> 16) & 0xFF, (c2 >> 16) & 0xFF, p);
-	g = ft_get_light((c1 >> 8) & 0xFF, (c2 >> 8) & 0xFF, p);
-	b = ft_get_light(c1 & 0xFF, c2 & 0xFF, p);
-	return (r << 16 | g << 8 | b);
-}
-
-t_color		clerp(t_color c1, t_color c2, double p)
-{
-	t_color c;
-
-	if (c1.value == c2.value)
-		return (c1);
-	c.rgba.r = (char)ft_get_light((int)c1.rgba.r, (int)c2.rgba.r, p);
-	c.rgba.g = (char)ft_get_light((int)c1.rgba.g, (int)c2.rgba.g, p);
-	c.rgba.b = (char)ft_get_light((int)c1.rgba.b, (int)c2.rgba.b, p);
-	c.rgba.a = (char)0x00;
-	return (c);
-}
 
 t_color		linear_color(t_mlx *mlx, double i, t_palette *p)
 {
