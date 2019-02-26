@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:29 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/26 19:09:28 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/26 19:40:13 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,25 +48,6 @@ t_palette	*get_palettes(void)
 	return (array);
 }
 
-t_map				*get_map(int width, int height)
-{
-	t_map	*map;
-
-	map = ft_memalloc(sizeof(t_map));
-	if (map == NULL)
-		return (NULL);
-	map->width = width;
-	map->height = height;
-	map->depth_min = 0;
-	map->depth_max = 0;
-	map->vectors = ft_memalloc(sizeof(t_vector *) * width * height);
-	if (map->vectors == NULL)
-	{
-		ft_memdel((void **)&map);
-		return (NULL);
-	}
-	return (map);
-}
 
 t_fractal	*ft_get_fractals(t_mlx *mlx)
 {

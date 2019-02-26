@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:58 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/26 19:07:44 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/26 19:27:18 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,6 @@ int				ft_get_color(int c1, int c2, double p)
 	g = ft_get_light((c1 >> 8) & 0xFF, (c2 >> 8) & 0xFF, p);
 	b = ft_get_light(c1 & 0xFF, c2 & 0xFF, p);
 	return (r << 16 | g << 8 | b);
-}
-
-void			ft_fill_colors(t_map *m)
-{
-	t_vector	v;
-	t_vector	*cur;
-
-	v.y = 0;
-	while (v.y < m->height)
-	{
-		v.x = 0;
-		while (v.x < m->width)
-		{
-			cur = m->vectors[(int)v.y * m->width + (int)v.x];
-			cur->color = ft_get_color(COLOR_BRICK_RED, 0xFFFFFF, (cur->z -
-				m->depth_min) / (m->depth_max - m->depth_min));
-			v.x++;
-		}
-		v.y++;
-	}
 }
 
 t_color		clerp(t_color c1, t_color c2, double p)

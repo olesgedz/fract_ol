@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:24:27 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/26 19:08:10 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/26 19:28:43 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "fractol.h"
 #include "mlx.h"
 #include <stdlib.h>
-
+#include <stdio.h>
 void ft_zoom_to_mouse(t_mlx *mlx)
 {
 	mlx->cam->scale *= 1.1;

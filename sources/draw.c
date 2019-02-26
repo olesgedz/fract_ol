@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:27:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/26 19:08:13 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/26 19:27:49 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -467,8 +467,6 @@ void				ft_render(t_mlx *mlx)
 	int			x;
 	int			y;
 	t_vector	v;
-	t_map		*map;
-	map = mlx->map;
 	mlx->image = ft_new_image(mlx);
 	ft_draw_switch(mlx);
 	ft_draw_buttons(mlx);
