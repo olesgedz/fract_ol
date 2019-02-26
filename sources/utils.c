@@ -6,14 +6,14 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:29 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/17 20:12:18 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/26 19:09:28 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 #include "libft.h"
 #include "mlx.h"
-#include "fractol.h"
+#include "mlxlib.h"
 #include <stdlib.h>
 t_image		*ft_new_image(t_mlx *mlx)
 {

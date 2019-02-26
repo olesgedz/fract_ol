@@ -6,12 +6,12 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:31:44 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/05 18:55:21 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/25 01:19:27 by olesgedz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
-#include "fractol.h"
+#include "mlxlib.h"
 
 static t_vector		ft_rotate(t_vector p, t_cam *r)
 {

@@ -6,12 +6,14 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:58 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/17 19:59:43 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/26 19:07:44 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "mlxlib.h"
 #include "fractol.h"
 #include <math.h>
+
 static int		ft_get_light(int start, int end, double percentage)
 {
 	return ((int)((1 - percentage) * start + percentage * end));

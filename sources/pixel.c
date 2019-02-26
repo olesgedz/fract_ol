@@ -6,11 +6,11 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 19:07:36 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/12 01:32:00 by olesgedz         ###   ########.fr       */
+/*   Updated: 2019/02/26 19:06:15 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include "mlxlib.h"
 
 void			ft_image_set_pixel(t_image *image, int x, int y, int color)
 {
