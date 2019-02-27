@@ -6,7 +6,7 @@
 #    By: olesgedz <olesgedz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/24 02:23:30 by olesgedz          #+#    #+#              #
-#    Updated: 2019/02/26 22:55:21 by jblack-b         ###   ########.fr        #
+#    Updated: 2019/02/27 16:24:22 by jblack-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,8 +37,9 @@ HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 SOURCES_DIRECTORY = sources/
 SOURCES_LIST = main.c \
 cleanup.c color.c control.c draw.c mouse_control.c\
-utils.c julia.c burningship.c carpet.c mandelbrot.c\
-randomf.c action_func.c buttons.c
+utils.c action_func.c buttons.c\
+$(addprefix fractals/,$(shell ls $(SOURCES_DIRECTORY)/fractals | grep -E ".+\.c"))
+
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 
 OBJECTS_DIRECTORY = objects/
@@ -63,6 +64,8 @@ $(NAME): $(MLXLIB) $(OBJECTS_DIRECTORY) $(OBJECTS)
 $(OBJECTS_DIRECTORY):
 	@mkdir -p $(OBJECTS_DIRECTORY)
 	@echo "$(NAME): $(GREEN)$(OBJECTS_DIRECTORY) was created$(RESET)"
+	@mkdir -p $(OBJECTS_DIRECTORY)/fractals
+	@echo "$(NAME): $(GREEN)$(OBJECTS_DIRECTORY)/fractals was created$(RESET)"
 
 $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)
 	@$(CC) $(FLAGS) -c $(INCLUDES) $< -o $@
