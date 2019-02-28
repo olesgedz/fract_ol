@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 22:54:12 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/28 17:55:45 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/28 21:34:32 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,7 @@ t_button				*ft_get_buttons(void)
 	buttons[0] = *ft_get_button_one();
 	buttons[1] = *ft_get_button_two();
 	buttons[2] = *ft_get_button_three();
+	buttons[3] = *ft_get_button_four();
+	buttons[4] = *ft_get_button_five();
 	return (buttons);
 }

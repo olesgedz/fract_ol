@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/12 16:12:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/28 17:50:57 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/28 21:40:34 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,22 @@ void				ft_image_set_pixel_tree(t_image *image,\
 void				ft_previous_fractal(t_mlx *mlx);
 void				ft_handle_buttons(t_mlx *mlx);
 t_button			*ft_get_buttons();
-void 				ft_zoom_to_mouse(t_mlx *mlx);
+void				ft_zoom_to_mouse(t_mlx *mlx);
 void				ft_reset_view(t_mlx *mlx);
 int					ft_handle_keys_press(int key, t_mlx *mlx);
-void 				ft_draw_buttons(t_mlx *mlx);
+void				ft_draw_buttons(t_mlx *mlx);
 t_button			*ft_get_button_one(void);
 int					ft_draw_menu(t_mlx *mlx);
-void			ft_press_move(t_mlx *mlx);
-t_point			*ft_get_points(t_point *p1, t_point *p2, t_point *p3, t_point *p4);
+void				ft_press_move(t_mlx *mlx);
+t_point				*ft_get_points(t_point *p1,
+			t_point *p2, t_point *p3, t_point *p4);
 t_figure			*ft_get_figures(t_figure *f1,
 		t_figure *f2, t_figure *f3);
+void				ft_reset_view(t_mlx *mlx);
 
-t_button	*ft_get_button_one(void);
-t_button	*ft_get_button_two(void);
-t_button	*ft_get_button_three(void);
+t_button			*ft_get_button_one(void);
+t_button			*ft_get_button_two(void);
+t_button			*ft_get_button_three(void);
+t_button			*ft_get_button_four(void);
+t_button			*ft_get_button_five(void);
 #endif

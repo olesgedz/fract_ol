@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:29 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/28 18:24:39 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/28 20:01:56 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "fractol.h"
 #include <stdlib.h>
 
-t_palette					*get_palettes(void)
+t_palette						*get_palettes(void)
 {
 	static t_palette	array[6];
 
@@ -36,7 +36,7 @@ t_palette					*get_palettes(void)
 	return (array);
 }
 
-t_fractal					*ft_get_fractals(t_mlx *mlx)
+t_fractal						*ft_get_fractals(t_mlx *mlx)
 {
 	static t_fractal fractals[FRACTAL_N];
 
@@ -51,11 +51,27 @@ t_fractal					*ft_get_fractals(t_mlx *mlx)
 
 static void						ft_init_const(t_mlx *mlx)
 {
-
-
+	mlx->cam->x = -M_PI / 6;
+	mlx->cam->y = -M_PI / 6;
+	mlx->cam->z = 0;
+	mlx->cam->scale = 1;
+	mlx->c = 1;
+	mlx->n = 32;
+	mlx->palette = get_palettes();
+	mlx->buttons = ft_get_buttons();
+	mlx->smooth = 1;
+	mlx->clock_prg = clock();
+	mlx->cam->offsetx = 0;
+	mlx->cam->offsety = 0;
+	mlx->fractal = ft_get_fractals(mlx);
+	mlx->nfractal = 0;
+	mlx->fractal[mlx->nfractal].ca = 0;
+	mlx->fractal[mlx->nfractal].cb = 0;
+	mlx->size_tree = 1;
+	mlx->size_tree2 = 1;
 }
 
-t_mlx						*ft_init(char *title)
+t_mlx							*ft_init(char *title)
 {
 	t_mlx	*mlx;
 
@@ -73,25 +89,6 @@ t_mlx						*ft_init(char *title)
 		return (ft_mlxdel(mlx));
 	ft_bzero((char *)mlx->keyboard->keys, 100);
 	ft_init_const(mlx);
-	mlx->cam->x = -M_PI / 6;
-	mlx->cam->y = -M_PI / 6;
-	mlx->cam->z = 0;
-	mlx->cam->scale = 1;
-	mlx->c = 1;
-	mlx->n = 32;
-	mlx->palette = get_palettes();
 	mlx->data = ft_memalloc(sizeof(t_pixel) * WIN_WIDTH * WIN_HEIGHT);
-	mlx->buttons = ft_get_buttons();
-	mlx->smooth = 1;
-	mlx->clock_prg = clock();
-	mlx->cam->offsetx = 0;
-	mlx->cam->offsety = 0;
-	mlx->fractal = ft_get_fractals(mlx);
-	mlx->nfractal = 0;
-	mlx->fractal[mlx->nfractal].ca = 0;
-	mlx->fractal[mlx->nfractal].cb = 0;
-	mlx->size_tree = 1;
-	mlx->size_tree2 = 1;
-
 	return (mlx);
 }

@@ -6,12 +6,11 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:26:20 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/28 18:12:59 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/28 21:31:37 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-#include <stdio.h>
 #include <time.h>
 
 int					ft_mouse_release(int button, int x, int y, t_mlx *mlx)
@@ -31,14 +30,21 @@ static void			ft_change_coef(int x, int y, t_mlx *mlx)
 	ft_render(mlx);
 }
 
+int					ft_inrange(int x, int y)
+{
+	if (0 <= x && x <= FRAC_W &&\
+		0 <= y && y <= FRAC_H)
+		return (1);
+	return (0);
+}
+
 int					ft_mouse_move(int x, int y, t_mlx *mlx)
 {
 	mlx->mouse->lastx = mlx->mouse->x;
 	mlx->mouse->lasty = mlx->mouse->y;
 	mlx->mouse->x = x;
 	mlx->mouse->y = y;
-	printf("x:%d y:%d\n", x, y);
-	if (mlx->mouse->isdown == TRUE)
+	if (mlx->mouse->isdown == TRUE && ft_inrange(x, y))
 	{
 		mlx->cam->offsetx -= (x - mlx->mouse->lastx) * 4 / mlx->cam->scale;
 		mlx->cam->offsety -= -(y - mlx->mouse->lasty) * 4 / mlx->cam->scale;
