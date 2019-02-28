@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:29 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/26 22:58:31 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/28 18:24:39 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 #include "fractol.h"
 #include <stdlib.h>
 
-
-t_palette	*get_palettes(void)
+t_palette					*get_palettes(void)
 {
 	static t_palette	array[6];
 
@@ -37,8 +36,7 @@ t_palette	*get_palettes(void)
 	return (array);
 }
 
-
-t_fractal	*ft_get_fractals(t_mlx *mlx)
+t_fractal					*ft_get_fractals(t_mlx *mlx)
 {
 	static t_fractal fractals[FRACTAL_N];
 
@@ -51,7 +49,13 @@ t_fractal	*ft_get_fractals(t_mlx *mlx)
 	return (fractals);
 }
 
-t_mlx				*ft_init(char *title)
+static void						ft_init_const(t_mlx *mlx)
+{
+
+
+}
+
+t_mlx						*ft_init(char *title)
 {
 	t_mlx	*mlx;
 
@@ -64,9 +68,11 @@ t_mlx				*ft_init(char *title)
 		(mlx->mouse = ft_memalloc(sizeof(t_mouse))) == NULL ||
 		(mlx->keyboard = ft_memalloc(sizeof(t_keyboard))) == NULL ||
 		(mlx->keyboard->keys = ft_memalloc(sizeof(int) * 200)) == NULL ||
-		(mlx->image = ft_new_image(mlx)) == NULL || (mlx->color = ft_memalloc(sizeof(t_color))) == NULL)
+		(mlx->image = ft_new_image(mlx)) == NULL ||
+		(mlx->color = ft_memalloc(sizeof(t_color))) == NULL)
 		return (ft_mlxdel(mlx));
 	ft_bzero((char *)mlx->keyboard->keys, 100);
+	ft_init_const(mlx);
 	mlx->cam->x = -M_PI / 6;
 	mlx->cam->y = -M_PI / 6;
 	mlx->cam->z = 0;
@@ -86,5 +92,6 @@ t_mlx				*ft_init(char *title)
 	mlx->fractal[mlx->nfractal].cb = 0;
 	mlx->size_tree = 1;
 	mlx->size_tree2 = 1;
+
 	return (mlx);
 }

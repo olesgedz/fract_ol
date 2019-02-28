@@ -6,22 +6,32 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:26:20 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/26 21:22:45 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/28 18:12:59 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #include <stdio.h>
-# include <time.h>
+#include <time.h>
 
-int		ft_mouse_release(int button, int x, int y, t_mlx *mlx)
+int					ft_mouse_release(int button, int x, int y, t_mlx *mlx)
 {
 	y = button && x && y;
 	mlx->mouse->isdown = FALSE;
 	return (0);
 }
 
-int			ft_mouse_move(int x, int y, t_mlx *mlx)
+static void			ft_change_coef(int x, int y, t_mlx *mlx)
+{
+	mlx->clock_prg = clock();
+	x -= WIN_WIDTH / 2;
+	y -= WIN_HEIGHT / 2;
+	mlx->fractal[mlx->nfractal].ca = ((float)x / WIN_WIDTH) * 2;
+	mlx->fractal[mlx->nfractal].cb = ((float)y / WIN_HEIGHT) * 2;
+	ft_render(mlx);
+}
+
+int					ft_mouse_move(int x, int y, t_mlx *mlx)
 {
 	mlx->mouse->lastx = mlx->mouse->x;
 	mlx->mouse->lasty = mlx->mouse->y;
@@ -34,17 +44,11 @@ int			ft_mouse_move(int x, int y, t_mlx *mlx)
 		mlx->cam->offsety -= -(y - mlx->mouse->lasty) * 4 / mlx->cam->scale;
 		ft_render(mlx);
 	}
-	if(((FPS) * (clock() - mlx->clock_prg)) / CLOCKS_PER_SEC > 1 && mlx->c
-	&& mlx->nfractal !=  FRACTAL_N - 1)
-	{
-		mlx->clock_prg = clock();
-		x -= WIN_WIDTH / 2;
-		y -= WIN_HEIGHT / 2;
-		mlx->fractal[mlx->nfractal].ca  = ((float)x / WIN_WIDTH) * 2;
-		mlx->fractal[mlx->nfractal].cb = ((float)y / WIN_HEIGHT) * 2;
-		ft_render(mlx);
-	}
-	else if (((950) * (clock() - mlx->clock_prg)) / CLOCKS_PER_SEC > 1 && mlx->c)
+	if (((FPS) * (clock() - mlx->clock_prg)) / CLOCKS_PER_SEC > 1 && mlx->c
+	&& mlx->nfractal != FRACTAL_N - 1)
+		ft_change_coef(x, y, mlx);
+	else if (((950) * (clock() - mlx->clock_prg)) \
+		/ CLOCKS_PER_SEC > 1 && mlx->c)
 	{
 		mlx->clock_prg = clock();
 		mlx->size_tree = (float)y / FRAC_H;

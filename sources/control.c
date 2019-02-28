@@ -6,25 +6,16 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:24:27 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/26 22:54:41 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/28 17:56:44 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "mlxlib.h"
 #include "fractol.h"
 #include "mlx.h"
 #include <stdlib.h>
-#include <stdio.h>
 
-void ft_zoom_to_mouse(t_mlx *mlx)
-{
-	mlx->cam->scale *= 1.1;
-	mlx->cam->offsetx += (mlx->mouse->x - FRAC_W / 2)/ mlx->cam->scale / 2.51;
-	mlx->cam->offsety -= (mlx->mouse->y - FRAC_H / 2) / mlx->cam->scale/ 2.51;
-}
-
-static void		ft_press_move(t_mlx *mlx)
+void				ft_press_move(t_mlx *mlx)
 {
 	if (mlx->keyboard->keys[D_KEY] == TRUE)
 		mlx->cam->offsetx += 20.0 / mlx->cam->scale;
@@ -51,58 +42,28 @@ static void		ft_press_move(t_mlx *mlx)
 	if (mlx->keyboard->keys[L_KEY] == TRUE)
 		mlx->cam->y += 0.1;
 }
-void	ft_reset_view(t_mlx *mlx)
-{
-	mlx->cam->scale = 1;
-	mlx->cam->offsetx = 0;
-	mlx->cam->offsety = 0;
-}
 
-
-int				ft_handle_keys_press(int key, t_mlx *mlx)
-{
-	mlx->keyboard->keys[key] = TRUE;
-	ft_press_move(mlx);
-	if (key == B_KEY)
-		ft_switch_color(mlx);
-	if (key == F_KEY)
-		ft_next_fractal(mlx);
-	if (key == C_KEY)
-		ft_mouse_parameters_switch(mlx);
-	if (key == M_KEY)
-		ft_switch_smoothing(mlx);
-	if (key == R_KEY)
-		ft_reset_view(mlx);
-	if (key == ESC_KEY)
-		exit(0);
-	ft_render(mlx);
-	return (0);
-}
-
-int				ft_handle_keys_release(int key, t_mlx *mlx)
+int					ft_handle_keys_release(int key, t_mlx *mlx)
 {
 	mlx->keyboard->keys[key] = FALSE;
 	ft_render(mlx);
 	return (0);
 }
 
-int			expose_hook(t_mlx *e)
+int					expose_hook(t_mlx *e)
 {
 	ft_render(e);
 	return (0);
 }
 
-
-
-
-int			mouse_hook(int button, int x, int y, t_mlx *mlx)
+int					mouse_hook(int button, int x, int y, t_mlx *mlx)
 {
 	mlx->mouse->x = x;
 	mlx->mouse->y = y;
 	if (button == SCROLL_UP)
 		ft_zoom_to_mouse(mlx);
-	else if (button == SCROLL_DOWN &&  mlx->cam->scale > 0.1)
-		 mlx->cam->scale /= 1.1;
+	else if (button == SCROLL_DOWN && mlx->cam->scale > 0.1)
+		mlx->cam->scale /= 1.1;
 	if (button == MOUSE_L_KEY)
 		ft_handle_buttons(mlx);
 	if (button == SCROLL_UP || button == SCROLL_DOWN)
@@ -110,8 +71,7 @@ int			mouse_hook(int button, int x, int y, t_mlx *mlx)
 	return (0);
 }
 
-
-int				ft_mlx_hooks(t_mlx *mlx)
+int					ft_mlx_hooks(t_mlx *mlx)
 {
 	mlx_hook(mlx->window, 2, 0, ft_handle_keys_press, (void *)mlx);
 	mlx_expose_hook(mlx->window, expose_hook, mlx);

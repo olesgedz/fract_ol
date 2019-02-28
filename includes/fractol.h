@@ -6,18 +6,17 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/12 16:12:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/26 22:57:28 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/28 17:50:57 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 # include <stdint.h>
 # include <time.h>
 # include <string.h>
-#include <pthread.h>
-#include "mlxlib.h"
+# include <pthread.h>
+# include "mlxlib.h"
 
 void				ft_change_color(t_mlx *mlx, int ncolor);
 void				ft_render(t_mlx *mlx);
@@ -38,20 +37,37 @@ t_pixel				carpet(t_mlx *e, int x, int y);
 t_pixel				mandelbrot(t_mlx *mlx, int x, int y);
 t_pixel				burningship(t_mlx *mlx, int x, int y);
 t_pixel				randomf(t_mlx *e, int x, int y);
-void				draw_tree(t_mlx *mlx, t_point start, double angle, int iter);
+void				draw_tree(t_mlx *mlx, t_point start,\
+		double angle, int iter);
 void				draw_fractal(t_mlx *mlx);
 t_image				*ft_new_image(t_mlx *mlx);
-t_color 			*ft_colorHextoRgb(int hex);
 int					get_color(t_pixel p, t_mlx *mlx);
-void 				ft_draw_tr(t_mlx *mlx, t_button *button, t_figure *triangle);
-void				ft_image_set_pixel_tree(t_image *image, int x, int y, int color);
-void 				ft_draw_not(t_mlx *mlx, t_button *button, t_figure *circle);
+void				ft_draw_tr(t_mlx *mlx, t_button *button,\
+		t_figure *triangle);
+void				ft_image_set_pixel_tree(t_image *image,\
+		int x, int y, int color);
+void				ft_draw_not(t_mlx *mlx, t_button *button, t_figure *circle);
 void				ft_mouse_parameters_switch(t_mlx *mlx);
 void				ft_switch_color(t_mlx *mlx);
 void				ft_next_fractal(t_mlx *mlx);
 void				ft_switch_smoothing(t_mlx *mlx);
-void				ft_image_set_pixel_tree(t_image *image, int x, int y, int color);
+void				ft_image_set_pixel_tree(t_image *image,\
+		int x, int y, int color);
 void				ft_previous_fractal(t_mlx *mlx);
 void				ft_handle_buttons(t_mlx *mlx);
-t_button 			*ft_get_buttons();
+t_button			*ft_get_buttons();
+void 				ft_zoom_to_mouse(t_mlx *mlx);
+void				ft_reset_view(t_mlx *mlx);
+int					ft_handle_keys_press(int key, t_mlx *mlx);
+void 				ft_draw_buttons(t_mlx *mlx);
+t_button			*ft_get_button_one(void);
+int					ft_draw_menu(t_mlx *mlx);
+void			ft_press_move(t_mlx *mlx);
+t_point			*ft_get_points(t_point *p1, t_point *p2, t_point *p3, t_point *p4);
+t_figure			*ft_get_figures(t_figure *f1,
+		t_figure *f2, t_figure *f3);
+
+t_button	*ft_get_button_one(void);
+t_button	*ft_get_button_two(void);
+t_button	*ft_get_button_three(void);
 #endif

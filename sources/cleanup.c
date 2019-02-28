@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:38:42 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/26 21:43:30 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/28 15:59:55 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 #include "mlx.h"
 #include "libft.h"
 #include "mlxlib.h"
-
-
-
 
 t_mlx		*ft_mlxdel(t_mlx *mlx)
 {

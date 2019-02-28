@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/04 17:14:14 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/28 17:56:57 by jblack-b         ###   ########.fr       */
+/*   Created: 2019/02/28 16:33:49 by jblack-b          #+#    #+#             */
+/*   Updated: 2019/02/28 17:33:41 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
-#include "libft.h"
 #include "mlxlib.h"
 #include "fractol.h"
+#include "libft.h"
 #include "mlx.h"
+#include <math.h>
 
-int		main(int argc, char **argv)
+void		draw_tree(t_mlx *mlx, t_point start, double angle, int iter)
 {
-	t_mlx	*mlx;
+	t_point	end;
 
-	if ((mlx = ft_init("Fract_ol - ")) == NULL)
-		return (ft_error("error: mlx couldn't init"));
-	ft_render(mlx);
-	ft_mlx_hooks(mlx);
-	mlx_loop(mlx->mlx);
-	return (0);
+	if (iter > 0)
+	{
+		end.x = start.x + (cos(angle) * iter * 6) * mlx->cam->scale;
+		end.y = start.y + (sin(angle) * iter * 9) * mlx->cam->scale;
+		ft_plotline(mlx, start, end);
+		draw_tree(mlx, end, angle - (M_PI / 8 * mlx->size_tree * 2), iter - 1);
+		draw_tree(mlx, end, angle + (M_PI / 8 * mlx->size_tree2 * 2), iter - 1);
+	}
 }

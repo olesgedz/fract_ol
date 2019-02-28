@@ -6,21 +6,24 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 20:13:07 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/26 21:22:46 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/02/28 17:00:03 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fractol.h>
 
-t_pixel		julia(t_mlx *mlx, int x, int y)
+t_pixel			julia(t_mlx *mlx, int x, int y)
 {
-	double	za;
-	double	zb;
-	double	temp;
-	int		i;
-	t_complex c;
-	za = ((4 * (float)x / FRAC_W - 2) / mlx->cam->scale) + ((mlx->cam->offsetx / FRAC_W));
-	zb = ((-4 * (float)y / FRAC_H + 2) / mlx->cam->scale) + ((mlx->cam->offsety / FRAC_H));
+	double		za;
+	double		zb;
+	double		temp;
+	int			i;
+	t_complex	c;
+
+	za = ((4 * (float)x / FRAC_W - 2) \
+			/ mlx->cam->scale) + ((mlx->cam->offsetx / FRAC_W));
+	zb = ((-4 * (float)y / FRAC_H + 2) \
+			/ mlx->cam->scale) + ((mlx->cam->offsety / FRAC_H));
 	i = 0;
 	while (za * za + zb * zb <= 4 && i < mlx->n)
 	{

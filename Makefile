@@ -6,7 +6,7 @@
 #    By: olesgedz <olesgedz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/24 02:23:30 by olesgedz          #+#    #+#              #
-#    Updated: 2019/02/27 16:24:22 by jblack-b         ###   ########.fr        #
+#    Updated: 2019/02/28 17:28:26 by jblack-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 SOURCES_DIRECTORY = sources/
 SOURCES_LIST = main.c \
 cleanup.c color.c control.c draw.c mouse_control.c\
-utils.c action_func.c buttons.c\
+utils.c action_func.c buttons.c hooks.c ui.c get_buttons.c\
 $(addprefix fractals/,$(shell ls $(SOURCES_DIRECTORY)/fractals | grep -E ".+\.c"))
 
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
