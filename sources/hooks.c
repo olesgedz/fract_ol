@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 16:26:20 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/28 21:31:54 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/01 22:04:42 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 void				ft_zoom_to_mouse(t_mlx *mlx)
 {
 	mlx->cam->scale *= 1.1;
-	mlx->cam->offsetx += (mlx->mouse->x - FRAC_W / 2) / mlx->cam->scale / 2.51;
-	mlx->cam->offsety -= (mlx->mouse->y - FRAC_H / 2) / mlx->cam->scale / 2.51;
+	mlx->cam->offsetx += (mlx->mouse->x - FRAC_W / 2) / mlx->cam->scale * 1.5;
+	mlx->cam->offsety -= (mlx->mouse->y - FRAC_H / 2) / mlx->cam->scale * 1.5;
 }
 
 void				ft_reset_view(t_mlx *mlx)
@@ -27,6 +27,7 @@ void				ft_reset_view(t_mlx *mlx)
 	mlx->cam->scale = 1;
 	mlx->cam->offsetx = 0;
 	mlx->cam->offsety = 0;
+	mlx->n = 35;
 }
 
 int					ft_handle_keys_press(int key, t_mlx *mlx)

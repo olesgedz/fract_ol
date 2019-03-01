@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/12 16:12:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/03/01 17:04:12 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/01 21:36:29 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ t_pixel				burningship(t_mlx *mlx, int x, int y);
 t_pixel				randomf(t_mlx *e, int x, int y);
 void				draw_tree(t_mlx *mlx, t_point start,\
 		double angle, int iter);
-void				draw_fractal(t_mlx *mlx);
 t_image				*ft_new_image(t_mlx *mlx);
 int					get_color(t_pixel p, t_mlx *mlx);
 void				ft_draw_tr(t_mlx *mlx, t_button *button,\

@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:27:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/28 16:53:11 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/01 21:35:10 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,43 +17,46 @@
 #include <math.h>
 #include <pthread.h>
 
-void				draw_fractal(t_mlx *mlx)
-{
-	int			x;
-	int			y;
-	double		i;
-	t_pixel		temp;
-
-	y = 0;
-	while (y < FRAC_H)
-	{
-		x = 0;
-		while (x < FRAC_W)
-		{
-			if ((*(mlx->data + y * WIN_WIDTH + x)).i != mlx->n)
-				ft_image_set_pixel(mlx->image, x, y,
-						get_color(*(mlx->data + y * WIN_WIDTH + x), mlx));
-			x++;
-		}
-		y++;
-	}
-}
+// void				draw_fractal(t_mlx *mlx)
+// {
+// 	int			x;
+// 	int			y;
+// 	double		i;
+// 	t_pixel		temp;
+//
+// 	y = 0;
+// 	while (y < FRAC_H)
+// 	{
+// 		x = 0;
+// 		while (x < FRAC_W)
+// 		{
+// 			//if ((*(mlx->data + y * WIN_WIDTH + x)).i != mlx->n)
+// 			//	ft_image_set_pixel(mlx->image, x, y,
+// 			//			get_color(*(mlx->data + y * WIN_WIDTH + x), mlx));
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// }
 
 void				*render_thread(void *m)
 {
 	t_thread	*t;
 	int			x;
 	int			y;
+	t_pixel		pixel;
 
 	t = (t_thread *)m;
-	y = WIN_HEIGHT / THREADS * t->id;
-	while (y < WIN_HEIGHT / THREADS * (t->id + 1))
+	y = FRAC_H / THREADS * t->id;
+	while (y < FRAC_H / THREADS * (t->id + 1))
 	{
 		x = 0;
-		while (x < WIN_WIDTH)
+		while (x < FRAC_W)
 		{
-			*(t->mlx->data + y * WIN_WIDTH + x) = t->mlx->fractal\
-					[t->mlx->nfractal].pixel(t->mlx, x, y);
+			pixel = t->mlx->fractal[t->mlx->nfractal].pixel(t->mlx, x, y);
+			if (pixel.i != t->mlx->n)
+				ft_image_set_pixel(t->mlx->image, x, y,
+					get_color(pixel, t->mlx));
 			x++;
 		}
 		y++;
@@ -91,7 +94,6 @@ void				ft_draw_switch(t_mlx *mlx)
 	if (mlx->nfractal != 5)
 	{
 		ft_multi_threading(mlx);
-		draw_fractal(mlx);
 	}
 	else
 	{

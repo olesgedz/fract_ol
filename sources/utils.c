@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:29 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/03/01 17:19:44 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/01 21:36:09 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,5 @@ t_mlx							*ft_init(char *title, char* argv)
 		return (ft_mlxdel(mlx));
 	ft_bzero((char *)mlx->keyboard->keys, 100);
 	ft_init_const(mlx);
-	mlx->data = ft_memalloc(sizeof(t_pixel) * WIN_WIDTH * WIN_HEIGHT);
 	return (mlx);
 }

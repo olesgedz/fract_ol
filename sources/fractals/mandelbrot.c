@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 20:26:54 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/28 17:01:22 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/01 22:01:07 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,11 @@ t_pixel	mandelbrot(t_mlx *mlx, int x, int y)
 	double		tmp;
 	t_complex	c;
 
-	mlx->fractal[mlx->nfractal].ca = 1.5 * (x - FRAC_W / 2) \
-		/ (0.5 * mlx->cam->scale * FRAC_W)
-		+ (mlx->cam->offsetx / FRAC_W / 1.37) - 0.5;
-	mlx->fractal[mlx->nfractal].cb = (y - FRAC_H / 2) \
+	mlx->fractal[mlx->nfractal].ca = 1.5 * (x - FRAC_W / 1.5) / (0.5 * mlx->cam->scale * FRAC_W)
+		+ (mlx->cam->offsetx / FRAC_W);
+	mlx->fractal[mlx->nfractal].cb = (y * 1.5 - FRAC_H / 1.5) \
 		/ (0.5 * mlx->cam->scale * FRAC_H)
-		- (mlx->cam->offsety / FRAC_H / 1.92);
+		- (mlx->cam->offsety / FRAC_H);
 	za = 0;
 	zb = 0;
 	i = 0;
