@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:24:27 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/03/01 21:52:02 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/01 23:19:50 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ void				ft_press_move(t_mlx *mlx)
 	if (mlx->keyboard->keys[L_AR_KEY] == TRUE)
 		mlx->cam->z += 0.1;
 	if (mlx->keyboard->keys[I_KEY] == TRUE)
-		mlx->n += 2;
+		mlx->data->n+= 2;
 	if (mlx->keyboard->keys[J_KEY] == TRUE)
 		mlx->cam->y -= 0.1;
 	if (mlx->keyboard->keys[K_KEY] == TRUE)
-		mlx->n--;
+		mlx->data->n--;
 	if (mlx->keyboard->keys[L_KEY] == TRUE)
 		mlx->cam->y += 0.1;
 }
@@ -50,9 +50,9 @@ int					ft_handle_keys_release(int key, t_mlx *mlx)
 	return (0);
 }
 
-int					expose_hook(t_mlx *e)
+int					expose_hook(t_mlx *mlx)
 {
-	ft_render(e);
+	ft_render(mlx);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 16:26:20 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/03/01 22:04:42 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/01 23:16:43 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void				ft_reset_view(t_mlx *mlx)
 	mlx->cam->scale = 1;
 	mlx->cam->offsetx = 0;
 	mlx->cam->offsety = 0;
-	mlx->n = 35;
+	mlx->data->n= 35;
 }
 
 int					ft_handle_keys_press(int key, t_mlx *mlx)

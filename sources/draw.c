@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:27:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/03/01 21:35:10 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/01 23:20:18 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@
 // 		x = 0;
 // 		while (x < FRAC_W)
 // 		{
-// 			//if ((*(mlx->data + y * WIN_WIDTH + x)).i != mlx->n)
+// 			//if ((*(mlx + y * WIN_WIDTH + x)).i != mlx->n)
 // 			//	ft_image_set_pixel(mlx->image, x, y,
-// 			//			get_color(*(mlx->data + y * WIN_WIDTH + x), mlx));
+// 			//			get_color(*(mlx + y * WIN_WIDTH + x), mlx));
 // 			x++;
 // 		}
 // 		y++;
@@ -53,8 +53,8 @@ void				*render_thread(void *m)
 		x = 0;
 		while (x < FRAC_W)
 		{
-			pixel = t->mlx->fractal[t->mlx->nfractal].pixel(t->mlx, x, y);
-			if (pixel.i != t->mlx->n)
+			pixel = t->mlx->data->fractal[t->mlx->data->nfractal].pixel(t->mlx, x, y);
+			if (pixel.i != t->mlx->data->n)
 				ft_image_set_pixel(t->mlx->image, x, y,
 					get_color(pixel, t->mlx));
 			x++;
@@ -70,7 +70,7 @@ void				ft_multi_threading(t_mlx *mlx)
 	t_render	*r;
 
 	i = 0;
-	r = &mlx->render;
+	r = &mlx->data->render;
 	while (i < THREADS)
 	{
 		r->args[i].id = i;
@@ -91,7 +91,7 @@ void				ft_draw_switch(t_mlx *mlx)
 	t_point start;
 
 	ft_draw_background(mlx);
-	if (mlx->nfractal != 5)
+	if (mlx->data->nfractal != 5)
 	{
 		ft_multi_threading(mlx);
 	}
@@ -99,7 +99,7 @@ void				ft_draw_switch(t_mlx *mlx)
 	{
 		start.x = FRAC_W / 2 - (mlx->cam->offsetx * (mlx->cam->scale / 4.1));
 		start.y = FRAC_H - 20 + (mlx->cam->offsety * (mlx->cam->scale / 1.2));
-		draw_tree(mlx, start, -(M_PI / 2), mlx->n / 5 + 1);
+		draw_tree(mlx, start, -(M_PI / 2), mlx->data->n/ 5 + 1);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:58 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/28 16:24:04 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/01 23:19:19 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ t_color		linear_color(t_mlx *mlx, double i, t_palette *p)
 	if (p->cycle)
 		index = fmod(i, p->cycle - 1) / (p->cycle - 1);
 	else
-		index = i / mlx->n;
+		index = i / mlx->data->n;
 	c = p->count - 1;
 	adjust = fmod(index, 1.0f / c) * c;
-	if (mlx->smooth)
+	if (mlx->data->smooth)
 	{
 		return (clerp((t_color)(p->colors[(int)(index * c) + 1]),
 		(t_color)(p->colors[(int)(index * c)]),
@@ -53,9 +53,9 @@ t_color		smooth_color(t_mlx *mlx, t_pixel p, t_palette *pal)
 
 int			get_color(t_pixel p, t_mlx *mlx)
 {
-	if (p.i >= mlx->n)
+	if (p.i >= mlx->data->n)
 		return (0x000000);
-	if (mlx->smooth && mlx->nfractal != 4)
+	if (mlx->data->smooth&& mlx->data->nfractal != 4)
 		return (smooth_color(mlx, p, mlx->palette + mlx->ncolor).value);
 	return (linear_color(mlx, (double)p.i, mlx->palette + mlx->ncolor).value);
 }

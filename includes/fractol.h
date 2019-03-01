@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/12 16:12:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/03/01 21:36:29 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/02 00:00:57 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,18 @@
 # include <string.h>
 # include <pthread.h>
 # include "mlxlib.h"
+
+struct s_data
+{
+	int			c;
+	int			n;
+	int			smooth;
+	t_render	render;
+	t_fractal	*fractal;
+	int			nfractal;
+	float		size_tree;
+	float		size_tree2;
+};
 
 void				ft_change_color(t_mlx *mlx, int ncolor);
 void				ft_render(t_mlx *mlx);
@@ -43,15 +55,11 @@ t_image				*ft_new_image(t_mlx *mlx);
 int					get_color(t_pixel p, t_mlx *mlx);
 void				ft_draw_tr(t_mlx *mlx, t_button *button,\
 		t_figure *triangle);
-void				ft_image_set_pixel_tree(t_image *image,\
-		int x, int y, int color);
 void				ft_draw_not(t_mlx *mlx, t_button *button, t_figure *circle);
 void				ft_mouse_parameters_switch(t_mlx *mlx);
 void				ft_switch_color(t_mlx *mlx);
 void				ft_next_fractal(t_mlx *mlx);
 void				ft_switch_smoothing(t_mlx *mlx);
-void				ft_image_set_pixel_tree(t_image *image,\
-		int x, int y, int color);
 void				ft_previous_fractal(t_mlx *mlx);
 void				ft_handle_buttons(t_mlx *mlx);
 t_button			*ft_get_buttons();

@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 20:13:07 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/28 17:00:03 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/01 23:22:21 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ t_pixel			julia(t_mlx *mlx, int x, int y)
 	zb = ((-4 * (float)y / FRAC_H + 2) \
 			/ mlx->cam->scale) + ((mlx->cam->offsety / FRAC_H));
 	i = 0;
-	while (za * za + zb * zb <= 4 && i < mlx->n)
+	while (za * za + zb * zb <= 4 && i < mlx->data->n)
 	{
 		temp = za;
-		za = za * za - zb * zb + mlx->fractal[mlx->nfractal].ca;
-		zb = 2 * temp * zb + mlx->fractal[mlx->nfractal].cb;
+		za = za * za - zb * zb + mlx->data->fractal[mlx->data->nfractal].ca;
+		zb = 2 * temp * zb + mlx->data->fractal[mlx->data->nfractal].cb;
 		i++;
 	}
 	c.r = za;

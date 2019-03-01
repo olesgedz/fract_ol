@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 20:24:39 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/28 16:58:11 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/01 23:21:59 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_pixel	carpet(t_mlx *mlx, int x, int y)
 	y = ABS(y);
 	c.r = 0;
 	c.i = 0;
-	while ((x > 0 || y > 0) && i < mlx->n)
+	while ((x > 0 || y > 0) && i < mlx->data->n)
 	{
 		if (x % 3 == 1 && y % 3 == 1)
 			return ((t_pixel){.c = c, .i = 0});

@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:29 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/03/01 21:36:09 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/01 23:34:36 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,17 @@ static void						ft_init_const(t_mlx *mlx)
 	mlx->cam->y = -M_PI / 6;
 	mlx->cam->z = 0;
 	mlx->cam->scale = 1;
-	mlx->c = 1;
-	mlx->n = 32;
-	mlx->palette = get_palettes();
+	mlx->data->c= 1;
+	mlx->data->n= 32;
 	mlx->buttons = ft_get_buttons();
-	mlx->smooth = 1;
-	mlx->clock_prg = clock();
+	mlx->data->smooth= 1;
 	mlx->cam->offsetx = 0;
 	mlx->cam->offsety = 0;
-	mlx->fractal = ft_get_fractals(mlx);
-	mlx->fractal[mlx->nfractal].ca = 0;
-	mlx->fractal[mlx->nfractal].cb = 0;
-	mlx->size_tree = 1;
-	mlx->size_tree2 = 1;
+	mlx->data->fractal = ft_get_fractals(mlx);
+	mlx->data->fractal[mlx->data->nfractal].ca = 0;
+	mlx->data->fractal[mlx->data->nfractal].cb = 0;
+	mlx->data->size_tree = 1;
+	mlx->data->size_tree2 = 1;
 }
 
 int								ft_choose_frac(t_mlx *mlx, char* argv)
@@ -94,7 +92,6 @@ t_mlx							*ft_init(char *title, char* argv)
 	t_mlx	*mlx;
 	if ((mlx = ft_memalloc(sizeof(t_mlx))) == NULL)
 		return (NULL);
-	mlx->nfractal = ft_choose_frac(mlx, argv);
 	if ((mlx->mlx = mlx_init()) == NULL ||
 		(mlx->window = mlx_new_window(mlx->mlx, WIN_WIDTH,
 			WIN_HEIGHT, title)) == NULL ||
@@ -102,10 +99,13 @@ t_mlx							*ft_init(char *title, char* argv)
 		(mlx->mouse = ft_memalloc(sizeof(t_mouse))) == NULL ||
 		(mlx->keyboard = ft_memalloc(sizeof(t_keyboard))) == NULL ||
 		(mlx->keyboard->keys = ft_memalloc(sizeof(int) * 200)) == NULL ||
-		(mlx->image = ft_new_image(mlx)) == NULL ||
-		(mlx->color = ft_memalloc(sizeof(t_color))) == NULL)
+		(mlx->image = ft_new_image(mlx)) == NULL)
 		return (ft_mlxdel(mlx));
+	mlx->data = ft_memalloc(sizeof(t_data));
+	mlx->data->nfractal = ft_choose_frac(mlx, argv);
 	ft_bzero((char *)mlx->keyboard->keys, 100);
+	mlx->palette = get_palettes();
+	mlx->clock_prg = clock();
 	ft_init_const(mlx);
 	return (mlx);
 }

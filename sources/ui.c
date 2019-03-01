@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 16:39:35 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/28 21:38:55 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/01 23:21:34 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int					ft_draw_menu(t_mlx *mlx)
 	char	*a;
 
 	ft_draw_static(mlx, &y);
-	a = ft_itoa(mlx->n);
+	a = ft_itoa(mlx->data->n);
 	mlx_string_put(mlx->mlx, mlx->window, FRAC_H + 10, y += 25,
 	0xFFFFFFF, s = ft_strjoin("Number of iterations: ", a));
 	ft_strdel(&s);
@@ -65,8 +65,8 @@ int					ft_draw_menu(t_mlx *mlx)
 	ft_strdel(&a);
 	mlx_string_put(mlx->mlx, mlx->window,
 		FRAC_H + 120, y += 100, 0xFFFFFFF, s = ft_strjoin(ft_strnewch(((18 - \
-	ft_strlen(mlx->fractal[mlx->nfractal].name)) / 2), ' '),
-		mlx->fractal[mlx->nfractal].name));
+	ft_strlen(mlx->data->fractal[mlx->data->nfractal].name)) / 2), ' '),
+		mlx->data->fractal[mlx->data->nfractal].name));
 	ft_strdel(&s);
 	ft_draw_menu_2(mlx, &y);
 	return (0);

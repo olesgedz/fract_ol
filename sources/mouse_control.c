@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:26:20 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/28 21:31:37 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/01 23:21:04 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static void			ft_change_coef(int x, int y, t_mlx *mlx)
 	mlx->clock_prg = clock();
 	x -= WIN_WIDTH / 2;
 	y -= WIN_HEIGHT / 2;
-	mlx->fractal[mlx->nfractal].ca = ((float)x / WIN_WIDTH) * 2;
-	mlx->fractal[mlx->nfractal].cb = ((float)y / WIN_HEIGHT) * 2;
+	mlx->data->fractal[mlx->data->nfractal].ca = ((float)x / WIN_WIDTH) * 2;
+	mlx->data->fractal[mlx->data->nfractal].cb = ((float)y / WIN_HEIGHT) * 2;
 	ft_render(mlx);
 }
 
@@ -50,15 +50,15 @@ int					ft_mouse_move(int x, int y, t_mlx *mlx)
 		mlx->cam->offsety -= -(y - mlx->mouse->lasty) * 4 / mlx->cam->scale;
 		ft_render(mlx);
 	}
-	if (((FPS) * (clock() - mlx->clock_prg)) / CLOCKS_PER_SEC > 1 && mlx->c
-	&& mlx->nfractal != FRACTAL_N - 1)
+	if (((FPS) * (clock() - mlx->clock_prg)) / CLOCKS_PER_SEC > 1
+	&& mlx->data->c && mlx->data->nfractal != FRACTAL_N - 1)
 		ft_change_coef(x, y, mlx);
 	else if (((950) * (clock() - mlx->clock_prg)) \
-		/ CLOCKS_PER_SEC > 1 && mlx->c)
+		/ CLOCKS_PER_SEC > 1 && mlx->data->c)
 	{
 		mlx->clock_prg = clock();
-		mlx->size_tree = (float)y / FRAC_H;
-		mlx->size_tree2 = (float)x / FRAC_W;
+		mlx->data->size_tree = (float)y / FRAC_H;
+		mlx->data->size_tree2 = (float)x / FRAC_W;
 		ft_render(mlx);
 	}
 	return (0);
