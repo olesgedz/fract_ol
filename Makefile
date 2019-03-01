@@ -6,7 +6,7 @@
 #    By: olesgedz <olesgedz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/24 02:23:30 by olesgedz          #+#    #+#              #
-#    Updated: 2019/02/28 17:28:26 by jblack-b         ###   ########.fr        #
+#    Updated: 2019/03/01 17:20:30 by jblack-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,8 +64,8 @@ $(NAME): $(MLXLIB) $(OBJECTS_DIRECTORY) $(OBJECTS)
 $(OBJECTS_DIRECTORY):
 	@mkdir -p $(OBJECTS_DIRECTORY)
 	@echo "$(NAME): $(GREEN)$(OBJECTS_DIRECTORY) was created$(RESET)"
-	@mkdir -p $(OBJECTS_DIRECTORY)/fractals
-	@echo "$(NAME): $(GREEN)$(OBJECTS_DIRECTORY)/fractals was created$(RESET)"
+	@mkdir -p $(OBJECTS_DIRECTORY)fractals
+	@echo "$(NAME): $(GREEN)$(OBJECTS_DIRECTORY)fractals was created$(RESET)"
 
 $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)
 	@$(CC) $(FLAGS) -c $(INCLUDES) $< -o $@

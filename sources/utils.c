@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:29 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/28 20:01:56 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/01 17:19:44 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,19 +64,37 @@ static void						ft_init_const(t_mlx *mlx)
 	mlx->cam->offsetx = 0;
 	mlx->cam->offsety = 0;
 	mlx->fractal = ft_get_fractals(mlx);
-	mlx->nfractal = 0;
 	mlx->fractal[mlx->nfractal].ca = 0;
 	mlx->fractal[mlx->nfractal].cb = 0;
 	mlx->size_tree = 1;
 	mlx->size_tree2 = 1;
 }
 
-t_mlx							*ft_init(char *title)
+int								ft_choose_frac(t_mlx *mlx, char* argv)
+{
+	if (!ft_strcmp(argv, "-J"))
+		return (0);
+	else if (!ft_strcmp(argv, "-M"))
+			return (1);
+		else if (!ft_strcmp(argv, "-B"))
+			return (2);
+			else if (!ft_strcmp(argv, "-R"))
+				return (3);
+				else if (!ft_strcmp(argv, "-S"))
+					return (4);
+					else if (!ft_strcmp(argv, "-T"))
+						return(5);
+	ft_usage();
+	return (0);
+ }
+
+
+t_mlx							*ft_init(char *title, char* argv)
 {
 	t_mlx	*mlx;
-
 	if ((mlx = ft_memalloc(sizeof(t_mlx))) == NULL)
 		return (NULL);
+	mlx->nfractal = ft_choose_frac(mlx, argv);
 	if ((mlx->mlx = mlx_init()) == NULL ||
 		(mlx->window = mlx_new_window(mlx->mlx, WIN_WIDTH,
 			WIN_HEIGHT, title)) == NULL ||

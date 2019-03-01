@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/12 16:12:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/02/28 21:40:34 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/01 17:04:12 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int					ft_mouse_move(int x, int y, t_mlx *mlx);
 double				ft_percent(int start, int end, int current);
 int					ft_get_color(int c1, int c2, double p);
 t_vector			ft_project_vector(t_vector v, t_mlx *mlx);
-t_mlx				*ft_init(char *title);
+t_mlx				*ft_init(char *title, char* argv);
 int					ft_mlx_hooks(t_mlx *mlx);
 t_vector			*ft_get_vector(int x, int y, int z);
 t_image				*ft_del_image(t_mlx *mlx, t_image *img);
@@ -68,6 +68,7 @@ t_point				*ft_get_points(t_point *p1,
 t_figure			*ft_get_figures(t_figure *f1,
 		t_figure *f2, t_figure *f3);
 void				ft_reset_view(t_mlx *mlx);
+int					ft_usage(void);
 
 t_button			*ft_get_button_one(void);
 t_button			*ft_get_button_two(void);
