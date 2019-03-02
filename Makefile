@@ -6,7 +6,7 @@
 #    By: olesgedz <olesgedz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/24 02:23:30 by olesgedz          #+#    #+#              #
-#    Updated: 2019/03/02 18:17:30 by jblack-b         ###   ########.fr        #
+#    Updated: 2019/03/02 18:28:39 by jblack-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,11 +89,14 @@ $(MINILIBX):
 clean:
 	@$(MAKE) -sC $(LIBFT_DIRECTORY) clean
 	@$(MAKE) -sC $(MINILIBX_DIRECTORY) clean
+	@$(MAKE) -sC $(MLXLIB_DIRECTORY) clean
 	@rm -rf $(OBJECTS_DIRECTORY)
 	@echo "$(NAME): $(RED)$(OBJECTS_DIRECTORY) was deleted$(RESET)"
 	@echo "$(NAME): $(RED)object files were deleted$(RESET)"
 
 fclean: clean
+	@rm -f $(MLXLIBX)
+	@echo "$(NAME): $(RED)$(MLXLIBX) was deleted$(RESET)"
 	@rm -f $(MLXLIB)
 	@echo "$(NAME): $(RED)$(MLXLIB) was deleted$(RESET)"
 	@rm -f $(NAME)
