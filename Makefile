@@ -6,7 +6,7 @@
 #    By: olesgedz <olesgedz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/24 02:23:30 by olesgedz          #+#    #+#              #
-#    Updated: 2019/03/02 17:15:06 by jblack-b         ###   ########.fr        #
+#    Updated: 2019/03/02 18:17:30 by jblack-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,6 +98,8 @@ fclean: clean
 	@echo "$(NAME): $(RED)$(MLXLIB) was deleted$(RESET)"
 	@rm -f $(NAME)
 	@echo "$(NAME): $(RED)$(NAME) was deleted$(RESET)"
+	@rm -f $(LIBFT)
+	@echo "$(NAME): $(RED)$(LIBFT) was deleted$(RESET)"
 
 re:
 	@$(MAKE) fclean
