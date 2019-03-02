@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:27:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/03/01 23:20:18 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/02 17:35:02 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,6 @@
 #include "mlx.h"
 #include <math.h>
 #include <pthread.h>
-
-// void				draw_fractal(t_mlx *mlx)
-// {
-// 	int			x;
-// 	int			y;
-// 	double		i;
-// 	t_pixel		temp;
-//
-// 	y = 0;
-// 	while (y < FRAC_H)
-// 	{
-// 		x = 0;
-// 		while (x < FRAC_W)
-// 		{
-// 			//if ((*(mlx + y * WIN_WIDTH + x)).i != mlx->n)
-// 			//	ft_image_set_pixel(mlx->image, x, y,
-// 			//			get_color(*(mlx + y * WIN_WIDTH + x), mlx));
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// }
 
 void				*render_thread(void *m)
 {
@@ -53,7 +31,8 @@ void				*render_thread(void *m)
 		x = 0;
 		while (x < FRAC_W)
 		{
-			pixel = t->mlx->data->fractal[t->mlx->data->nfractal].pixel(t->mlx, x, y);
+			pixel = t->mlx->data->\
+				fractal[t->mlx->data->nfractal].pixel(t->mlx, x, y);
 			if (pixel.i != t->mlx->data->n)
 				ft_image_set_pixel(t->mlx->image, x, y,
 					get_color(pixel, t->mlx));
@@ -99,16 +78,12 @@ void				ft_draw_switch(t_mlx *mlx)
 	{
 		start.x = FRAC_W / 2 - (mlx->cam->offsetx * (mlx->cam->scale / 4.1));
 		start.y = FRAC_H - 20 + (mlx->cam->offsety * (mlx->cam->scale / 1.2));
-		draw_tree(mlx, start, -(M_PI / 2), mlx->data->n/ 5 + 1);
+		draw_tree(mlx, start, -(M_PI / 2), mlx->data->n / 5 + 1);
 	}
 }
 
 void				ft_render(t_mlx *mlx)
 {
-	int			x;
-	int			y;
-	t_vector	v;
-
 	mlx->image = ft_new_image(mlx);
 	ft_draw_switch(mlx);
 	ft_draw_buttons(mlx);

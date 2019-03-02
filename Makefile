@@ -6,7 +6,7 @@
 #    By: olesgedz <olesgedz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/24 02:23:30 by olesgedz          #+#    #+#              #
-#    Updated: 2019/03/01 17:20:30 by jblack-b         ###   ########.fr        #
+#    Updated: 2019/03/02 17:15:06 by jblack-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 NAME = fractol
 
 CC = gcc
-FLAGS = -O3
+FLAGS = -O3 -Wall -Wextra -Werror
 LIBRARIES = -lft  ./mlxlib/mlxlib.a -lmlx -L$(MLXLIB_DIRECTORY) -L$(LIBFT_DIRECTORY) -L$(MINILIBX_DIRECTORY) -framework OpenGL -framework AppKit
 INCLUDES = -I$(HEADERS_DIRECTORY) -I$(LIBFT_HEADERS) -I$(MINILIBX_HEADERS) -I$(MLXLIB_HEADERS)
 
@@ -34,11 +34,14 @@ HEADERS_LIST = fractol.h
 HEADERS_DIRECTORY = ./includes/
 HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 
+FRAC_LIST = burningship.c carpet.c julia.c mandelbrot.c randomf.c\
+tree.c
+
 SOURCES_DIRECTORY = sources/
 SOURCES_LIST = main.c \
 cleanup.c color.c control.c draw.c mouse_control.c\
 utils.c action_func.c buttons.c hooks.c ui.c get_buttons.c\
-$(addprefix fractals/,$(shell ls $(SOURCES_DIRECTORY)/fractals | grep -E ".+\.c"))
+$(addprefix fractals/,$(FRAC_LIST))
 
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 

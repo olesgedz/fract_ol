@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/12 16:12:18 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/03/02 00:00:57 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/02 17:57:29 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <pthread.h>
 # include "mlxlib.h"
 
-struct s_data
+struct				s_data
 {
 	int			c;
 	int			n;
@@ -38,7 +38,7 @@ int					ft_mouse_move(int x, int y, t_mlx *mlx);
 double				ft_percent(int start, int end, int current);
 int					ft_get_color(int c1, int c2, double p);
 t_vector			ft_project_vector(t_vector v, t_mlx *mlx);
-t_mlx				*ft_init(char *title, char* argv);
+t_mlx				*ft_init(char *title, char *argv);
 int					ft_mlx_hooks(t_mlx *mlx);
 t_vector			*ft_get_vector(int x, int y, int z);
 t_image				*ft_del_image(t_mlx *mlx, t_image *img);

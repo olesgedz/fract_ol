@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:38:42 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/03/01 23:15:49 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/02 17:28:35 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,11 @@ t_mlx		*ft_mlxdel(t_mlx *mlx)
 	return (NULL);
 }
 
-int		ft_usage(void)
+int			ft_usage(void)
 {
-	char usage[] = "usage: fractol  -J for Julia\
+	char *usage;
+
+	usage = "usage: fractol  -J for Julia\
 	\n\t\t-M for Mandelbrot\
 	\n\t\t-B for Burningship\
 	\n\t\t-R for Random#1\

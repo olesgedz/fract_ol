@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:29 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/03/01 23:34:36 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/02 17:49:42 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ t_palette						*get_palettes(void)
 	return (array);
 }
 
-t_fractal						*ft_get_fractals(t_mlx *mlx)
+static t_fractal				*ft_get_fractals(void)
 {
 	static t_fractal fractals[FRACTAL_N];
 
-	fractals[0] = (t_fractal){"Julia", julia};
-	fractals[1] = (t_fractal){"Mandelbrot", mandelbrot};
-	fractals[2] = (t_fractal){"Burningship", burningship};
-	fractals[3] = (t_fractal){"Random#1", randomf};
-	fractals[4] = (t_fractal){"Sierpinski Carpet", carpet};
-	fractals[5] = (t_fractal){"Fractal Tree", NULL};
+	fractals[0] = (t_fractal){"Julia", julia, 0, 0};
+	fractals[1] = (t_fractal){"Mandelbrot", mandelbrot, 0, 0};
+	fractals[2] = (t_fractal){"Burningship", burningship, 0, 0};
+	fractals[3] = (t_fractal){"Random#1", randomf, 0, 0};
+	fractals[4] = (t_fractal){"Sierpinski Carpet", carpet, 0, 0};
+	fractals[5] = (t_fractal){"Fractal Tree", NULL, 0, 0};
 	return (fractals);
 }
 
@@ -55,41 +55,41 @@ static void						ft_init_const(t_mlx *mlx)
 	mlx->cam->y = -M_PI / 6;
 	mlx->cam->z = 0;
 	mlx->cam->scale = 1;
-	mlx->data->c= 1;
-	mlx->data->n= 32;
+	mlx->data->c = 1;
+	mlx->data->n = 32;
 	mlx->buttons = ft_get_buttons();
-	mlx->data->smooth= 1;
+	mlx->data->smooth = 1;
 	mlx->cam->offsetx = 0;
 	mlx->cam->offsety = 0;
-	mlx->data->fractal = ft_get_fractals(mlx);
+	mlx->data->fractal = ft_get_fractals();
 	mlx->data->fractal[mlx->data->nfractal].ca = 0;
 	mlx->data->fractal[mlx->data->nfractal].cb = 0;
 	mlx->data->size_tree = 1;
 	mlx->data->size_tree2 = 1;
 }
 
-int								ft_choose_frac(t_mlx *mlx, char* argv)
+int								ft_choose_frac(char *argv)
 {
 	if (!ft_strcmp(argv, "-J"))
 		return (0);
 	else if (!ft_strcmp(argv, "-M"))
-			return (1);
-		else if (!ft_strcmp(argv, "-B"))
-			return (2);
-			else if (!ft_strcmp(argv, "-R"))
-				return (3);
-				else if (!ft_strcmp(argv, "-S"))
-					return (4);
-					else if (!ft_strcmp(argv, "-T"))
-						return(5);
+		return (1);
+	else if (!ft_strcmp(argv, "-B"))
+		return (2);
+	else if (!ft_strcmp(argv, "-R"))
+		return (3);
+	else if (!ft_strcmp(argv, "-S"))
+		return (4);
+	else if (!ft_strcmp(argv, "-T"))
+		return (5);
 	ft_usage();
 	return (0);
- }
+}
 
-
-t_mlx							*ft_init(char *title, char* argv)
+t_mlx							*ft_init(char *title, char *argv)
 {
 	t_mlx	*mlx;
+
 	if ((mlx = ft_memalloc(sizeof(t_mlx))) == NULL)
 		return (NULL);
 	if ((mlx->mlx = mlx_init()) == NULL ||
@@ -102,7 +102,7 @@ t_mlx							*ft_init(char *title, char* argv)
 		(mlx->image = ft_new_image(mlx)) == NULL)
 		return (ft_mlxdel(mlx));
 	mlx->data = ft_memalloc(sizeof(t_data));
-	mlx->data->nfractal = ft_choose_frac(mlx, argv);
+	mlx->data->nfractal = ft_choose_frac(argv);
 	ft_bzero((char *)mlx->keyboard->keys, 100);
 	mlx->palette = get_palettes();
 	mlx->clock_prg = clock();

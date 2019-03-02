@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 16:39:35 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/03/01 23:21:34 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/02 17:46:33 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void				ft_draw_static(t_mlx *mlx, int *y)
 		FRAC_H + 10, *y += 25, 0xFFFFFFF, "B to change color");
 	mlx_string_put(mlx->mlx, mlx->window,
 			FRAC_H + 10, *y += 25, 0xFFFFFFF, "I/O to change number\
-		 of iterations");
+		of iterations");
 	mlx_string_put(mlx->mlx, mlx->window,
 		FRAC_H + 10, *y += 25, 0xFFFFFFF, "C to freeze frame R - reset");
 }
@@ -46,6 +46,7 @@ void				ft_draw_menu_2(t_mlx *mlx, int *y)
 	mlx_string_put(mlx->mlx, mlx->window,
 		FRAC_H + 150, *y += 100, 0xFFFFFFF, "Reset");
 }
+
 int					ft_draw_menu(t_mlx *mlx)
 {
 	int		y;

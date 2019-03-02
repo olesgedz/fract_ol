@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:58 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/03/01 23:19:19 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/02 17:32:52 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int			get_color(t_pixel p, t_mlx *mlx)
 {
 	if (p.i >= mlx->data->n)
 		return (0x000000);
-	if (mlx->data->smooth&& mlx->data->nfractal != 4)
+	if (mlx->data->smooth && mlx->data->nfractal != 4)
 		return (smooth_color(mlx, p, mlx->palette + mlx->ncolor).value);
 	return (linear_color(mlx, (double)p.i, mlx->palette + mlx->ncolor).value);
 }

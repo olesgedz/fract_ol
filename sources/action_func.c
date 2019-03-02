@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 21:35:05 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/03/01 23:18:04 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/02 17:27:30 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ void	ft_previous_fractal(t_mlx *mlx)
 
 void	ft_switch_smoothing(t_mlx *mlx)
 {
-	mlx->data->smooth= (mlx->data->smooth== 0 ? 1 : 0);
+	mlx->data->smooth = (mlx->data->smooth == 0 ? 1 : 0);
 }
 
 void	ft_mouse_parameters_switch(t_mlx *mlx)
 {
-	mlx->data->c= (mlx->data->c== 0 ? 1 : 0);
+	mlx->data->c = (mlx->data->c == 0 ? 1 : 0);
 }
 
 void	ft_switch_color(t_mlx *mlx)

@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 16:33:49 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/03/01 23:59:54 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/02 17:44:46 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,15 @@
 #include "mlx.h"
 #include <math.h>
 
-
-
-static void			ft_image_set_pixel_tree(t_image *image, int x, int y, int color)
+static void				ft_image_set_pixel_tree(t_image *image,
+		int x, int y, int color)
 {
 	if (y >= 0 && x >= 0 && y < FRAC_H && x < FRAC_W)
 		*(int *)(image->ptr + ((x + y * WIN_WIDTH) * image->bpp)) = color;
 }
 
-static int			ft_put_points_tree(t_mlx *mlx,
-		t_line *l, t_point *p1, t_point *p2)
+static int				ft_put_points_tree(t_mlx *mlx,
+		t_line *l, t_point *p1)
 {
 	double percentage;
 
@@ -66,11 +65,12 @@ static void				ft_plotline_tree(t_mlx *mlx, t_point p1, t_point p2)
 	line.sy = (int)p1.y < (int)p2.y ? 1 : -1;
 	line.err = (line.dx > line.dy ? line.dx : -line.dy) / 2;
 	while (((int)p1.x != (int)p2.x || (int)p1.y != (int)p2.y))
-		if (ft_put_points_tree(mlx, &line, &p1, &p2))
+		if (ft_put_points_tree(mlx, &line, &p1))
 			break ;
 }
 
-void		draw_tree(t_mlx *mlx, t_point start, double angle, int iter)
+void					draw_tree(t_mlx *mlx,
+		t_point start, double angle, int iter)
 {
 	t_point	end;
 
@@ -79,7 +79,9 @@ void		draw_tree(t_mlx *mlx, t_point start, double angle, int iter)
 		end.x = start.x + (cos(angle) * iter * 6) * mlx->cam->scale;
 		end.y = start.y + (sin(angle) * iter * 9) * mlx->cam->scale;
 		ft_plotline_tree(mlx, start, end);
-		draw_tree(mlx, end, angle - (M_PI / 8 * mlx->data->size_tree * 2), iter - 1);
-		draw_tree(mlx, end, angle + (M_PI / 8 * mlx->data->size_tree2 * 2), iter - 1);
+		draw_tree(mlx, end, angle - (M_PI\
+			/ 8 * mlx->data->size_tree * 2), iter - 1);
+		draw_tree(mlx, end, angle + (M_PI\
+			/ 8 * mlx->data->size_tree2 * 2), iter - 1);
 	}
 }
