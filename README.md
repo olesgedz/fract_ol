@@ -1,6 +1,6 @@
 # fract_ol
 
-Types of Fractal:
+Types of Fractals:
 <img src = "https://github.com/olesgedz/fract_ol/blob/master/images/Screen%20Shot%202019-03-02%20at%2021.57.10.png?raw=false"/>
 
 <img src = "https://github.com/olesgedz/fract_ol/blob/master/images/Screen%20Shot%202019-03-02%20at%2021.57.42.png?raw=false"/>
