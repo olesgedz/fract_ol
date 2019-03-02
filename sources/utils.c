@@ -6,7 +6,7 @@
 /*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 17:18:29 by jblack-b          #+#    #+#             */
-/*   Updated: 2019/03/02 17:49:42 by jblack-b         ###   ########.fr       */
+/*   Updated: 2019/03/02 18:12:52 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,9 @@ int								ft_choose_frac(char *argv)
 t_mlx							*ft_init(char *title, char *argv)
 {
 	t_mlx	*mlx;
+	int		n;
 
+	n = ft_choose_frac(argv);
 	if ((mlx = ft_memalloc(sizeof(t_mlx))) == NULL)
 		return (NULL);
 	if ((mlx->mlx = mlx_init()) == NULL ||
@@ -102,7 +104,7 @@ t_mlx							*ft_init(char *title, char *argv)
 		(mlx->image = ft_new_image(mlx)) == NULL)
 		return (ft_mlxdel(mlx));
 	mlx->data = ft_memalloc(sizeof(t_data));
-	mlx->data->nfractal = ft_choose_frac(argv);
+	mlx->data->nfractal = n;
 	ft_bzero((char *)mlx->keyboard->keys, 100);
 	mlx->palette = get_palettes();
 	mlx->clock_prg = clock();
